@@ -1,18 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - Website 1.4</title>
-  
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!DOCTYPE html>
 <html>
 <!--
 To-do:
-  Change blackholes -> tut and thoughts -> about          50%
+  Fix Footer and about page bug                           0%
   Reload to github after all of ^ those are fixed         0%
   Buy domain                                              100%
   Release!                                                0%
@@ -547,6 +537,9 @@ To-do:
         margin-left: 5px;
       }
       #fullscreen,
+      .titanic{ 
+           Float:none;
+       }
       .theme {
         font-size: 28px;
         border-radius: 50%;
@@ -660,7 +653,7 @@ To-do:
       font-family: 'Satisfy';
       letter-spacing: 1px;
       word-spacing: 5px;
-      color: var(--background-color);
+      color: rgb(200,200,200);
     }
 
     #about-paper-content h1 {
@@ -726,7 +719,7 @@ To-do:
     }
 
     .footer .footer-left p {
-      color: var(--text-color);
+      color: rgb(200,200,200);
       font-size: 0.9em;
       font-weight: 600;
       margin: 0;
@@ -735,7 +728,7 @@ To-do:
     .footer p.footer-links {
       font-size: 1.25em;
       font-weight: bold;
-      color: var(--text-color);
+      color: rgb(200,200,200);
       margin: 0 0 2%;
       padding: 0;
       transition: ease .25s;
@@ -956,14 +949,14 @@ To-do:
   <div class="page" id="home">
     <div class="flex-container">
       <div class="flex-item js-scroll fade-in-bottom" id="intro-item">
-        <h1>Overview of my coding</h1>
-        <span class="highlight">This <strong>is</strong> my website after all :)</span>
+        <h1>Tutorials</h1>
+        <span class="highlight"> Coming Soon! <strong></strong></span>
         <br><br><br><br>
         <button class="ad-button" onclick="showPage(1)">Read more</button>
       </div>
       <div class="flex-item" id="about-item">
         <h1>About the Author</h1>
-        So you want to know more about the maker of webpage that <em>you</em> are on?????? Other than that ↑↑↑↑?????
+        So you want to know more about the maker of webpage that <em>you</em> are on?????? That does make a little sense after all...
         <br><br><br>
         <button class="ad-button js-scroll fade-in-bottom" onclick="showPage(3)">Ok. Click here.</button>
       </div>
@@ -1667,8 +1660,4 @@ var countdownfunction = setInterval(function() {
 </body>
 
 </html>
-<!--1666 les go -->
-<!-- partial -->
-  
-</body>
-</html>
+<!--1663 les go -->

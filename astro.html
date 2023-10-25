@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script type="module">
+  var W = window,
+    D = document,
+    B = D.body,
+    C = D.createElement("canvas"),
+    c = C.getContext("2d"),
+    w = C.width = W.innerWidth,
+    h = C.height = W.innerHeight,
+    p = {
+      x: w / 2,
+      y: h / 2,
+      r: 0
+    },
+    b = [],
+    nb = (a) => {
+      b.push(a)
+    },
+    e = [],
+    ne = (a) => {
+      e.push(a)
+    },
+    d = (a, b) => {
+      return Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
+    },
+    fc = 0,
+    k = [],
+    r,
+    sin = Math.sin,
+    cos = Math.cos,
+    pi = Math.PI,
+    m = (a, b) => {
+      return a % b;
+    },
+    el = (a, r) => {
+      c.beginPath();
+      c.arc(a.x, a.y, r, 0, pi * 2);
+      c.fill();
+    },
+    out = (a) => {
+      return a.x > w + 10 || a.x < -10 || a.y > h + 10 || a.y < -10;
+    },
+    E = () => {
+      clearInterval(I);
+      c.fillStyle = "#000000";
+      c.font = "50px sans-serif";
+      let m = "Game Over",
+        tw = c.measureText(m).width;
+      c.fillText(m, w / 2 - tw / 2, h / 2);
+      c.font = "20px sans-serif";
+      m = "Score: " + fc, tw = c.measureText(m).width;
+      c.fillText(m, w / 2 - tw / 2, h / 2 + 30);
+      // Add a click event listener to restart the game
+      C.addEventListener("click", restartGame);
+    },
+    A = () => {
+      C.width = w = W.innerWidth;
+      C.height = h = W.innerHeight;
+      if (k[37]) {
+        p.r -= 0.05;
+      }
+      if (k[39]) {
+        p.r += 0.05;
+      }
+      if (k[38]) {
+  // Increase the movement speed by multiplying with a larger value (e.g., 2)
+  p.x += 3 * cos(p.r);
+  p.y += 3 * sin(p.r);
+}
+
+      if (k[40]) {
+        p.x -= 0.5 * cos(p.r);
+        p.y -= 0.5 * sin(p.r);
+      }
+      c.fillStyle = "#CCCCCC";
+      c.fillRect(0, 0, w, h);
+      c.fillStyle = "#000000";
+      c.save();
+      c.translate(p.x, p.y);
+      c.rotate(p.r);
+      c.beginPath();
+      c.moveTo(10, 0);
+      c.lineTo(-5, -5);
+      c.lineTo(-5, 5);
+      c.fill();
+      c.restore();
+      if (out(p)) {
+        E();
+      }
+      for (let i = 0; i < e.length; i++) {
+        e[i].r = Math.atan2(p.y - e[i].y, p.x - e[i].x);
+        e[i].x += 0.9 * cos(e[i].r);
+        e[i].y += 0.9 * sin(e[i].r);
+        el(e[i], 10);
+        if (d(e[i], p) < 255) {
+          E();
+        }
+        let bc = 0;
+        for (let j = 0; j < b.length; j++) {
+          if (d(e[i], b[j]) < 255) {
+            e.splice(i, 1);
+            b.splice(j, 1);
+            bc = 1;
+            break;
+          }
+        }
+        if (bc) {
+          continue;
+        }
+        if (out(e[i])) {
+          e.splice(i, 1);
+        }
+      }
+      for (let i = 0; i < b.length; i++) {
+        b[i].x += 4 * cos(b[i].r); // Increase the bullet speed (e.g., multiplying by 4)
+       b[i].y += 4 * sin(b[i].r);
+
+        el(b[i], 5);
+        if (out(b[i])) {
+          b.splice(i, 1);
+        }
+      }
+      if (r == 32) {
+        nb({
+          x: p.x,
+          y: p.y,
+          r: p.r
+        });
+      }
+      if (!m(fc, 100)) {
+        ne({
+          x: (m(fc, 200) ? 0 : w),
+          y: Math.random() * h,
+          r: (m(fc, 200) ? 0 : pi)
+        });
+      }
+      r = 0;
+      fc++;
+    },
+    I = setInterval(A, 10);
+  B.style.overflow = "hidden";
+  B.appendChild(C);
+  C.style.position = "absolute";
+  C.style.left = "0px";
+  C.style.top = "0px";
+  D.onkeydown = (e) => {
+    k[e.keyCode] = 1;
+    r = e.keyCode;
+  };
+  D.onkeyup = (e) => {
+    delete k[e.keyCode];
+  };
+  // Function to restart the game
+  function restartGame() {
+    // Remove the click event listener
+    C.removeEventListener("click", restartGame);
+    // Reset the game variables
+    p = {
+      x: w / 2,
+      y: h / 2,
+      r: 0
+    };
+    b = [];
+    e = [];
+    fc = 0;
+    k = [];
+    r = 0;
+    // Restart the game loop
+    I = setInterval(A, 10);
+  }
+</script>
+</body>
+</html>

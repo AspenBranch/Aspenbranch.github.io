@@ -1,1706 +1,810 @@
-<!DOCTYPE html>
-<html>
-<!--
-To-do:
-  Make tut --- games and fill it with PJS games    75%
-  Add games links                                  25%
-  Change nav for that ^                            100%
-  Load images faster                               0%
-  Move from aspenbranch.github.io to xyz           1%
-
-
-
--->
-<head>
-  <!--Don't understand this - it works so don't mess with it -->
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BDQ8Y5MYGG"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-BDQ8Y5MYGG');
-  </script>
-
-  <meta charset='utf-8'>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons|Quicksand|Poiret+One|Raleway|Satisfy">
-<meta charset='utf-8'>
-    <meta http-equiv="x-ua-compatible" content="id=edge,chrome=1">
-    <meta name='viewport'content='width=device-width,initial-scale=1'>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Montserrat:wght@100;200;300;400&family=Material+Icons&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Montserrat:wght@100;200;300;400&family=Material+Icons&display=swap">
-    <!-- Google Fonts -->
-    <link rel='preconnect' href='https://fonts.googleapis.com'>
-    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-    <link rel='preload' as='style' href='https://fonts.googleapis.com/css2?family=Lato&family=Roboto&family=Material+Icons&display=swap'>
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Lato&family=Roboto&family=Material+Icons&display=swap'>
-    <!-- Highlight.js -->
-    <link rel='stylesheet' id='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/atom-one-dark.min.css'>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js'></script>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/e/eb/Aspen_trees_2.jpg">
-  <title>Aspen</title>
-  <link>
-  <style>
-    :root {
-      --heading-font: 'Raleway';
-      --text-font: 'Quicksand';
-      --background-color: #242424;
-      --text-color: rgb(200,200,200);
-      --highlight-color: #2BB3FF;
-      --secondhighlight-color: #2E7BD1;
-      --primaryaccent-color: #D17308;
-    }
-
-    body,
-    html {
-      height: 100%;
-      margin: 0;
-      background: rgb(90, 90, 90);
-      color: var(--text-color);
-      font-family: var(--text-font);
-      font-size: 1em;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: var(--heading-font);
-      color: var(--primaryaccent-color);
-    }
-
-    ::selection {
-      background: var(--highlight-color);
-      color: var(--text-color);
-    }
-
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--background-color);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--primaryaccent-color);
-      /* Easter egg hint: problem in page switching :) */
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #C45118;
-    }
-
-    a {
-      text-decoration: none;
-      color: var(--highlight-color);
-      transition: 0.5s;
-    }
-
-    a:hover {
-      color: var(--secondhighlight-color);
-      text-decoration: none;
-    }
-
-    button {
-      outline: none;
-    }
-
-    .page {
-      padding: 5%;
-    }
-
-    .white-space-div {
-      padding-top: 20%;
-    }
-
-    .highlight {
-      color: var(--highlight-color);
-    }
-
-    .flex-container {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-content: stretch;
-      /* border: 1px solid black; */
-    }
-
-    .flex-item {
-      padding: 3%;
-      margin: 1%;
-      width: 22%;
-    }
-
-    .flex-item:not(h1) {
-      color: rgb(200, 200, 200, 0.7);
-      font-weight: 600;
-    }
-
-    .page-heading {
-      font-family: var(--heading-font);
-      font-weight: 600;
-      color: var(--secondhighlight-color);
-      font-size: 7vw;
-    }
-
-    .page-punch {
-      font-family: 'Poiret One';
-      font-weight: 600;
-      color: rgb(200, 200, 200, 0.3);
-    }
-
-    .mid-page-image {
-      float: right;
-      margin: 2.5%;
-      width: 300px;
-    }
-
-    @media (max-width: 500px) {
-      .mid-page-image {
-        width: 90%;
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    <title>Aspen Branch</title>
+    <style>
+      /* Import fonts */
+      @font-face {
+        font-family: "Montserrat";
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXo.woff2) format("woff2");
       }
-    }
-  </style> <!-- General page styles (*)-->
-  <style>
-    .js-scroll {
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-
-    .js-scroll.scrolled {
-      opacity: 1;
-    }
-
-    .scrolled.fade-in {
-      animation: fade-in 0.5s ease-in-out both;
-    }
-
-    .scrolled.fade-in-bottom {
-      animation: fade-in-bottom 0.5s ease-in-out both;
-    }
-
-    .scrolled.slide-left {
-      animation: slide-in-left 0.5s ease-in-out both;
-    }
-
-    .scrolled.slide-right {
-      animation: slide-in-right 0.5s ease-in-out both;
-    }
-
-    @keyframes slide-in-left {
-      0% {
-        -webkit-transform: translateX(-100px);
-        transform: translateX(-100px);
-        opacity: 0;
+      @font-face {
+        font-family: "Zilla Slab";
+        font-weight: 600;
+        src: url(https://fonts.gstatic.com/s/zillaslab/v11/dFa5ZfeM_74wlPZtksIFYuUe6HOpWw.woff2) format('woff2');
       }
-
-      100% {
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-        opacity: 1;
+      @font-face {
+        font-family: "Material Icons";
+        src: url(https://fonts.gstatic.com/s/materialicons/v135/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
       }
-    }
-
-    @keyframes slide-in-right {
-      0% {
-        -webkit-transform: translateX(100px);
-        transform: translateX(100px);
-        opacity: 0;
-      }
-
-      100% {
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes fade-in-bottom {
-      0% {
-        -webkit-transform: translateY(50px);
-        transform: translateY(50px);
-        opacity: 0;
-      }
-
-      100% {
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes fade-in {
-      0% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-  </style> <!-- On-scroll animations -->
-  <style>
-    #fullscreen-header {
-      height: 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-attachment: fixed;
-      position: relative;
-      box-shadow: 0px 3px 7px rgb(0, 0, 0, 0.5);
-    }
-
-    .header-text {
-      text-align: center;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: var(--background-color);
-    }
-
-    .header-text button {
-      font-family: Poiret One;
-      border: 3px solid var(--text-color);
-      border-radius: 10px 30px 10px 30px;
-      display: inline-block;
-      padding: 10px 25px;
-      color: white;
-      background: none;
-      text-align: center;
-      cursor: pointer;
-      font-size: 1.2em;
-      transition: 0.5s;
-    }
-
-    .header-text button:hover {
-      border-radius: 30px 10px 30px 10px;
-      background: #D17308AA;
-    }
-
-    .header-heading {
-      font-size: 13vw;
-      font-family: Poiret One;
-      color: var(--primaryaccent-color);
-      border-radius: 0.2em;
-    }
-
-    .header-highlight {
-      color: var(--highlight-color);
-    }
-  </style> <!-- Header -->
-  <style>
-    .overlay {
-      font-family: var(--text-font);
-      height: 0%;
-      width: 100%;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), #C45118AA;
-      overflow-y: hidden;
-      transition: 0.5s;
-    }
-
-    .overlay-content {
-      position: relative;
-      top: 25%;
-      width: 100%;
-      text-align: center;
-    }
-
-    .overlay a {
-      padding: 0.5em;
-      text-decoration: none;
-      font-size: 2em;
-      color: var(--text-color);
-      display: block;
-      transition: 0.3s;
-    }
-
-    .overlay a:hover,
-    .overlay a:focus {
-      color: var(--highlight-color);
-    }
-
-    .overlay .close-nav {
-      position: absolute;
-      top: 2vw;
-      right: 4vw;
-      font-size: 4em;
-    }
-
-    .overlay-content a {
-      text-decoration: none;
-      -webkit-transition: all 200ms ease;
-      transition: all 200ms ease;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      outline: none;
-    }
-
-    .overlay-content a::after {
-      content: " ";
-      width: 100%;
-      height: 2px;
-      margin-top: -1px;
-      display: block;
-      background: var(--highlight-color);
-      transition: inherit;
-      transform: scaleX(0);
-    }
-
-    .overlay-content a:focus::after,
-    .overlay-content a:hover::after {
-      transform: scaleX(1);
-    }
-
-    #nav-button {
-      background-color: #00000000;
-      color: var(--text-color);
-      position: fixed;
-      top: 0;
-      left: 0;
-      padding-left: 12px;
-      padding-right: 4px;
-      padding-top: 10px;
-      transform: scale(2);
-      transition: 0.5s;
-      cursor: pointer;
-    }
-
-    #nav-button:hover {
-      transform: scale(2.5);
-    }
-  </style> <!-- Navigation screen -->
-  <style>
-    #intro-item {
-      background-color: rgb(22, 2, 63, );
-      border-radius: 20px;
-      width: 50%;
-      font-weight: 400;
-    }
-
-    #about-item {
-      width: 42%;
-      font-weight: 400;
-    }
-
-    #credits-item {
-      width: 42%;
-      font-weight: 400;
-      border-radius: 10px;
-    }
-
-    @media (max-width: 10000px) {
-      #intro-item {
-        width: 100%;
-      }
-
-      #about-item {
-        width: 40%;
-      }
-
-      #credits-item {
-        width: 40%;
-      }
-    }
-
-    .ad-button {
-      font-size: 1em;
-      font-weight: 600;
-      font-family: 'Raleway';
-      color: var(--text-color);
-      background-color: rgb(0, 0, 0, 0);
-      border: 5px solid var(--secondhighlight-color);
-      padding: 1vw;
-      border-radius: 5px;
-      width: 100%;
-      transition: 0.5s;
-      cursor: pointer;
-    }
-
-    .ad-button:hover {
-      border-radius: 30px;
-      background-color: #2E7BD155;
-    }
-  </style> <!-- Home (0)-->
-  <style>
-    :root {
-        --emerald-color: #3adf60;
-        --bg-color: #fff;
-        --text-color: #202020;
-        --light-color: #6a6a6a;
-        --bold-color: #000;
-        --input-color: #f0f0f0;
-        --link-color: #000bff;
-      }
-      .dark {
-        --bg-color: #191919;
-        --text-color: #f0f0f0;
-        --light-color: #ddd;
-        --bold-color: #fff;
-        --input-color: #151515;
-        --link-color: #1290e6;
-      }
-      .emerald {
-        color: var(--emerald-color);
-      }
-      .link {
-        color: var(--link-color);
-      }
-      .body {
-        margin: 0;
-        background: var(--bg-color);
-        color: var(--text-color);
-        font-family: 'Lato', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
-        transition: 250ms;
+      .material-icons {
+        font-family: "Material Icons";
+        font-size: 24px;
+        line-height: 1;
+        display: inline-block;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        user-select: none;
       }
       ::-webkit-scrollbar {
-        width: 18px;
-        background-color: var(--bg-color);
+        width: 0;
       }
-      ::-webkit-scrollbar-thumb {
-        background-color: var(--text-color);
-        border: solid 5px var(--bg-color);
-        width: 10px;
-        border-radius: 20px;
+      /* Set up custom CSS properties */
+      :root {
+        --fallback-font: -apple-system, "SegoeUI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+        --default-font: "Montserrat", var(--fallback-font);
+        --heading-font: "Zilla Slab", var(--fallback-font);
+        --body-font: 400 17px / 1.75 var(--default-font);
+        --theme-primary: #00ffff;
+        --theme-secondary: #0066ff;
+        --theme-tertiary: #241fb8;
+        --gutter-size: 15px;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background-color: var(--light-color);
+      @media (min-width:750px) {
+        :root {
+          --gutter-size: 40px;
+        }
       }
-      .header {
-        position: fixed;
-        top: 0;
+      /* establish body - sider relationship */
+      body {
+        margin: 0;
+        font: var(--body-font);
+        color: #202020;
+        width: 100%;
+        height: min(100vh, -webkit-fill-available);
+      }
+      /* so hero doesn't show up prematurely */
+      #homepage {
+        display: none;
+      }
+      .safari-container {
+        position: absolute;
         display: flex;
+        width: 100%;
+        height: 100%;
+        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
+      }
+      .page {
+        display: none;
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+      }
+      .page:nth-of-type(4) {
+        overflow: hidden;
+        height: 100%;
+      }
+      .sider {
+        display: flex;
+        flex-flow: column;
         align-items: center;
         justify-content: space-between;
-        height: 50px;
-        width: 100%;
-        padding-inline: 15px;
-        background: #212121;
-        color: #fff;
-        border-bottom: solid 1px #414141;
-        box-shadow: 0 0 5px #000;
+        height: 100%;
+        padding: 15px 0;
         box-sizing: border-box;
+        background: #121212;
+        color: #fff;
         z-index: 1;
+        margin: 0;
+        flex: 0 0 55px;
       }
-      .hero-header {
-        position: fixed;
+      .flex-column-center {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+      }
+      .logo-image {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #303030;
+      }
+      .nav-icon {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        margin-bottom: 5px;
+        cursor: pointer;
+        transition: background .3s;
+      }
+      .nav-icon:hover {
+        background: #303030;
+      }
+      .nav-icon::before {
+        content: attr(data-tip);
+        font: 400 15px / 1 "Montserrat", var(--fallback-font);
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        margin-left: 10px;
+        padding: 10px 10px 10px 18px;
+        border-radius: 5px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        width: max-content;
+        background: #121212;
+        color: #fff;
+        z-index: 1;
+        transform-origin: left;
+        transform: translate(-10px, -50%);
+        opacity: 0;
+        clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 8px 100%, 8px 70%, 0px 50%, 8px 30%);
+        transition-property: transform, opacity;
+        transition: .3s ease-in-out;
+        pointer-events: none;
+      }
+      .nav-icon:hover::before {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+      /* hero selectors: don't use ID unless you need JS lookup or "chrome" elements */
+      #hero {
+        position: relative;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        width: 100%;
+        min-height: 100vh;
+        padding: 50px var(--gutter-size);
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+      #hero__name,
+      #hero__headline {
+        font: 600 45px / 1.5 var(--heading-font);
+        color: #202020;
+        margin: 0;
+      }
+      #hero__tagline {
+        margin: 10px 0 0;
+      }
+      #actions {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        height: 50px;
-        width: 100%;
-        padding-inline: 15px;
+        column-gap: 15px;
+        margin-top: 30px;
+      }
+      #hero-background {
+        position: absolute;
+        width: 100vh;
+        right: 0;
+        z-index: -1;
+        opacity: 0;
+        animation: slide-in-left .7s forwards;
+      }
+      .subscribe {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        padding: 15px;
+        gap: 15px;
+        border-top: 1px solid #c0c0c0;
+        width: min(calc(100% - 30px), 750px);
+        margin: 0 auto;
         box-sizing: border-box;
-        top: 0;
+        min-height: 300px;
+      }
+      .section-text {
+        width: min(calc(100% - 30px), 750px);
+        box-sizing: border-box;
+        margin: 0 auto;
+        border-bottom: 1px solid #d8d8d8;
+      }
+      #homepage .section-text {
+        width: min(100%, 800px);
+      }
+      .section-text h2 {
+        font: 600 24px / 1 var(--default-font);
+      }
+      .hero-background-image {
+        z-index: -1;
+        height: 100vh;
+        display: block;
+        -webkit-mask-image: linear-gradient(270deg, #000 0%, #0000 max(500px, 80%));
+        mask-image: linear-gradient(270deg, #000 0%, #0000 min(500px, 80%));
+      }
+      /* button types */
+      .primary-action {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-decoration: none;
+        background: #121212;
         color: #fff;
+        font: inherit;
+        padding: 16px 40px;
+        line-height: 1;
+        border: 0;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: transform .3s ease-in-out;
+      }
+      .primary-action::after {
+        position: absolute;
+        right: 36px;
+        content: "arrow_right_alt";
+        font-family: "Material Icons";
+        font-size: 18px;
+        opacity: 0;
+        transition: all .3s ease-in-out;
+      }
+      .primary-action:hover {
+        transform: scale(1.1);
+      }
+      .primary-action .text {
+        position: relative;
+        display: block;
+        right: 0;
+        transition: right .3s ease-in-out;
+      }
+      .primary-action:hover .text {
+        right: 8px;
+      }
+      .primary-action:hover::after {
+        opacity: 1;
+        right: 24px;
+      }
+      .alternate-action {
+        font: inherit;
+        border: 0;
+        background: #0000;
+        color: #202020;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform .25s ease-in-out;
+      }
+      .alternate-action:hover {
+        text-decoration: underline;
+        transform: scale(1.1);
+      }
+      .subscribe-breakdown {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+      }
+      .step {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+      }
+      #popup {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        width: min(calc(100% - 80px), 500px);
+        background: #0f0f0f;
+        color: #fff;
+        padding: 15px;
+        box-sizing: border-box;
+        opacity: 0;
+        animation: slide-in 1.1s 2s ease-in-out forwards;
+        font-size: 14px;
         z-index: 2;
       }
-      .logo {
-        font-size: 30px !important;
+      #popup h4 {
+        font: 600 22px / 1.5 var(--default-font);
+        margin: 0;
       }
-      .flex-row {
+      @media (max-width:500px) {
+        #actions {
+          flex-flow: column;
+          align-items: flex-start;
+          row-gap: 15px;
+        }
+      }
+      .actions {
         display: flex;
         align-items: center;
+        column-gap: 15px;
       }
-      .article {
-        position: relative;
-        display: flex;
-        flex-flow: column;
-        align-items: flex-start;
-        margin: 15px auto;
-        max-width: 1020px;
-        width: calc(100% - 30px);
-        line-height: 25px;
-      }
-      .article figure {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        width: min(720px, 90vw);
-        margin-inline: auto;
-      }
-      .article figcaption {
+      .actions * {
         font-size: 15px;
-        padding-block: 10px;
-        color: var(--light-color);
       }
-      #fullscreen {
-        margin-left: 5px;
+      .actions .primary-action {
+        background: #0055cc;
+        padding: 12px 30px;
       }
-      #fullscreen,
-      .theme {
-        font-size: 28px;
-        border-radius: 50%;
-        padding: 5px;
-        box-sizing: border-box;
+      .actions .primary-action:hover::after {
+        right: 16px;
+      }
+      .actions .secondary-action {
+        background: #222;
+        border: 0;
+        border-radius: 0;
+        color: #fff;
+        font: inherit;
+        padding: 12px 30px;
+        line-height: 1;
         cursor: pointer;
-        transition: background 200ms;
       }
-      #fullscreen:hover,
-      #theme:hover {
-        background: #fff2;
+      .actions .secondary-action:hover {
+        -webkit-filter: brightness(0.9);
       }
-      pre  {
+      #projects-container {
+        display: grid;
+        grid-template-columns: 1fr;
         width: 100%;
-        overflow: scroll;
+        overflow: hidden;
       }
-      .hljs {
-        background: #212121;
+      @media (min-width:350px) {
+        #projects-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (min-width:700px) {
+        #projects-container {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (min-width:1050px) {
+        #projects-container {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .project {
+        width: 100%;
+        aspect-ratio: 1;
+        perspective: 1000px;
+      }
+      .project-inner {
         position: relative;
         width: 100%;
+        height: 100%;
+        transition: transform .6s ease-out;
+        transform-style: preserve-3d;
+        will-change: transform;
+        animation: flip 1s;
       }
-      pre::-webkit-scrollbar {
-        height: 15px;
+      .project:hover .project-inner {
+        transform: rotateY(180deg);
       }
-      .copy {
-        display: flex;
-        align-items: center;
-        height: 20px;
-        font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
-        font-weight: 300;
-        padding: 10px;
+      .project-face,
+      .project-info {
         position: absolute;
-        top: 0;
-        right: 0;
-        background: #00000055;
-        color: #ccc;
-        cursor: pointer;
-        font-size: 17px;
-        border-bottom-left-radius: 5px;
-        transition: color 250ms;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
       }
-      .copy .material-icons {
-        font-size: 16px;
-        margin-right: 2px;
-      }
-      .copy:hover {
+      .project-face {
+        background-color: #121212;
         color: #fff;
       }
-      .hero {
-        position: relative;
-        display: flex;
-        width: 100%;
-        height: 400px;
-        align-items: center;
-        justify-content: center;
-        background: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Starsinthesky.jpg/1200px-Starsinthesky.jpg") center/cover fixed;
-        z-index: 3;
-      }
-      .glassmorphism {/*How do you even PRONOUCE this? */
-        backdrop-filter: blur(4px);
-        box-shadow: 0 0 10px #000;
-        border-radius: 20px;
-        width: min(80vw, 720px);
-        height: 300px;
+      .project-info {
+        padding: 15px;
+        box-sizing: border-box;
+        background-color: #121212;
+        color: #f0f0f0;
+        transform: rotateY(180deg);
+        font-size: min(16px, 3vw);
         display: flex;
         flex-flow: column;
-        align-items: center;
-        justify-content: center;
-        color: #202020;
-        text-shadow: 0 0 10px #fff;
-        font-size: 20px;
       }
-      .flex-row a {
-        margin-left: 20px;
-        cursor: pointer;
-      }
-  </style> <!-- Tutorails (1)-->
-  <style>
-    #about-paper-design {
-      width: 100%;
-      position: relative;
-      margin: 20px auto;
-      padding-top: 40px;
-      padding-bottom: 40px;
-      background-color: rgb(200,200,200);
-      transform: rotateZ(-5deg);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    #about-paper-design::before {
-      content: '';
-      width: 2px;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 40px;
-      background-color: var(--primaryaccent-color);
-    }
-
-    #about-paper-line-pattern {
-      height: 100%;
-      background-image: repeating-linear-gradient(var(rgb(0,0,0)) 0px, var(--text-color) 24px, var(--highlight-color) 25px);
-    }
-
-    #about-paper-content {
-      padding-top: 6px;
-      padding-left: 56px;
-      padding-right: 16px;
-      line-height: 25px;
-      font-size: 17px;
-      font-family: 'Satisfy';
-      letter-spacing: 1px;
-      word-spacing: 5px;
-      color: var(--background-color);
-    }
-
-    #about-paper-content h1 {
-      text-align: left;
-      padding: 0px;
-      margin-bottom: 5px;
-      color: #686868;
-      font-family: 'Satisfy';
-    }
-
-    #about-paper-signature {
-      text-align: right;
-      font-family: 'Satisfy';
-      font-weight: 600;
-    }
-  </style> <!-- About (3)-->
-  <style>
-    .hljs {
-      margin: 20px 50px;
-      background-color: rgb(40, 40, 40);
-      border-radius: 10px;
-    }
-
-    #mycanvas1 {
-      margin: 20px, 50px;
-      border-raduis: 10x;
-    }
-    #mycanvas2 {
-      margin: 20px, 50px;
-      border-raduis: 10x;
-    }
-    #mycanvas3 {
-      margin: 20px, 50px;
-      border-raduis: 10x;
-    }
-    #mycanvas4 {
-      margin: 20px, 50px;
-      border-raduis: 10x;
-    }
-    #mycanvas5 {
-      margin: 20px, 50px;
-      border-raduis: 10x;
-    }
-    #mycanvas6 {
-      margin: 20px, 50px;
-      border-raduis: 10x;
-    }
-  </style><!--Code (4) -->
-  <style>
-    .footer {
-      background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)), url(https://upload.wikimedia.org/wikipedia/commons/4/46/Black_hole_consuming_star.jpg);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-attachment: fixed;
-      box-shadow: 0 -5px 10px 0 rgba(0, 0, 0, 0.2);
-      box-sizing: border-box;
-      width: 100%;
-      text-align: left;
-      font-family: var(--text-font);
-      font-size: 1em;
-      padding: 45px 50px;
-    }
-
-    .footer .footer-left p {
-      color: rgb(200,200,200);
-      font-size: 0.9em;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .footer p.footer-links {
-      font-size: 1.25em;
-      font-weight: bold;
-      color: rgb(200,200,200);
-      margin: 0 0 2%;
-      padding: 0;
-      transition: ease .25s;
-    }
-
-    .footer p.footer-links a {
-      display: inline-block;
-      line-height: 1.8;
-      text-decoration: none;
-      color: inherit;
-      transition: ease .25s;
-    }
-
-    .footer-links a {
-      padding-left: 0.5em;
-      padding-right: 0.5em;
-      transition: 0.5s;
-    }
-
-    .footer-links a span {
-      transition: 0.5s;
-    }
-
-    .footer-links a span:hover {
-      color: var(--primaryaccent-color);
-    }
-
-    .footer .footer-links:before {
-      content: none;
-    }
-
-    .footer-right {
-      float: right;
-      max-width: 38%;
-      font-size: 1.1em;
-      font-weight: 600;
-      color: var(--highlight-color);
-    }
-
-    .footer-right a {
-      display: inline-block;
-      width: 35px;
-      height: 35px;
-      border-radius: 2px;
-      font-size: 20px;
-      color: var(--background-color);
-      text-align: center;
-      line-height: 35px;
-      margin-left: 3px;
-      transition: all .25s;
-    }
-
-    .footer .footer-right a:hover {
-      transform: scale(1.1);
-      -webkit-transform: scale(1.1);
-    }
-
-    @media (max-width: 600px) {
-
-      .footer .footer-left,
-      .footer .footer-right {
-        text-align: center;
-      }
-
-      .footer .footer-right {
-        float: none;
-        margin: 0 auto 20px;
-      }
-
-      .footer .footer-left p.footer-links {
-        line-height: 1.8;
-      }
-    }
-  </style> <!-- Footer -->
-  <!-- <style>
-    .credits-item {
-      width: 100%;
-    }
-
-    .credits-text {
-      width: calc(95% - 50vh);
-      height: 100%;
-      color: rgba(200, 200, 200, 0.7);
-    }
-
-    .credits-image {
-      width: 50vh;
-      height: 50vh;
-      clip-path: circle(45% at 50% 50%);
-      transition: 0.5s;
-      border-radius: 5px;
-    }
-
-    .credits-item:hover .credits-image {
-      clip-path: circle(100% at 50% 50%);
-    }
-
-    .credits-title {
-      font-size: 2em;
-      font-family: var(--heading-font);
-      color: var(--text-color);
-    }
-
-    .credits-title a {
-      color: inherit;
-      transition: 0.1s;
-    }
-
-    #credits-1-image,
-    #credits-3-image {
-      margin-right: 5%;
-    }
-
-    #credits-2-image,
-    #credits-4-image {
-      margin-left: 5%;
-    }
-
-    #credits-1-text,
-    #credits-3-text {
-      text-align: left;
-    }
-
-    #credits-2-text,
-    #credits-4-text {
-      text-align: right;
-    }
-
-    #credits-1-text .credits-title,
-    #credits-3-text .credits-title {
-      color: var(--primaryaccent-color);
-    }
-
-    #credits-2-text .credits-title,
-    #credits-4-text .credits-title {
-      color: var(--highlight-color);
-    }
-
-    #credits-1-image {
-      background-image: url("40.517564, -3.641860");/* Search-- close, but not very exact */
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      clip-path: circle(100% at 50% 50%);
-    }
-
-    #credits-2-image {
-      background-image: url("https://static.wikia.nocookie.net/wingsoffire/images/6/6b/WinterTopShot.png/revision/latest?cb=20210518165821");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-
-    #credits-3-image {
-      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/574px-NASA_logo.svg.png");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-
-    #credits-4-image {
-      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Artist%E2%80%99s_impression_of_the_black_hole_inside_NGC_300_X-1_%28ESO_1004a%29.jpg/640px-Artist%E2%80%99s_impression_of_the_black_hole_inside_NGC_300_X-1_%28ESO_1004a%29.jpg");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-
-    @media (max-width: 775px) {
-      .credits-text {
+      .project-image {
         width: 100%;
-        height: auto;
+        display: block;
       }
-
-      #credits-1-image,
-      #credits-3-image,
-      #credits-2-image,
-      #credits-4-image {
-        margin: 5%;
+      .project-title {
+        color: var(--theme-primary);
+        margin: 0;
+        font: 600 1.25em / 1.75 var(--default-font);
       }
-    }
-  </style> --><!--old thoughts -- I save old code just in case I want to use it in 30 years :) -->
-  <!--I have style ^ :) -->
-</head>
-
-<body>
-  <div id="fullscreen-nav" class="overlay">
-    <a href="javascript:void(0)" class="close-nav" onclick="closeNav()">&times;</a>
-    <div class="overlay-content">
-      <a href="javascript:showPage(0); closeNav()">Home</a><br>
-      <a href="javascript:showPage(1); closeNav()">Games</a><br>
-      <a href="javascript:showPage(2); closeNav()">Code</a><br>
-      <a href="javascript:showPage(3); closeNav()">About</a><br>
-    </div>
-  </div> <!-- Navigation -->
-  <div id="fullscreen-header">
-    <div class="header-text">
-      <h1 class='header-heading scrolled fade-in'>Aspen<span class='header-highlight'>Branch</span></h1>
-      <!-- <button class="scrolled fade-in-bottom" onclick='slightScroll()'></button> -->
-    </div>
-  </div> <!-- Header -->
-  <div class="scrolled fade-in" id='nav-button' onclick='openNav()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-    </svg>
-  </div> <!-- Nav button -->
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <div class="page" id="home">
-    <div class="flex-container">
-      <div class="flex-item js-scroll fade-in-bottom" id="intro-item">
-        <h1>Games</h1>
-        <span class="highlight">My best creations</span>
-        <br><br><br><br>
-        <button class="ad-button" onclick="showPage(1)">Play</button>
-      </div>
-      <div class="flex-item" id="about-item">
-        <h1>About the Author</h1>
-        So you want to know more about the maker of webpage that <em>you</em> are on?????? Makes a little sense now that I think about it.... 
-        <br><br><br>
-        <button class="ad-button js-scroll fade-in-bottom" onclick="showPage(3)">Click here.</button>
-      </div>
-      <div class="flex-item" id="credits-item">
-        <h1>Code</h1>
-        Want to see what I can do?
-        <br><br><br>
-        <button class="ad-button js-scroll fade-in-bottom" onclick="showPage(2)">Be amazed</button>
-      </div>
-    </div>
-    <br><br><br>
-  </div> <!-- Home (0)-->
-  <div class="page" id="Tutorails">
-    <h1>Games</h1>
-    <p>I've been haveing a few framerate bugs here--- they will be here soon.<br>Here's the links for now</p>
-      <a href="https://codepen.io/Aspen-Branch/pen/WNLzVrr">Glow Jump</a><br><br><br>
-      <a href="https://codepen.io/Aspen-Branch/pen/rNooYRv">Astro</a><br><br><br>
-    <a href="https://codepen.io/Aspen-Branch/pen/oNJZNgZ">Tunnelz</a><br><br><br>
-    <a href="https://codepen.io/Aspen-Branch/pen/LYMWxpb">Basic Platformer</a><br><br><br>
-    <a href="https://codepen.io/Aspen-Branch/pen/dywQyoa">Tic-Tac-Toe (2 player)</a><br><br><br>
-    <a href="https://codepen.io/Aspen-Branch/pen/wvRRmRW">Anti Aircraft</a><br><br><br>
-    <a href="https://codepen.io/Aspen-Branch/pen/oNJdqmp"></a><br><br><br>
-    <p>Not a game - but still cool:</p>
-    <a href="https://codepen.io/Aspen-Branch/pen/RwEvEZP">Cloud fail</a><br><br><br>
-    <button class="ad-button js-scroll fade-in-bottom" onclick="showPage(0)">Get back home <em>now</em></button>
-  </div><!--Games (1)-->
-  <!-- Page 2 was deleated :(     than made thoughts!             RIP page two  1-19-23 at 4:37pm to 1-19-23 at 4:52pm-->
-  <div class="page" id="Code">
-    <canvas id="mycanvas"></canvas> <!--RGB CUBE -->
-  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
-  <script>
-  var programCode = function(processingInstance) {
-    with (processingInstance) {
-      size(400, 400); 
-      frameRate(30);
-        
-      // Paste code from Khan Academy here:
-      /* Tau, the great and powerful */
-var tau = 6.283185307179586;
-
-/* Magnitude variables */
-var xmag = 3.848, ymag = 3.83;
-var newXmag = 0, newYmag = 0; 
-
-var g = createGraphics(640, 360, P3D); /* Returns an object with functions for 3D shapes. See the Ultimate Guide */
-g.noStroke(); 
-g.colorMode(RGB, 1); /* Colors range from 0 to 1 instead of 0 to 255 */
-
-draw = function()  {
-    background(128); /* Sets canvas background */
-    g.beginDraw();
-    g.background(0.5); /* Same as 128, since color range is 0 to 1 */
-  
-    g.pushMatrix(); 
-    g.translate(g.width / 2, g.height / 2, -30); /* Origin is now in the center */
-  
-    newXmag = mouseX / g.width * tau; /* Figure out rotation of RGB cube */
-    newYmag = mouseY / g.height * tau;
-    
-    var diff = xmag - newXmag;
-    if (abs(diff) >  0.01) { 
-        xmag -= diff/4.0; 
-    }
-  
-    diff = ymag - newYmag;
-    if (abs(diff) >  0.01) { 
-      ymag -= diff / 4; 
-    }
-    
-    g.rotateX(-ymag); /* Applies rotations */
-    g.rotateY(-xmag); 
-  
-    g.scale(90); /* Multiply all later vertices coordinates by 90. */
-    g.beginShape(QUADS); /* begin shape Quads style! */
-
-    g.fill(0, 1, 1); g.vertex(-1,  1,  1);
-    g.fill(1, 1, 1); g.vertex( 1,  1,  1);
-    g.fill(1, 0, 1); g.vertex( 1, -1,  1);
-    g.fill(0, 0, 1); g.vertex(-1, -1,  1);
-
-    g.fill(1, 1, 1); g.vertex( 1,  1,  1);
-    g.fill(1, 1, 0); g.vertex( 1,  1, -1);
-    g.fill(1, 0, 0); g.vertex( 1, -1, -1);
-    g.fill(1, 0, 1); g.vertex( 1, -1,  1);
-    
-    g.fill(1, 1, 0); g.vertex( 1,  1, -1);
-    g.fill(0, 1, 0); g.vertex(-1,  1, -1);
-    g.fill(0, 0, 0); g.vertex(-1, -1, -1);
-    g.fill(1, 0, 0); g.vertex( 1, -1, -1);
-    
-    g.fill(0, 1, 0); g.vertex(-1,  1, -1);
-    g.fill(0, 1, 1); g.vertex(-1,  1,  1);
-    g.fill(0, 0, 1); g.vertex(-1, -1,  1);
-    g.fill(0, 0, 0); g.vertex(-1, -1, -1);
-    
-    g.fill(0, 1, 0); g.vertex(-1,  1, -1);
-    g.fill(1, 1, 0); g.vertex( 1,  1, -1);
-    g.fill(1, 1, 1); g.vertex( 1,  1,  1);
-    g.fill(0, 1, 1); g.vertex(-1,  1,  1);
-    
-    g.fill(0, 0, 0); g.vertex(-1, -1, -1);
-    g.fill(1, 0, 0); g.vertex( 1, -1, -1);
-    g.fill(1, 0, 1); g.vertex( 1, -1,  1);
-    g.fill(0, 0, 1); g.vertex(-1, -1,  1);
-    
-    g.endShape();
-    g.popMatrix();
-    g.endDraw();
-    
-    image(g, -120, 0); /* Draw completed RGB cube */
-};
-    }};
-
-  // Get the canvas that ProcessingJS will use
-  var canvas = document.getElementById("mycanvas"); 
-  // Pass the function to ProcessingJS constructor
-  var processingInstance = new Processing(canvas, programCode); 
-  </script>
-    
-    
-    
-    
-    
-    
-    
-    <canvas id="mycanvas2"></canvas> <!--FIRE -->
-  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
-  <script>
-  var programCode = function(processingInstance) {
-    with (processingInstance) {
-      size(400, 400); 
-      frameRate(30);
-        
-      // Paste code from Khan Academy here:
-      colorMode(HSB);
-draw = function() {loadPixels();
-                   background(2,2)
-    var p = imageData.data;
-    for (var i = 0;
-    i < 200; i+=1) {
-        for (var j = 0;
-        j < 150; j+=1) {
-            var n = noise(i / 30, j / 30 + millis() / 200, frameCount / 15);
-            n *= n * (3 - 2 * n);
-            n *= n * (3 - 2 * n);
-            n -= 0.5 - j / 100 + abs(i - 100) / 100;
-            var index = 4 * (i + width * j);
-            var colour = color(constrain(35 * n, 0, 35), 255, (n > 0.3) ? 255 : (n > 0) ? map(n, 0, 0.3, 0, 255) : 0);
-            p[index] = red(colour) + (n > 1) * (n - 1) * 355;
-            p[index+1] = green(colour) + (n > 1) * (n - 1) * 355;
-            p[index+2] = blue(colour) + (n > 1) * (n - 1) * 355;}}
-    updatePixels();
-    image(get(0, 0, 200, 150), 0, 0, width, height);
-};//19 semicolons!
-
-
-
-    }};
-
-  // Get the canvas that ProcessingJS will use
-  var canvas = document.getElementById("mycanvas2"); 
-  // Pass the function to ProcessingJS constructor
-  var processingInstance = new Processing(canvas, programCode); 
-  </script>
-    
-   
-
-    
-    
-    
-    
-    
-    
-    
-    
-<canvas id="mycanvas3"></canvas> <!--BIRD -->
-  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
-  <script>
-    var programCode = function(processingInstance) {
-    with (processingInstance) {
-      size(400, 400); 
-      frameRate(30);
-        
-      // Paste code from Khan Academy here:
-    
-    //The first variable used for animation
-var animation = 10;
-
-/*Stores the values of the triangles.
-Each set of 3 sequential numbers in each array belongs to one triangle.
-All numbers correlate with the number in the same position (1st, 5th, etc) in a different array - so the 3rd number in the color array helps define the values of the same triangle as the 3rd number in the x coordinate array.
-*/
-var col = [
-122,202,222,85,126,249,85,120,249,105,51,231,90,0,248,116,55,224,89,0,242,123,204,223,94,121,251,100,163,251,100,163,251,86,120,251,90,0,251,84,122,251,84,122,251,101,159,251,101,159,251,85,122,251,121,208,221,121,208,221,121,208,221,101,159,255,135,223,238,135,223,238,135,223,238,121,204,229,218,220,9,218,220,9,218,220,9,218,220,9,170,210,40,170,210,40,245,226,0,245,226,0,245,226,0,245,226,0,240,200,55,240,200,55,240,200,55,170,209,48,125,207,140,125,207,140,125,207,140,220,226,14,104,170,61,104,170,68,90,148,81,90,148,81,106,173,61,231,178,50,231,178,50,231,178,50,231,178,50,220,139,0,220,139,0,220,139,0,231,169,50,251,230,125,239,210,0,211,160,0,211,160,0,84,124,255,109,55,231,109,55,231,149,0,221,149,0,221,74,30,180,191,0,81,191,0,81,220,71,0,220,71,0];
-var pointsX = [
-122,135,92,137,135,92,150,135,122,168,150,135,149,150,168,161,168,149,129,149,161,158,158,137,183,158,158,182,168,161,201,182,168,158,168,201,165,158,201,149,129,161,101,120,129,149,129,120,99,120,101,84,99,101,179,161,182,166,149,161,101,99,120,166,179,161,201,182,179,114,120,101,140,149,120,140,114,120,140,166,149,197,179,166,129,140,114,94,114,114,101,94,114,201,179,197,114,129,114,171,166,140,98,94,114,110,124,98,114,124,98,171,166,197,175,140,171,85,76,98,82,99,101,76,94,98,85,98,110,92,85,110,216,197,201,82,94,101,82,99,84,79,82,94,79,76,94,129,114,124,144,140,129,159,140,175,211,171,175,144,129,124,159,140,144,211,197,171,216,197,211,46,85,92,76,46,85,65,46,76,79,76,65,220,216,201,233,216,220,277,233,240,233,216,240,277,324,251,251,324,233,216,240,244,342,324,277,211,216,244,244,240,277];
-var pointsY = [
-254,260,267,268,260,267,236,260,254,227,236,260,221,236,227,209,227,221,206,221,209,259,267,268,267,267,259,217,227,209,217,217,227,259,227,217,263,259,217,194,206,209,185,165,206,194,206,165,157,165,185,159,157,185,201,209,217,180,194,209,141,157,165,180,201,209,217,217,201,135,165,141,153,194,165,153,135,165,153,180,194,184,201,180,126,153,135,103,102,135,141,103,135,217,201,184,135,126,102,159,180,153,84,103,102,67,84,84,102,84,84,159,180,184,139,153,159,69,80,84,136,157,141,80,103,84,69,84,67,58,69,67,172,184,217,136,103,141,136,157,159,104,136,103,104,80,103,126,102,84,123,153,126,128,153,139,156,159,139,123,126,84,128,153,123,156,184,159,172,184,156,56,69,58,80,56,69,86,56,80,104,80,86,215,172,217,212,172,215,201,212,199,212,172,199,201,227,207,207,227,212,172,199,185,219,227,201,156,172,185,185,199,201];
-
-/*Each triangle represents one of the triangles in the image.
-This function was created so that they could be animated.
-*/
-var triangles = [];
-var tri = function(startCoord){
-    //Positions
-    this.x = pointsX[startCoord];
-    this.y = pointsY[startCoord];
-    this.x2 = pointsX[startCoord+1];
-    this.y2 = pointsY[startCoord+1];
-    this.x3 = pointsX[startCoord+2];
-    this.y3 = pointsY[startCoord+2];
-    
-    //Color
-    this.col = color(col[startCoord],col[startCoord+1],col[startCoord+2]);
-    
-    /*These variables are related to the animation. The first one defines how much the color is offset, the second two define how much offset the points are when the animation start, and the last defines when the animation for that triangle should "snap" into place.
-    */
-    this.animationCol = 255;
-    this.positionChangeX = random(0);
-    this.positionChangeY = random(0);
-    this.offset = this.x/2;
-};
-tri.prototype.display = function(){
-    fill(red(this.col)-this.animationCol,green(this.col)-this.animationCol,blue(this.col)-this.animationCol);
-    triangle(this.x-this.positionChangeX,this.y+this.positionChangeY,this.x2+this.positionChangeX,this.y2-this.positionChangeY,this.x3+this.positionChangeX,this.y3-this.positionChangeY);
-};
-tri.prototype.update = function(){
-    //Animations
-    if (this.animationCol > 1){
-        if (animation < 10){
-            this.animationCol /= 1.05;
+      .project-created {
+        color: #ff00aa;
+        margin: 0 0 20px;
+        font-size: 0.8em;
+        font-style: italic;
+      }
+      .project-description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        margin: 0;
+      }
+      .project-stats {
+        border-top: 1px solid #303030;
+        padding-top: 10px;
+        margin: auto 0 0;
+      }
+      .about-logo {
+        position: absolute;
+        opacity: 0.1;
+        z-index: -1;
+      }
+      #comments {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+        box-sizing: border-box;
+        gap: 10px;
+        overflow: auto;
+        max-height: calc(100% - 85px);
+      }
+      .comment {
+        display: flex;
+        flex-flow: column;
+        padding: 15px;
+        box-sizing: border-box;
+        background: #fff;
+        color: #000;
+        border: solid 1px #eee;
+      }
+      .author-avatar-group {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+      }
+      .author-avatar-container {
+        width: 50px;
+        height: 50px;
+        border: solid 1px #ddd;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+      }
+      .comment-author {
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .author-avatar {
+        width: 35px;
+      }
+      .comment-content {
+        white-space: pre-wrap;
+        font: inherit;
+        margin: 0;
+      }
+      .date-posted {
+        color: #aaa;
+        font-size: 15px;
+      }
+      .link {
+        color: #0055cc;
+      }
+      .page-header {
+        margin: 15px;
+        font-size: 30px;
+        border-bottom: solid 1px #ddd;
+      }
+      .js-scroll {
+        position: relative;
+        opacity: 0;
+      }
+      .js-scroll.scrolled {
+        animation: slide-up .6s ease-in-out forwards;
+      }
+      @keyframes slide-up {
+        0% {
+          transform: translateY(30px);
+          opacity: 0;
         }
-    }else if (this.positionChangeX > 0.1){
-        this.animationCol = 0;
-        this.positionChangeX /= 1.1;
-    }else if (this.positionChangeY > 0.1 && this.offset < frameCount){
-        this.positionChangeX = 0;
-        this.positionChangeY /= 1.1;
-    }else if (this.offset < frameCount){
-        this.positionChangeY = 0;
-    }
-};
-
-/*Moves all of the triangles from the arrays into a new format,
-where they are stored individually as objects
-*/
-for (var i = 0; i < pointsX.length; i += 3){
-    triangles.push(new tri(i));
-}
-
-//Displays the animation
-var displayAnimation = function(){
-    background(255-animation);
-    noStroke();
-    
-    /*Translates the bird to the center of the screen,
-    because I designed it slightly off center by mistake
-    */
-    pushMatrix();
-    translate(10,30);
-    for (var i = 0; i < triangles.length; i ++){
-        triangles[i].display();
-        triangles[i].update();
-    }
-    popMatrix();
-};
-
-//Runs the animation
-var runAnimation = function(){
-    if (animation >= 0.1){
-        animation /= 1.03;
-    }
-};
-draw = function() {
-    displayAnimation();
-    runAnimation();
-};
-    }};
-
-  // Get the canvas that ProcessingJS will use
-  var canvas = document.getElementById("mycanvas3"); 
-  // Pass the function to ProcessingJS constructor
-  var processingInstance = new Processing(canvas, programCode); 
-  </script>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <canvas id="mycanvas4"></canvas> <!--Bird mark 2-->
-  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
-  <script>
-    var programCode = function(processingInstance) {
-    with (processingInstance) {
-      size(400, 400); 
-      frameRate(30);
-        
-      // Paste code from Khan Academy here:
-        //{
-colorMode(PConstants.RBG);
-scale(7);
-var paint = (
-  function (stuff, palette, x, y, pixelSize) {
-    pushMatrix();
-      translate(x, y);
-      scale(pixelSize);
-      strokeWeight(1);
-      var j = stuff.length;
-      while (j-- > 0) {
-        var i = stuff[j].length;
-        while (i-- > 0) {
-          var ch = stuff[j].charAt(i);
-          if (ch in palette) {
-            stroke(palette[ch]);
-            point(i, j);
-          }
+        to {
+          transform: translateY(0);
+          opacity: 1;
         }
       }
-    popMatrix();
-  });//stuff
-var pixel = [
-    
-"nnn                          nnnnnn",    
-"nn                            nnnnnnnnnnnnnnn",
-"                000222     nnnnnnnnnnnnnnn    ",
-"               00000222         nnnnnnnnnnnnnnn", 
-"              0011110222   nnnnnnnnnnnn            nnn",
-"           3330113111022 " ,
-" nnnnnn      31133111022 ",
-"   nnnnn    331111111122 ",
-"  nnnnnnn     3111111112",
-"     nnnnnnn   31111111400",
-"  nnnnnn       31111444000",
-"           nn  311444450000",
-"            n  4444445500000",
-"               44444550000000",
-"               444440000000000",
-"               4444400000000000",
-"               54444000000000000",
-"               554444000000000000      ",
-"                55444400000000000     ",
-"                555444400000000000                 nnnnnnnn",
-"                 55544440000000000             nnnnnnnnnnnnnnnn",
-"                  55544440000000000 ",
-"                   55544440000000000",
-"                    5554444000000000",
-"                      55444440000000",
-"                        5544444000002",
-"                          55466  22222",
-"777777                      66  66222222 777777",
-"888888777                  66  66  2222228888887777",
-"      888777              66  66  772222222    8888",
-"777777777888777   77777776677766778822222222       7777",
-"888888888   8887778888888866888668   22222222      88887",
-"               888                   222222222         877777",
-"                                     22222222222        88888",
-" ",
-"                                                        nnnn",
-"                                                     nnnnnnnn",
-"  nnnnnn                                                 nnnnnnnn",
-"                                                       nnnnnnnnnnnnn ",
-];//the (bird)
-
-
-
-
-
-
-
-var colors = {
-    "0": color(0, 187, 255),
-    "1": color(255, 255, 255),
-    "2": color(60, 0, 255),
-    "3": color(0, 0, 0),
-    "4": color(255, 255, 0),
-    "5": color(255, 221, 0),
-    "6": color(255, 162, 0),
-    "7": color(74, 54, 4),
-    "8": color(120, 91, 4),
-    "9": color(0, 255, 17),
-    "g": color(37, 158, 61),
-    "n": color(255, 255, 255)
-};//you guessed it! The colors!
-
-background(186, 242, 245);
-
-paint(pixel, colors, -3, 9, 1);
-
-//} code for the blue bird
-    
-    }};
-
-  // Get the canvas that ProcessingJS will use
-  var canvas = document.getElementById("mycanvas4"); 
-  // Pass the function to ProcessingJS constructor
-  var processingInstance = new Processing(canvas, programCode); 
-  </script>
-    
-    
-    <canvas id="mycanvas5"></canvas> <!--Fun thing(curve) -->
-  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
-  <script>
-    var programCode = function(processingInstance) {
-    with (processingInstance) {
-      size(400, 400); 
-      frameRate(30);
-        
-      // Paste code from Khan Academy here:
-angleMode = "radians";
-var PHI = 1.6180339887;
-// var PHI = 237.5;
-// var PHI = (3-Math.sqrt(5))*PI;
-var SCALE = 8;
-var z = 10;
-var angleZ = 0/100;
-var angleY = 0/100;
-var angleX = 0/100;
-draw= function() {
-    background(220);
-    z = 10;
-    //You reached the easter egg!
-    noStroke();
-    // frameRate(40);
-    noFill();
-    beginShape();
-    // stroke(255, 0, 0);
-    for(var n = 0; n<500; n++){          //-170
-        var theta = (TWO_PI/Math.pow(PHI,2))*n;
-        var r = SCALE*Math.sqrt(n);
-        var x = 200+(cos(theta)*r);
-        var y = 200+(sin(theta)*r);
-        if(n%2===0){
-            fill(255, 255, 255);
-            // vertex(x,y);
-        }else{
-            fill(87, 76, 87);
+      @keyframes fade-in {0%{opacity:0;}to{opacity:1;}}
+      @keyframes fade-out {0%{opacity:1;}to{opacity:0;}}
+      @keyframes flip {
+        0% {
+          transform: rotateY(0deg);
+          opacity: 0;
         }
-        // x = x * cos(angleY+angleZ) - y * sin(angleZ);
-        // y = x * sin(angleZ) + y * cos(angleX);
-        // var x = 200+(n*Math.sqrt(PHI))*cos(PHI);
-        // var y = 200+(n*Math.sqrt(PHI))*sin(PHI);
-        ellipse(x,y,z,z);
-        z-=0.015;
-    }
-    endShape();
-    
-};
-// mouseDragged = function(){
-//     angleY+=(pmouseX-mouseX)/400;
-//     angleX+=(pmouseY-mouseY)/400;
-// };
-
-    
-    }};
-
-  // Get the canvas that ProcessingJS will use
-  var canvas = document.getElementById("mycanvas5"); 
-  // Pass the function to ProcessingJS constructor
-  var processingInstance = new Processing(canvas, programCode); 
-  </script>
-    
-    
-    <canvas id="mycanvas6"></canvas> <!--Water -->
-  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
-  <script>
-    var programCode = function(processingInstance) {
-    with (processingInstance) {
-      size(400, 400); 
-      frameRate(30);
-        
-      // Paste code from Khan Academy here:
-var inc = 0.01;
-var start = 0;
-var time = 0;
-var sat=255;
-
-draw=function(){
-background(50);
-// sat+=1;
-var rand = random(-0.01,0.01);
-  loadPixels();
-  var pixels = imageData.data;
-var yoff=0;
-// inc+=0.00001;
-time+=0.01;
-  for(var y = 0; y<height; y++){
-        var xoff=0;
-    for(var x = 0; x<width; x++){
-      
-          var index = (x+y*width)*4;
-     // var r = random(255);
-      //noLoop();
-      var r = noise(xoff,yoff,time)*sat; 
-          pixels[index+0]=r;
-          pixels[index+1]=r+53;
-          pixels[index+2]=r+200;
-          pixels[index+3]=255;
-      xoff+=inc;
+        100% {
+          transform: rotateY(360deg);
+          opacity: 1;
+        }
       }
-    yoff+=inc;
-  }
-  updatePixels();
-};
-    
-    }};
-
-  // Get the canvas that ProcessingJS will use
-  var canvas = document.getElementById("mycanvas6"); 
-  // Pass the function to ProcessingJS constructor
-  var processingInstance = new Processing(canvas, programCode); 
-  </script>
-    
-    
-    
-    
-    
-    
-    
-    <br>I can code in P3D like the RGB cube; or a webgl like this fire; or make a graphic like the first bird.  <br><br><br> I know the computer programming launguges <ol>HTML 5</ol><ol>CSS 3</ol><ol>PJS 5</ol><br><br>I also know a nice splattering of SQL, Python, C and java
-    <br><br><br><br>
-     
-  </div>
-  <!--code (2) <  REMEMBER-->
-  <div class="page" id="about">
-    <h1 class="page-heading">About the Author</h1>
-    <div id="about-paper-design">
-      <div id="about-paper-line-pattern">
-        <div id="about-paper-content">
-          <h1>Hi! I'm Aspen.</h1>
-          <br>
-          Sooooooo....... I'm a computer programmer. I learned about programming during COVID, and started taking classes on a nonprofit called Khan Academy. I learned basic PJS there, thinking that it made webpages.
-          <br>
-          After COVID I went on khan every once and awile, but never too much till December 2022. I finished PJS and started HTML and CSS. The HTML and CSS courses are not the best on khan, so I quickly switched to w3 schools. I still code on khan academy, but I mainly work in Codepen.io and w3 schools. This is my first website!
-          <br><br>
-          <div id='about-paper-signature'>
-            Yours sincerely, <br> Aspen<br>
+      @keyframes slide-in-left {
+        0% {
+          transform: translateX(60px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes slide-out {
+        0% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(90px);
+          opacity: 0;
+        }
+      }
+      @keyframes slide-in {
+        0% {
+          transform: translateX(30px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="safari-container">
+      <div id="popup">
+        <h4>Welcome to my Homepage</h4>
+        <p>Do you like it better than the last one?</p>
+        <div class="actions">
+          <button id="confirm" class="primary-action"><div class="text"><a class="link" href=""></a>Yes</div></button>
+          <button id="close" class="secondary-action">No</button>
+        </div>
+      </div>
+      <!-- sidebar header -->
+      <header class="sider">
+        <div class="flex-column-center">
+          <nav class="flex-column-center">
+            <span class="material-icons nav-icon js-home" data-tip="Home">home</span>
+            <span class="material-icons nav-icon js-projects" data-tip="Projects">palette</span>
+            <span class="material-icons nav-icon js-about" data-tip="About">help</span>
+            <span class="material-icons nav-icon js-feed" data-tip="Feed">feed</span>
+          </nav>
+        </div>
+          
+        </a>
+      </header>
+      <!-- Home -->
+      <div class="page" id="homepage">
+        <div id="hero">
+          <h1 id="hero__name">Aspen Branch</h1>
+          <h1 id="hero__headline">Mars's Greatest Front-end Developer</h1>
+          <p id="hero__tagline">Professional websites every week.</p>
+          <div id="actions">
+            <button class="primary-action js-projects"><span class="text">View Projects</span></button>
+            <button class="alternate-action js-about">Learn More</button>
+          </div>
+          <div id="hero-background">
+            <img class="hero-background-image" src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Palm_trees_at_Mitsamiouli_beach.jpg">
+          </div>
+        </div>
+        <section class="subscribe">
+          <div class="section-text js-scroll">
+            <h2>Welcome!</h2>
+            <p>This is my homepage-- how boring. Here's some of my upcoming projects.</p>
+          </div>
+          <div class="subscribe-breakdown">
+            <div class="step js-scroll">
+              <h3>Sister Cities</h3>
+              <p>A game where there's a city (ie boston) and you need to guess ANOTHER city in close population.</p>
+            </div>
+            <div class="step js-scroll">
+              <h3>WebDev</h3>
+              <p>A website for a fictional company named WebDev, that sells a coding resorces like AI.</p>
+            </div>
+            <div class="step js-scroll">
+              <h3>FishTopia</h3>
+              <p>A goverment website for the large underwater metropolis; with lots of fish.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- Projects -->
+      <div class="page">
+        <div id="projects-container">
+          <div class="section-text">
+            <h2>Projects</h2>
+            <p>Here's a few of my best:</p>
+            <a class="link" href="https://codepen.io/Aspen-Branch/pen/WNLzVrr">Glow Jump<br></a><br><p>Here's a hard game where you jump on platforms that keep on getting faster. It's a game PJS built with 200+ lines.</p>
+            <a class="link" href="https://codepen.io/Aspen-Branch/pen/rNooYRv">Astro<br></a><p>A fun game where you drive a spaceship around and avoid big black circles going at you. A JS game.</p>
+            <a class="link" href="https://github.com/AspenBranch/Aspen.js"><br></a><p>Aspen.js is a no-html website builder. It's very simple, but used to make it easier to explain muiltipe pages. WIP.</p>
+            <a class="link" href="https://codepen.io/Aspen-Branch/pen/oNJZNgZ">Tunnelz<br></a><p>A simple game where you move your mouse though tunnels. </p>
           </div>
         </div>
       </div>
+      <!-- About -->
+      <div class="page">
+        
+        <div class="section-text">
+          <h2>Who am I?</h2>
+          <p>My name is AspenBranch, and I'm a great at front-end and I'm planning on making games in the future.</p>
+          <h2>My Favorite Hobbies</h2>
+          <p>I like to code, read and climb</p>
+          <h2>Favorite Project</h2>
+          <p>I have three.</p>
+          <a class="link" href="https://codepen.io/Aspen-Branch/pen/WNLzVrr">Glow Jump<br></a>
+          <a class="link" href="https://codepen.io/Aspen-Branch/pen/rNooYRv">Astro</a>
+          <p>And this webpage</p>
+        </div>
+      </div>
+      <!-- Feed -->
+      <div class="page">
+        <h1 class="page-header">Feed</h1>
+           <div class="section-text">
+          <h3>8-29-2023</h3>
+          <p>I finished this website...</p>
+             </div
+      </div>
     </div>
-  </div>
-  <!--About(3) WOOOOOORRRRRKKKKK-->
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <footer class="footer">
-    <div class="footer-right">
-    </div>
-    <div class="footer-left">
-      <p class="footer-links">
-        <a href="javascript:showPage('0')" title='Home'>
-          <span class="material-icons">home</span>
-        </a>
-        <a href="javascript:showPage('1')" title='News'>
-          <span class="material-icons">offline_bolt</span>
-        </a>
-        <a href="javascript:showPage('2')" title='Thoughts'>
-          <span class="material-icons">account_circle</span>
-        </a>
-        <a href="javascript:showPage('3')" title='About'>
-          <span class="material-icons">person</span>
-        </a>
-        <a href="javascript:backToTop()" title='Back to top'>
-          <span class="material-icons">expand_less</span>
-        </a>
-      </p>
-      <p>Aspen Branch &copy; 2023, no rights reserved. <br> Credit to wikipedia for images :)</p>
-    </div>
-    <br>
-  </footer> <!-- Footer -->
-  <script type>
-    var scenes = document.getElementsByClassName('page');
-    function showPage(index) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      for (var i = 0; i < scenes.length; i++) {
-        scenes[i].style.display = 'none';
+    <script type="module">
+      /* page switching */
+      const pages = document.getElementsByClassName("page");
+      let oldPage = 0;
+      function switchPage(index) {
+        const lastPage = pages[oldPage];
+        lastPage.addEventListener("animationend", callback);
+        lastPage.style.animation = "fade-out .2s ease-out";
+        // locally scoped callback
+        function callback() {
+          lastPage.removeEventListener("animationend", callback);
+          lastPage.style.display = "none";
+          oldPage = index;
+          pages[index].style = "display:block;animation:fade-in .2s ease-in forwards;";
+        }
       }
-      scenes[index].style.display = 'block';
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    };
-    showPage(0);
-    var problem = false;
-    function slightScroll() {
-      window.scrollTo({
-        top: 300,
-        behavior: "smooth"
-      });
-    };
-    if(problem=true){
+      /* apply event listeners to "links" */
+      addClassListener("js-home", "click", () => switchPage(0))
+      addClassListener("js-projects", "click", () => switchPage(1))
+      addClassListener("js-about", "click", () => switchPage(2))
+      addClassListener("js-feed", "click", () => switchPage(3))
+      function addClassListener(className, eventType, callback) {
+        Array.from(document.getElementsByClassName(className)).forEach(e => e.addEventListener(eventType, callback));
+      }
       
-    };
-    function backToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
-    };
-    
-  </script> <!-- Page-related script -->
-  <script type>
-    function openNav() {
-      document.getElementById("fullscreen-nav").style.height = "100%";
-    }
-
-    function closeNav() {
-      document.getElementById("fullscreen-nav").style.height = "0%";
-    }
-  </script> <!-- Navigation script -->
-  
-  <script type>
-    (function() {
-      const scrollElements = document.querySelectorAll(".js-scroll");
-      const elementInView = (el, dividend = 1) => {
-        const elementTop = el.getBoundingClientRect().top;
-        return (
-          elementTop <=
-          (window.innerHeight || document.documentElement.clientHeight) / dividend
-        );
+      
+      /* | Projects API | */
+      const container = document.getElementById("projects-container"),
+        KAE = "https://www.khanacademy.org";
+      /* returns the date in MM/DD/YYYY */
+      Date.prototype.today = function() {
+        const d = this.getDate(),
+          a = this.getMonth() + 1,
+          b = this.getFullYear();
+        return `${10>a?"0":""}${a}/${10>d?"0":""}${d}/${b}`
       };
-      const elementOutofView = (el) => {
-        const elementTop = el.getBoundingClientRect().top;
-        return (
-          elementTop > (window.innerHeight || document.documentElement.clientHeight)
-        );
-      };
-      const displayScrollElement = (element) => {
-        element.classList.add("scrolled");
-      };
-      const hideScrollElement = (element) => {
-        element.classList.remove("scrolled");
-      };
-      const handleScrollAnimation = () => {
-        scrollElements.forEach((el) => {
-          if (elementInView(el, 1.25)) {
-            displayScrollElement(el);
-          } else if (elementOutofView(el)) {
-            hideScrollElement(el)
+      /* make the JSONP request */
+      const script = document.createElement("script");
+      script.src = `${KAE}/api/internal/user/scratchpads?username=AmericanGuard&callback=filterProjects`;
+      document.head.appendChild(script);
+      window.filterProjects = data => {
+        container.innerHTML = "";
+        data.scratchpads.forEach(result => {
+          const project = projects.find(item => result.url.includes(item.id));
+          if(project) {
+            container.innerHTML += 
+           `<a class="project" href="${result.url}" target="_blank">
+              <div class="project-inner">
+                <div class="project-face">
+                  <img class="project-image" src="${KAE + result.thumb}" alt="Project Image">
+                </div>
+                <div class="project-info">
+                  <h3 class="project-title">${project.title ?? result.title}</h3>
+                  <p class="project-created">${new Date(result.created).today()}</p>
+                  <p class="project-description">${project.description ?? "No description"}</p>
+                  <p class="project-stats">${result.sumVotesIncremented} Votes | ${result.spinoffCount} Spinoffs</p>
+                </div>
+              </div>
+            </a>`;
           }
-        })
+        });
+        document.querySelectorAll(".project-inner").forEach((e, i) => {e.style.animationDelay = `${i*75}ms`})
+        script.remove();
+      };
+      
+      
+      /* | Subscribe Comments API | */
+      const _script = document.createElement("script");
+      _script.src = "https://www.khanacademy.org/api/internal/discussions/ag5zfmtoYW4tYWNhZGVteXJACxIIVXNlckRhdGEiHWthaWRfNzE0Mjc2MjQyMjA0OTQ5MDIxNDUwNDE5DAsSCEZlZWRiYWNrGICAo5G4tpEKDA/replies?callback=readComments";
+      document.head.appendChild(_script);
+      /* process comment data */
+      const comments = document.getElementById("comments");
+      window.readComments = data => {
+        comments.innerHTML = "";
+        if(typeof data === "object" && Array.isArray(data)) {
+          data.forEach(comment => {
+            if(comment.authorKaid === "kaid_714276242204949021450419") {
+              comments.innerHTML += `<div class="comment" style='order:${-(new Date(comment.date).getTime() / 1000)}'><div class="author-avatar-group"><div class="author-avatar-container"><img class="author-avatar" src="${comment.authorAvatarSrc}"></div><h4 class="comment-author">${comment.authorNickname}</h4><time class='date-posted'>${new Date(comment.date).today()}</time></div><pre class="comment-content">${parseContent(comment.content)}</pre></div>`;
+            }
+          });
+        } else {
+          comments.innerHTML = "No comments... yet."
+        }
+      };
+      /* comment parsing */
+      const underscores = /_([^_]*)_/g,
+        asterisks =  /\*(.*?)\*/g,
+        URLs = /(\b(https):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+      function parseContent(content) {
+        return content.replace(URLs, "<a class='link' href='$1' target='_blank'>$1</a>").replace(underscores, "<i>$1</i>").replace(asterisks, "<b>$1</b>");
       }
-      window.addEventListener("scroll", () => {
-        handleScrollAnimation();
+      
+      
+      /* | Popup Code | */
+      const popup = document.getElementById("popup");
+      if(window.isFullscreen) {
+        popup.remove();
+      } else {
+        document.getElementById("confirm").addEventListener("click",openFullscreen);
+        document.getElementById("close").addEventListener("click",e=>{popup.style.animation="slide-out .3s ease-out",popup.addEventListener("animationend",e=>popup.remove())})
+      }
+      function openFullscreen() {
+        if(!window.isFullscreen) {
+          const w = window.open();
+          return w.document.open(),w.document.write(`<!doctype html>${html}`),w.document.close(),w.isFullscreen=1
+        }
+      }
+      
+      /* | Scroll Animations | */
+      const scroll = document.getElementsByClassName("js-scroll");
+      pages[0].addEventListener("scroll", () => {
+        for(var i = scroll.length; i--;) {
+          const foo = scroll[i];
+          if(foo.getBoundingClientRect().top < window.innerHeight) {
+            foo.classList.add("scrolled");
+          } else {
+            foo.classList.remove("scrolled");
+          }
+        }
       });
-    })();
-  </script> <!-- Scrolling animations -->
-  <script type>
-    var headerImages = [
-      "https://upload.wikimedia.org/wikipedia/commons/1/1b/Fall_aspen_trees_in_Ashley_National_Forest.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a4/Aspen_Mountain_ski_area_aspen_trees_FIS_chair.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Aspen_tree_in_sunlight.jpg"
-    ]
-    document.getElementById('fullscreen-header').style.backgroundImage = "linear-gradient(316deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('" + headerImages[imageIndex = Math.floor(Math.random() * 5)] + "')";
-  </script> <!-- Header images -->
-  
-  <script>
-// Set the date we're counting down to
-var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
-
-// Update the count down every 1 second
-var countdownfunction = setInterval(function() {
-
-  // Get todays date and time
-  var now = new Date().getTime();
-  
-  // Find the distance between now an the count down date
-  var distance = countDownDate - now;
-  
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-  // Output the result in an element with id="demo"
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-  
-  // If the count down is over, write some text 
-  if (distance < 0) {
-    clearInterval(countdownfunction);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-  }
-}, 1000);
-</script><!--Coming soon thingy -->
-  
-  
-  
-  
-  
-  
-  
-  
-    <!-- Default Statcounter code for
-https://aspenbranch.github.io/
-https://aspenbranch.github.io/ -->
-<script type="text/javascript">
-var sc_project=12925154; 
-var sc_invisible=1; 
-var sc_security="4dde24c3"; 
-</script>
-<script type="text/javascript"
-src="https://www.statcounter.com/counter/counter.js"
-async></script>
-<noscript><div class="statcounter"><a title="Web Analytics"
-href="https://statcounter.com/" target="_blank"><img
-class="statcounter"
-src="https://c.statcounter.com/12925154/0/4dde24c3/1/"
-alt="Web Analytics"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
-    
-</body>
-
+      // alert(o)
+      
+      /* | Hero Animations | */
+      window.addEventListener("load", () => {
+        /* Retrieve lines from hero divs */
+        const heroName = document.getElementById("hero__name"),
+          heroHeadline = document.getElementById("hero__headline"),
+          heroTagline = document.getElementById("hero__tagline"),
+          lines1 = getLines(heroName),
+          lines2 = getLines(heroHeadline),
+          lines3 = getLines(heroTagline),
+          len1 = lines1.length,
+          len2 = len1 + lines2.length,
+          len3 = len2 + lines3.length;
+        heroHeadline.innerHTML = heroTagline.innerHTML = heroName.innerHTML = "";
+        /* Iterate through all lines and add them with increasing delay */
+        let i = 0;
+        while(i<len1)heroName.innerHTML += `<div style="opacity:0;animation:slide-up 750ms ${i*150}ms forwards;width:max-content;background-image:linear-gradient(83.84deg, var(--theme-primary) -6.87%, var(--theme-secondary) 26.54%, var(--theme-tertiary) 58.58%);-webkit-background-clip: text;-webkit-text-fill-color:#0000;">${lines1[i++]}</div>`;
+        while(i < len2) heroHeadline.innerHTML += `<div style="opacity:0;animation:slide-up 750ms ${i*150}ms forwards;">${lines2[(i++) - len1]}</div>`;
+        while(i < len3) heroTagline.innerHTML += `<div style="opacity:0;animation:slide-up 750ms ${i*150}ms forwards">${lines3[(i++) - len2]}</div>`;
+        /* Continue to add unique elements */
+        document.getElementById("actions").style = `opacity:0;animation:slide-up 750ms ${(i++)*150}ms forwards`
+        document.getElementById("hero-background").style.animationDelay=`${i*150}ms`;
+        /* Finally, show the homepage */
+        document.getElementById("homepage").style.display = "block"
+        
+        /* This function gets the lines of an element */
+        function getLines(element) {
+          const node = element.firstChild,
+            len = element.textContent.length + 1,
+            range = document.createRange(),
+            lines = [];
+          let hTracker, y, oldY;
+          range.selectNode(node);
+          range.collapse();
+          hTracker = range.cloneRange();
+          hTracker.setEnd(node, 1);
+          oldY = hTracker.getBoundingClientRect().height;
+          for(var n = 0; n < len; n++) {
+            hTracker.setEnd(node, n);
+            range.setEnd(node, n);
+            y = hTracker.getBoundingClientRect().height;
+            if (y > oldY || n === len - 1) {
+              range.setEnd(node, n - (n !== len - 1));
+              lines.push(range.toString());
+              range.setStart(node, n - 1);
+              oldY = y;
+            }
+          }
+          return lines;
+        }
+      });
+    </script>
+  </body>
 </html>
-<!--1660 les go -->

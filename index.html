@@ -1240,7 +1240,7 @@ var MAP = [
         "rrrrrrp",
         "     rr",
         "      ",
-        "@          b",
+        "@       ",
         "r  rrr",
         "rrrrrrrrr",
     ],
@@ -1722,6 +1722,122 @@ keyReleased = function() {
 
   // Get the canvas that ProcessingJS will use
   var canvas = document.getElementById("Invisable"); 
+  // Pass the function to ProcessingJS constructor
+  var processingInstance = new Processing(canvas, programCode); 
+  </script>
+            <canvas id="Ping"></canvas> 
+            
+            <script>
+  var programCode = function(processingInstance) {
+    with (processingInstance) {
+      size(400, 400); 
+      // {
+smooth();
+cursor("none");
+
+var p = [];
+var a = {
+    x: mouseX,
+    w: 30,
+};
+var score = 0;
+var c1 = color(135, 207, 197), c2 = color(113, 166, 158);
+
+var u = function(i) {
+    if(p[i].x < 55 + p[i].s && p[i].y < 355 + p[i].s) {
+        p[i].vx *= -1;
+        p[i].x = 55 + p[i].s;
+    }
+    if(p[i].x > 345 - p[i].s && p[i].y < 355 + p[i].s) {
+        p[i].vx *= -1;
+        p[i].x = 345 - p[i].s;
+    }
+    if(p[i].y < 55 + p[i].s) {
+        p[i].vy *= -1;
+        p[i].y = 55 + p[i].s;
+    }
+    if(p[i].y > 345 - p[i].s && p[i].x > a.x - a.w - p[i].s && p[i].x < a.x + a.w + p[i].s && p[i].y < 360 + p[i].s) {
+        p[i].vy *= -1;
+        p[i].y = 345 - p[i].s;
+        score++;
+    }
+    
+    p[i].x += p[i].vx;
+    p[i].y += p[i].vy;
+    
+    noStroke();
+    fill(c2);
+    ellipse(p[i].x - 5, p[i].y + 5, p[i].s*2, p[i].s*2);
+    
+    if(p[i].y > 500) {
+        p = [];
+        frameCount = 0;
+        score = 0;
+    }
+};
+var newP = function() {
+    var a = random(110, 250), s = random(2, 3);
+    p.push({x: random(100, 300), y: random(100, 200), vx: sin(a)*s, vy: cos(a)*s, s: 10});
+};
+newP();
+frameCount = 10;
+draw = function() {
+    background(c1);
+    
+    stroke(130, 204, 193);
+    for(var i = 0; i < 500; i += 40) {
+        line(0, i, 400, i - 100);
+    }
+    
+    fill(c2);
+    textSize(70);
+    textAlign(3, 3);
+    text(score, 200, 200);
+    
+    stroke(c2);
+    noFill();
+    strokeCap(PROJECT);
+    strokeWeight(10);
+    beginShape();
+    vertex(45, 355);
+    vertex(45, 55);
+    vertex(345, 55);
+    vertex(345, 355);
+    endShape();
+    
+    a.x = constrain(a.x + (mouseX - a.x)/10, 60 + a.w, 339 - a.w);
+    line(a.x - a.w - 5, 355, a.x + a.w - 5, 355);
+    
+    noStroke();
+    for(var i = 0; i < p.length; i++) {
+        u(i);
+    }
+    for(var i = 0; i < p.length; i++) {
+        fill(240);
+        ellipse(p[i].x, p[i].y, p[i].s*2, p[i].s*2);
+    }
+    noFill();
+    stroke(240);
+    beginShape();
+    vertex(50, 350);
+    vertex(50, 50);
+    vertex(350, 50);
+    vertex(350, 350);
+    endShape();
+    
+    stroke(240);
+    line(a.x - a.w, 350, a.x + a.w, 350);
+    
+    if(frameCount % 600 === 0) {
+        newP();
+    }
+    
+}; //}
+
+    }};
+
+  // Get the canvas that ProcessingJS will use
+  var canvas = document.getElementById("Ping"); 
   // Pass the function to ProcessingJS constructor
   var processingInstance = new Processing(canvas, programCode); 
   </script>

@@ -607,7 +607,7 @@
             <a class="link" href="https://github.com/AspenBranch/Aspen.js"><br></a><p>Aspen.js is a no-html website builder. It's very simple, but used to make it easier to explain muiltipe pages. WIP.</p>
             <a class="link" href="https://codepen.io/Aspen-Branch/pen/oNJZNgZ">Tunnelz<br></a><p>A simple game where you move your mouse though tunnels. </p>
             <br>-->
-               <canvas id="mycanvas"></canvas>
+               <canvas id="Glow"></canvas>
   <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
   <script>
   var programCode = function(processingInstance) {
@@ -1053,7 +1053,675 @@ mouseClicked = function(){
     }};
 
   // Get the canvas that ProcessingJS will use
-  var canvas = document.getElementById("mycanvas"); 
+  var canvas = document.getElementById("Glow"); 
+  // Pass the function to ProcessingJS constructor
+  var processingInstance = new Processing(canvas, programCode); 
+  </script>
+            <canvas id="Invisable"></canvas> 
+            
+  <script>
+  var programCode = function(processingInstance) {
+    with (processingInstance) {
+      size(600, 600); 
+      frameRate(60);
+        
+      // Paste code from Khan Academy here:
+      noStroke();
+smooth();
+textSize(25);
+var keys = [];
+var nxt = true;
+var deaths = 0;
+var timer = 0;
+var level = 0;
+var blocks = [];
+var block_size = 20;
+var message = [
+    "Arrow keys",
+    "Finding your way in the dark is tough",
+    "It's like finding your way through life",
+    "Sometimes it's easy",
+    "Sometimes it's hard",
+    "Sometimes there are no guides",
+    "A lot of times...",
+    "Sometimes it can be like a giant staircase",
+    "That was fun",
+    "Life can be like a path with holes",
+    "Some are big ones",
+    "Some are more dangerous",
+    "And then there are the easy times",
+    "Life changes in a good way",
+    "Life can change suddenly",
+    "Sudden changes change your perspective",
+    "Life can also change for the worse",
+    "Things can get dark again...",
+    "And hard to see and understand",
+    "But no matter what...",
+    "Always go forward",
+    "And now for you: the Pro gamers; lol",
+    "HI?",
+    "Which one? ",
+    "Idk what to say",
+    "This is kinda fun",
+    "I can change the color!",
+    "Sunshine",
+    "Green Apple",
+    "Oooh whats this?",
+    "Let me know when you find the portal",
+    "Let me know when you beat this level",
+];
+var MAP = [
+    [
+        "",
+        "",
+        "",
+        "    ",
+        "@  a        p",
+        "r  r   r    r",
+        "",
+    ],
+    [
+        "bbbbbbbbbbbbbbbbbbbbbbb",
+        "b                     b",
+        "b      rrrr           b",
+        "b@   rrrrrrrr      p rb",
+        "brrrrrrrrrrrrrrrrrrrrrb",
+        "bbbbbbbbbbbbbbbbbbbbbbb",
+        
+    ],
+    [
+        "bbbbbbbbbbbbbb",    
+        "b         rr b",    
+        "b   rr  r    b",
+        "b@    rrp  r b",
+        "brrrrrrrrrrrrb", 
+        "bbbbbbbbbbbbbb",
+    ],
+    [
+        "bbbbbbbbbbbbb", 
+        "b           b",
+        "b           b",
+        "b           b",
+        "b  @      p b",
+        "bbbbbbbbbbbbb",
+    ],
+    [
+        "bbbbbbbbbbbbbbbbbbbb",
+        "b                  b",
+        "b                  b",
+        "br                 b",
+        "br    rr     r     b",
+        "brrr         r     b",
+        "br    @      r    pb",
+        "brrrrrrrrrrrrrrrrrrb",
+        "bbbbbbbbbbbbbbbbbbbb",
+    ],
+    
+    [
+        "          p",
+        "       rrrrr",
+        "rr",
+        "   rr",
+        "@r",
+        "rrrrrrrrrrrrrrr",
+    ],
+    [
+        "    r",
+        "    r",
+        " @  r",
+        " r     ",
+        " r      ",
+        " r  rrrr   ",
+        " r  r  r  r  ",
+        " r  r  r  r  r   p",
+        " r  r  r  r  r rrrr",
+    ],
+    [
+        "@",
+        "r",
+        "rr",
+        "rrr",
+        "rrrr",
+        "rrrrr",
+        "rrrrrr              p",
+        "rrrrrrr            rr",
+        "rrrrrrrr        rrrrr",
+        "rrrrrrrrr     rrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrr",
+    ],
+    [
+        "                p",
+        "          r   rrrrr",
+        "         rr",
+        "        rrr",
+        "       rrrr",
+        "      rrrrr",
+        "     rrrrrr",
+        "    rrrrrrr",
+        "   rrrrrrrr",
+        "  rrrrrrrrr",
+        "@rrrrrrrrrr",
+        "rrrrrrrrrrr",
+    
+    ], 
+    [
+        "",
+        "",
+        "",
+        "@                      p",
+        "rrr  rr  rr  rrrrrrrr rr",
+        "rrrrrrrrrrrrrrrrrrrrrrrr",
+        
+        ],
+        
+    [
+        "",
+        "",
+        "",
+        "@                      p",
+        "rrr      rr  rrrrrrrr rr",
+        "",
+        
+    ],
+    [
+        "",
+        "        ",
+        "         r",
+        "@        r             p",
+        "rrrrrrr  rrrrrrrrrrrrrrr",
+        "      r  r",
+        
+    ],
+    [
+        "@  p",
+        "r",
+    ],
+    [
+        "rrrrrrp",
+        "     rr",
+        "      ",
+        "@       ",
+        "r  rrr",
+        "rrrrrrrrr",
+    ],
+    [
+        "p", 
+        "r",
+        "",
+        "",
+        "      r",
+        "@ rr",
+        "r",
+        
+    ],
+    
+    [
+        "",
+        "",
+        "",
+        "",
+        "@             p",
+        "r r r r r r r r",
+    ],
+    [
+        "",
+        "",
+        "    rrr",
+        "         r",
+        "@        r    p",
+        "r   rr        r",
+    ],
+    [
+        "",
+        "",
+        "     ",
+        "          ",
+        "@             p",
+        "r   r         r",
+    ],
+    [
+        "",
+        "",
+        "     ",
+        "    r     ",
+        "@   r          ",
+        "rrrrr          ",
+        "r",
+        "r p",
+        "rrrrr",
+    ],
+    [
+        "@                r",
+        "r      rrrr      r",
+        "rrrrr        rrrr",
+        "    rrrr   rrrr",
+        "  p    r   r",
+        "rrrrrrrr",
+        
+        
+        
+        ],
+    [
+        "@        a", 
+        "r                                                                       p",
+        "rrlllllllllr  rrllllrr  rr   r        r    rrrrrrrrrr  r r r r r r r r rrr",
+        "rrrrrrrrrrrr   rrrrrr",
+    ],
+    
+    [
+        
+        " b    ",
+        "  b       brbrb",
+        "   b     rb   r",
+        "    b @   r p  ",
+        "      rrrrbrbrbrrrrrr",
+        "",
+        "",
+        "",
+        "",
+    ],
+    [
+        "    r",
+        "    r",
+        "    r",
+        "    r   p",
+        "@  bb  bb   bb",
+        "r  bb  bb r bb",
+        "   bbbbbb  ",
+        "   bbbbbb  rbb",
+        "   bb  bb   bb",
+        "   bb  bb r bb",
+        "      ",
+        "rrrrrrrrrrrr",
+        "   ",
+        "   ",
+    ],
+    [
+        "                          p",
+        "brbrbrbrbrbrbrbrbrb      rrr",
+        "r                 r",
+        "b                 b  rr       rrr",
+        "r        @        r         rrr",
+        "b     bbbbbbbb    b",
+        "r                 r   rrr",
+        "b                 b        ",
+        "brbrbrbrb brbrbrbrb     rrr",
+        "",
+        "       rrrrrrrrrrrrrrrr",
+    ],
+    [
+        "",
+        "                                   bbbbbb   bbbbbb   bbbbbb   bbbbb  bb  bb",
+        "                                   bbbbbb   bb  bb     bb     bb     bb bb",
+        "                                     bb     bb  bb     bb     bb     bbbb",
+        "                                     bb     bbbbb      bb     bb     bb bb",
+        "                                     bb     bb bbb   bbbbbb   bbbbb  bb  bb",        
+        "                                   ",
+        "                                   ",
+        "               a                     bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        " p          @                      ",
+        "bbb         r  bbb  bb    bbb    bb",
+        
+        
+        
+    ],
+    [
+        "      r",
+        "      r",
+        "@     r  p",
+        "bbbbbbbbbbb",
+        "            r",
+        "           r",
+        "rrrrrrrrrrr",
+    ],
+    
+    [
+        "     p",
+        "    bbbb",
+        "            ",
+        "@        ",
+        "b t   bbbbbb",
+        "",
+        "",
+    ],
+    [
+        "         b",
+        "         b       bbbbb ",
+        "         b       b",
+        "         b       b",
+        "         bbbbbbbbb  ",
+        "                     p",
+        "      b b b b b b b bb",
+        "@     b",
+        "bb t bb",
+        "",
+        "",
+    ],
+    [
+        "   b  p",
+        "   bbbb",
+        "@  b",
+        "b  t",
+        "",
+        "",
+    ],
+    [
+        "  p",
+        "b b b b b b b b b b b b",
+        " ",
+        " b b b b b b b b b b b ",
+        "@",
+        "b b b b b b b b b b b b ",
+    ],
+    [
+        " b   ",
+        "    b  b         b b",
+        "b            b b           ",
+        "  b  b  b  b          b b b b",
+        "              b    b     ",
+        "    b b  b       b   b b",
+        "b           b  b   b     b",
+        "  b b   b b            b     ",
+        "      b      b  b   b" ,
+        " b       b",
+        "   b         b   b     b ",
+        "@     b   r ",
+        "r   b      r    b b b",
+        "  r         r                     ",
+        "             r                   ",
+        "              r                       ",
+        "               r            p     ",
+        "                rrrrrrrrrrrrrrrrr",
+    ],
+    
+    [
+        "    bbbbb",
+        "    b   b",
+        "@   b p b",
+        "bbbbbbbbb",
+        "",
+        "",
+    ],
+    
+
+];
+function Collide(a, b) {
+    if ((a.x + a.w / 2 - 3) > b.x - a.w / 2 &&
+        (a.x) < (b.x + b.w - 3) &&
+        (a.y + a.h) > b.y &&
+        (a.y < b.y - 3)) {
+        a.yVel = 0;
+        a.jumping = true;
+        a.y = b.y - a.h;
+    }
+    if ((a.x + a.w / 2 - 3) > b.x - a.w / 2 &&
+        (a.x) < (b.x + b.w - 3) &&
+        (a.y + a.h) > b.y &&
+        (a.y < b.y + b.h)) {
+        a.yVel = 0;
+        a.y = b.y + b.h;
+
+    }
+    if ((a.x) > b.x - a.w / 2 &&
+        (a.x) < (b.x + b.w) &&
+        (a.y + a.h - 3) > b.y &&
+        (a.y < b.y + b.h)) {
+        a.xSpeed = 0;
+        a.x = b.x + b.w;
+
+    }
+    if ((a.x + a.w / 2) > b.x - a.w / 2 &&
+        (a.x) < (b.x) &&
+        (a.y + a.h) > b.y &&
+        (a.y < b.y + b.h)) {
+        a.xSpeed = 0;
+        a.x = b.x - a.w;
+    }
+}
+function touching(a, b) {return a.x + a.w > b.x && a.x < b.x + b.w && a.y + a.h > b.y && a.y < b.y + b.h;}
+var p = {
+    x: 200,
+    y: 200,
+    w: block_size - 2,
+    h: block_size - 2,
+    jumping: false,
+    yVel: 0,
+    health: 10,
+    xSpeed: 0,
+    onTramp: false,
+    draw: function() {
+        fill(100, 100, 255);
+        rect(this.x, this.y, this.w, this.h);
+    },
+    update: function() {
+        if (keys[LEFT] || keys[65]) {
+            this.xSpeed -= 0.5;
+        } else if (keys[RIGHT] || keys[68]) {
+            this.xSpeed += 0.5;
+        } else {
+            this.xSpeed /= 1.1;
+        }
+        if ((keys[UP] || keys[87]) && this.jumping) {
+            this.yVel -= this.onTramp ? 4 : 3;
+        }
+        if(this.onTramp === true){
+		  this.yVel -= 1;
+		}
+		this.onTramp = false;
+        this.yVel += 0.08;
+        this.x += this.xSpeed;
+        this.y += this.yVel;
+        this.jumping = false;
+        this.xSpeed = constrain(this.xSpeed, -2, 2);
+    },
+};
+var block = (function() {
+    block = function(x, y, w, h, type) {
+        this.x = x;
+        this.y = y;
+        this.w = block_size;
+        this.h = block_size;
+        this.type = type;
+    };
+    block.prototype.draw = function() {
+        switch (this.type) {
+            case "normal": {
+                pushStyle();
+                    strokeWeight(3);
+                    stroke(0, 0, 0);
+                    fill(0, 0, 0);
+                    if(touching(p, this)){
+                        stroke(100, 100, 255);
+                    }
+                    rect(this.x, this.y, this.w, this.h);
+                    popStyle();
+                Collide(p, this);
+                break;
+            }
+            case "portal": {
+                pushStyle();
+                    strokeWeight(3);
+                    stroke(100, 100, 255);
+                    fill(255);
+                    rect(this.x, this.y, this.w, this.h);
+                    if (touching(p, this)) {
+                        nxt = true;
+                    }
+                popStyle();
+                break;
+            }
+            case "lava": {
+                pushStyle();
+                    stroke(99, 159, 255);
+                    fill(99, 159, 255);
+                    rect(this.x, this.y, this.w, this.h);
+                    if (touching(p, this)) {
+                        p.health -= 0.5;
+                    }
+                popStyle();
+                break;
+            }
+            case "border": {
+                pushStyle();
+                    strokeWeight(3);
+                    stroke(100, 100, 255);
+                    fill(0, 0, 0);
+                    rect(this.x, this.y, this.w, this.h);
+                    Collide(p, this);
+                popStyle();
+                break;
+            }
+            case "arrows": {
+                pushStyle();
+                    textSize(50);
+                    stroke(100, 100, 255);
+                    fill(114 + sin(frameCount * 10) * 30, 112  + sin(frameCount * 10) * 30, 255);
+                    text(">", this.x, this.y);
+                    fill(114 + sin(frameCount * -10) * 30, 112  + sin(frameCount * -10) * 30, 255);
+                    text(">", this.x + 15, this.y);
+                    fill(114 + sin(frameCount * 10) * 30, 112  + sin(frameCount * 10) * 30, 255);
+                    text(">", this.x + 32, this.y);
+                popStyle();
+                break;
+            }
+            case "tramp": {
+                pushStyle();
+                    strokeWeight(3);
+                    stroke(69, 69, 255);
+                    fill(100, 100, 255);
+                    rect(this.x, this.y, this.w, this.h);
+                popStyle();
+                if(touching(p, this)){
+                    p.onTramp = true;
+                }
+                Collide(p, this);
+                break;
+            }
+        }
+    };
+    return block;
+})();
+function mapSetup(lvl) {
+    blocks = [];
+    for (var i = 0; i < MAP[lvl].length; i++) {
+        for (var j = 0; j < MAP[lvl][i].length; j++) {
+            switch (MAP[lvl][i][j]) {
+                case "r":
+                    blocks.push(new block(j * block_size, i * block_size, block_size, block_size, "normal"));
+                    break;
+                case "l":
+                    blocks.push(new block(j * block_size, i * block_size, block_size, block_size, "lava"));
+                    break;
+                case "p":
+                    blocks.push(new block(j * block_size, i * block_size, block_size, block_size, "portal"));
+                    break;
+                case "b":
+                    blocks.push(new block(j * block_size, i * block_size, block_size, block_size, "border"));
+                    break;
+                case "a":
+                    blocks.push(new block(j * block_size, i * block_size, block_size, block_size, "arrows"));
+                    break;
+                case "t":
+                    blocks.push(new block(j * block_size, i * block_size, block_size, block_size, "tramp"));
+                    break;
+                case "@":
+                    p.x = j * block_size;
+                    p.y = i * block_size;
+                    break;
+            }
+            if (p.health <= 0 && MAP[lvl][i][j] === "@") {
+                p.x = j * block_size;
+                p.y = i * block_size;
+                deaths += 1;
+                p.health = 10;
+                
+            }
+        }
+    }
+}
+var cam = {x: 200, y: 200};
+draw = function() {
+    background(0, 0, 0);
+    if(level === 1){background(255, 255, 255);}
+    if(level === 13){background(23, 25, 138);}
+    if(level === 14){background(23, 25, 138);}
+    if(level === 15){background(23, 25, 138);}
+    if(level === 16){background(255, 255, 255);}
+    if(level === 17){background(194, 110, 194);}
+    if(level === 21){background(255, 224, 255);}
+    if(level === 27){background(255, 168, 255);}
+    if(level === 28){background(255, 236, 168);}
+    if(level === 29){background(169, 255, 168);}
+    if(frameCount % 30 === 0) {
+        if(level === 30){background(255, 255, 255);}
+    }
+    try {
+        fill(87, 87, 87);
+        textAlign(CENTER,CENTER);
+        text(message[level - 1], 300, 546);
+        pushMatrix();
+            textAlign(LEFT);
+            text("deaths: " + deaths, 10, 25);
+            text("fps: " + Math.round(this.__frameRate), 10, 50);
+            text("timer: " + Math.floor(timer/100), 10, 75);
+        popMatrix();
+        cam.x += (p.x - cam.x) / 15 || 0;
+        cam.y += (p.y - cam.y) / 15 || 0;
+        pushMatrix();
+            scale(1.5);
+            translate(-cam.x + 125, -cam.y + 125);
+            if (p.health <= 0) {mapSetup(level - 1);}
+            if (nxt) {
+                mapSetup(level);
+                level++;
+                p.health = 10;
+                nxt = false;
+            }
+            for (var i = 0; i < blocks.length; i++) { blocks[i].draw();}
+            if(p.y > 1200){
+                p.health = 0;
+            }
+            p.update();
+            p.draw();
+        popMatrix();
+        timer++;
+    }
+    catch (e) {/*println(e.stack);*/}
+    if(keys[84]){
+        background(0);
+        pushStyle();
+            strokeWeight(11);
+            stroke(100, 100, 255);
+            fill(0);
+            rect(165,281,100,100);
+            rect(396,79,100,100);
+            rect(396,282,100,100);
+            fill(100, 100, 255);
+            rect(214, 190, 80, 80);
+            noStroke();
+            fill(0);
+            rect(385, 94, 18, 24);
+            rect(385, 137, 18, 24);
+            rect(415, 167, 18, 24);
+            rect(449, 167, 18, 24);
+            rect(487, 140, 18, 24);
+            rect(487, 96, 18, 24);
+            rect(463, 69, 18, 24);
+            rect(415, 69, 18, 24);
+        popStyle();
+    }
+};
+keyPressed = function() {
+    keys[keyCode] = true;
+};
+keyReleased = function() {
+    keys[keyCode] = false;
+};
+
+    }};
+
+  // Get the canvas that ProcessingJS will use
+  var canvas = document.getElementById("Invisable"); 
   // Pass the function to ProcessingJS constructor
   var processingInstance = new Processing(canvas, programCode); 
   </script>

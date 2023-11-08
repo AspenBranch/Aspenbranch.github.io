@@ -662,38 +662,9 @@
       }
       
       
-      /* | Projects API | */
-      const container = document.getElementById("projects-container"),
-        KAE = "https://www.khanacademy.org";
-      /* returns the date in MM/DD/YYYY */
-      Date.prototype.today = function() {
-        const d = this.getDate(),
-          a = this.getMonth() + 1,
-          b = this.getFullYear();
-        return `${10>a?"0":""}${a}/${10>d?"0":""}${d}/${b}`
-      };
-      
 
       
       
-      /* | Subscribe Comments API | */
-      const _script = document.createElement("script");
-      _script.src = "https://www.khanacademy.org/api/internal/discussions/ag5zfmtoYW4tYWNhZGVteXJACxIIVXNlckRhdGEiHWthaWRfNzE0Mjc2MjQyMjA0OTQ5MDIxNDUwNDE5DAsSCEZlZWRiYWNrGICAo5G4tpEKDA/replies?callback=readComments";
-      document.head.appendChild(_script);
-      /* process comment data */
-      const comments = document.getElementById("comments");
-      window.readComments = data => {
-        comments.innerHTML = "";
-        if(typeof data === "object" && Array.isArray(data)) {
-          data.forEach(comment => {
-            if(comment.authorKaid === "kaid_714276242204949021450419") {
-              comments.innerHTML += `<div class="comment" style='order:${-(new Date(comment.date).getTime() / 1000)}'><div class="author-avatar-group"><div class="author-avatar-container"><img class="author-avatar" src="${comment.authorAvatarSrc}"></div><h4 class="comment-author">${comment.authorNickname}</h4><time class='date-posted'>${new Date(comment.date).today()}</time></div><pre class="comment-content">${parseContent(comment.content)}</pre></div>`;
-            }
-          });
-        } else {
-          comments.innerHTML = "No comments... yet."
-        }
-      };
       /* comment parsing */
       const underscores = /_([^_]*)_/g,
         asterisks =  /\*(.*?)\*/g,

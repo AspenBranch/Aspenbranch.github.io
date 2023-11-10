@@ -1841,6 +1841,318 @@ draw = function() {
   // Pass the function to ProcessingJS constructor
   var processingInstance = new Processing(canvas, programCode); 
   </script>
+            <canvas id="Bounce"></canvas>
+            <script>
+  var programCode = function(processingInstance) {
+    with (processingInstance) {
+      size(400, 400); 
+      frameRate(60);
+        
+      // Paste code from Khan Academy here:
+/*
+Credit to:
+https://www.khanacademy.org/computer-programming/collision-tutorial/5404853079457792.
+*/
+
+
+var boxX = 0;
+var boxY = 0;
+var ySpeed = 0;
+var xSpeed = 0;
+var gravity = 0.3;
+var jumpHeight = 10;
+var canJump = false;
+var keys = {};
+var levels = [
+    /*
+        b = block
+        g = player
+        p = portal
+        i = invisible block
+        l = lava
+        t = tramp
+    */
+    [
+        'bbbbbbbbbb',
+        'bg       b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b       pb',
+        'bbbbbbbbbb',
+    ], // Level 1
+    [
+        'bbbbbbbbbb',
+        'b p      b',
+        'b        b',
+        'b        b',
+        'b   b    b',
+        'b        b',
+        'b        b',
+        'b   b    b',
+        'bg       b',
+        'bbbbbbbbbb',
+    ], // Level 2
+    [
+        'bbbbbbbbbb',
+        'bg      bb',
+        'b llllllbb',
+        'b       bb',
+        'b       bb',
+        'b       bb',
+        'b       bb',
+        'b       bb',
+        'b  lll  pb',
+        'bbbbbbbbbb',
+    ], // Level 3
+    [
+        'bbbbbbbbbb',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b  g     b',
+        'b      bbb',
+        'b  ll   pb',
+        'bbbbbbbbbb',
+    ], // Level 4
+    [
+        'bbbbbbbbbb',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b  i     b',
+        'b  ii    b',
+        'b  ii   ib',
+        'bg ii   pb',
+        'bbbbbbbbbb',
+    ], // Level 5
+    [
+        'llllllllll',
+        'l        l',
+        'l   g    l',
+        'l        l',
+        'l        l',
+        'l        l',
+        'l        l',
+        'l     p  l',
+        'l        l',
+        'llllllllll',
+    ], // Level 6
+    [
+        'bbbbbbbbbb',
+        'bg    p  b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'bt  t  ttb',
+        'bbbbbbbbbb',
+    ], // Level 7
+    [
+        'bbbbbbbbbb',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'b        b',
+        'bg       b',
+        'bbbbbbbbbb',
+    ], // Level 8
+];
+var levelTexts = [
+    '      Easy enough  ',
+    '         Up, up, up',
+    'Ouch! Don\'t touch!',
+    "         Hmm...    ",
+    "         Wait what?",
+    "      Waaaaaat xD  ",
+    "        Tramps!    ",
+    "  Thats all I have for\n  now :)"
+];
+var currentLevel = 0;
+var newLoadLevel = true;
+var blocks = [];
+var tramping = false;
+var nextLevel = function() {
+    if (currentLevel === levels.length - 1) {
+        return;
+    }
+    currentLevel++;
+    newLoadLevel = true;
+};
+var restartLevel = function() {
+    newLoadLevel = true;
+};
+
+ellipseMode(CORNER);
+
+// block {
+var Block = function(x, y, t) {
+    this.x = x;
+    this.y = y;
+    this.t = t;
+};
+
+Block.prototype.draw = function() {
+    if (this.t === 'b') {
+        fill(0, 0, 0);
+    } else if (this.t === 'p') {
+        fill(162, 0, 255);
+    } else if (this.t === 'l') {
+        fill(255, 0, 0);
+    } else if (this.t === 'i') {
+        fill(255, 255, 255, 255);
+    } else if (this.t === 't') {
+        fill(56, 56, 56);
+    }
+    (this.t === 'p' ? ellipse : rect)(this.x, this.y, 40, 40);
+};
+// }
+
+// drawLevel {
+var drawLevel = function(l) {
+    for (var i = 0; i < l.length; i++) {
+        for (var j = 0; j < l[i].length; j++) {
+            if (newLoadLevel) {
+                if (l[i][j] === 'g') {
+                    boxX = j * 40;
+                    boxY = i * 40;
+                } else if (l[i][j] === 'b') {
+                    blocks.push(new Block(j * 40, i * 40, 'b'));
+                } else if (l[i][j] === 'l') {
+                    blocks.push(new Block(j * 40, i * 40, 'l'));
+                } else if (l[i][j] === 'p') {
+                    blocks.push(new Block(j * 40, i * 40, 'p'));
+                } else if (l[i][j] === 'i') {
+                    blocks.push(new Block(j * 40, i * 40, 'i'));
+                } else if (l[i][j] === 't') {
+                    blocks.push(new Block(j * 40, i * 40, 't'));
+                }
+            }
+        }
+    }
+};
+// }
+
+// collide {
+var isCollide = function(a, b) {
+    return a.y + 40 > b.y && a.y < b.y + 40 && a.x + 40 > b.x && a.x < b.x + 40;
+};
+var collide = function(a, b, xs, ys) {
+    if (isCollide(a, b)) {
+        if (b.t === 'p') { // a portal
+            nextLevel();
+            return;
+        }
+        if (b.t === 'l') { // lava
+            restartLevel();
+            return;
+        }
+        if (ys > 0) {
+            boxY = b.y - 40;
+            ySpeed = 0;
+            canJump = true;
+        }
+        if (b.t === 't' && ys > 0 && canJump) {
+            tramping = true;
+        } else {
+            tramping = false;
+        }
+        if (ys < 0) {
+            boxY = b.y + 40;
+            ySpeed = 0;
+        }
+        if (xs > 0) {
+            boxX = b.x - 40;
+            xSpeed = 0;
+        }
+        if (xs < 0) {
+            boxX = b.x + 40;
+            xSpeed = 0;
+        }
+    }
+};
+// }
+
+// draw {
+draw = function() {
+    background(255, 255, 255);
+    noStroke();
+    if (newLoadLevel) {
+        blocks = [];
+    }
+    drawLevel(levels[currentLevel]);
+    blocks.forEach(function(x) {
+        x.draw();
+    });
+    fill(0, 196, 255);
+    rect(boxX, boxY, 40, 40);
+    ySpeed += gravity;
+    if (tramping && canJump) {
+        ySpeed = -11;
+    } else if (keys[UP] && canJump) {
+        ySpeed = -jumpHeight;
+    }
+    canJump = false;
+    
+    if (keys[LEFT]) {
+        xSpeed = -5;
+    } else if (keys[RIGHT]) {
+        xSpeed = 5;
+    } else {
+        xSpeed = 0;
+    }
+    textSize(32);
+    fill(0, 0, 0);
+    text(levelTexts[currentLevel], 50, 74);
+    newLoadLevel = false;
+    boxX += xSpeed;
+    blocks.forEach(function(x) {
+        collide(new PVector(boxX, boxY), x, xSpeed, 0);
+        if (newLoadLevel) {
+            return;
+        }
+    });
+    if (newLoadLevel) {
+        return;
+    }
+    boxY += ySpeed;
+    blocks.forEach(function(x) {
+        collide(new PVector(boxX, boxY), x, 0, ySpeed);
+    });
+    
+};
+// }
+
+// keys {
+keyPressed = function() {
+    if (keyCode === 82) {
+        restartLevel();
+    }
+    keys[keyCode] = true;
+};
+
+keyReleased = function() {
+    keys[keyCode] = false;
+};
+// }
+    }};
+
+  // Get the canvas that ProcessingJS will use
+  var canvas = document.getElementById("Bounce"); 
+  // Pass the function to ProcessingJS constructor
+  var processingInstance = new Processing(canvas, programCode); 
+  </script>
           </div>
         </div>
       </div>

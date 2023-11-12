@@ -1,4 +1,4 @@
-<!doctype html><!--Welcome to the code Hello -->
+<!doctype html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -1108,8 +1108,7 @@ var message = [
     "Green Apple",
     "Oooh whats this?",
     "Let me know when you find the portal",
-    "Just a few more",
-    "You win!",
+    "Let me know when you beat this level",
 ];
 var MAP = [
     [
@@ -1238,17 +1237,12 @@ var MAP = [
         "r",
     ],
     [
-        "rrrrrrp         i",
-        "     rr        i",
-        "              i",
-        "@            i",
+        "rrrrrrp",
+        "     rr",
+        "      ",
+        "@       ",
         "r  rrr",
-        "rrrrrrrrr iiiiii",
-        "                  ",
-	"                  ",
-	"                  ",
-        "                  ",
-	"                 p",
+        "rrrrrrrrr",
     ],
     [
         "p", 
@@ -1394,7 +1388,7 @@ var MAP = [
         "         b",
         "         b       bbbbb ",
         "         b       b",
-        "         btttttttb",
+        "         b       b",
         "         bbbbbbbbb  ",
         "                     p",
         "      b b b b b b b bb",
@@ -1441,32 +1435,13 @@ var MAP = [
     ],
     
     [
-        "                     bbbbbbbbbbbbbbbbbbb",
-        "                     b                 b",
-        "                 @   b p               b",
-        "                 bbbbbbbbbbbbbbbbbbbbb b",
-        "       i       i    ",
-        "                       ",
-	"      i         iiiiiiiiiiiiiiiiiiiiiit        ",
-        
+        "    bbbbb",
+        "    b   b",
+        "@   b p b",
+        "bbbbbbbbb",
+        "",
+        "",
     ],
-
-    [
-	    "    b   b	bbbbb   b     b        b	      b  bbbbb	b   b				",
-	    "	  b b  b     b	b     b		b     b	     b	   b  	bb  b	",
-	    "	   b   b     b	b     b		 b   b	b   b	   b	b b b	",
-	    "	   b   b     b	b     b		  b b	 b b       b    b  bb      ",
-	    "	   b	bbbbb	 bbbbb		   b	  b	 bbbbb  b   b 	",
-	    "									",
-	    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb									",
-
-
-
-
-
-
-    ],
-	    
     
 
 ];
@@ -2175,6 +2150,194 @@ keyReleased = function() {
 
   // Get the canvas that ProcessingJS will use
   var canvas = document.getElementById("Bounce"); 
+  // Pass the function to ProcessingJS constructor
+  var processingInstance = new Processing(canvas, programCode); 
+  </script>
+            <canvas id="2048"></canvas> 
+              <script>
+  var programCode = function(processingInstance) {
+    with (processingInstance) {
+      size(400, 400); 
+      // {
+
+// Who can get 65536?
+
+var grid = [];
+textFont(createFont('arial black',20));
+textAlign(CENTER, CENTER);
+
+var shadeCell = function(cel){
+// does color transitions
+    var klrs = [ 0xFFFFFFF0, 0xFFFFD060,
+                 0xFFFF4060, 0xFF8090FF,
+                 0xFF40C0FF, 0xFF80CC60];
+
+    var idx = floor(cel /4);
+    var pct = cel % 4;
+    return lerpColor(klrs[idx], klrs[idx+1], pct/4);
+};
+
+var pickRandom = function(){
+// locates random open cell
+    var pick = [];
+    // find open cells
+    for (var y=5; y--;){
+    for (var x=5; x--;){
+        if (grid[y][x] === 0){pick.push([x,y]);}
+    }}
+    // pick one
+    if (pick.length>0){
+        var cel = pick[floor(random(pick.length))];
+        grid[cel[1]][cel[0]] = 1;
+        return true;
+    }
+};
+
+var resetGrid = function(){
+    for (var i=5; i--;){
+        grid[i] = [0,0,0,0,0];
+    }
+    pickRandom();
+};
+
+var updateGrid = function(v){
+// draws the grid
+    background(202);
+    // border
+    strokeWeight(4);
+    stroke(124);
+    rect(16, 16, 369, 369);
+    // cells
+    strokeWeight(2);
+    for (var y=5; y--;){
+    for (var x=5; x--;){
+        v = grid[y][x];
+        if (v===0){
+            fill(202);
+            rect(18+x*73, 18+y*73, 73, 73);
+        }else{
+            fill(shadeCell(v));
+            rect(18+x*73, 18+y*73, 73, 73);
+            fill(0);
+            // scale text to fit cell
+            pushMatrix();
+            translate(54+x*73, 56+y*73);
+            scale((v<10)?1.5:(v<17)?1:(v<20)?0.8:0.7);
+            text(pow(2, v), 0, 0);
+            popMatrix();
+        }
+    }}
+};
+
+var crunchRow = function(dir, row){
+// condenses single row either left or right
+    var repeat = 0;  // (moved)
+    if (dir){ // right
+        for (var i=4; i>0; i--){
+            if (row[i]===0){
+                repeat += row[i-1]>0;
+                row[i] = row[i-1];
+                row[i-1] = 0;
+            }else if (row[i] === row[i-1]){
+                row[i]++;
+                row[i-1] = 0;
+            }    
+        }
+    }else{      // left
+        for (var i=0; i<4; i++){
+            if (row[i]===0){
+                repeat += row[i+1]>0;
+                row[i] = row[i+1];
+                row[i+1] = 0;
+            }else if (row[i] === row[i+1]){
+                row[i]++;
+                row[i+1] = 0;
+            }    
+        }
+    }
+    if (repeat>0){    // (moved)
+        crunchRow(dir, row);
+    }
+};
+
+var canMove = function(){
+// compares adjacent cells
+    for (var y=5; y--;){
+    for (var x=5; x--;){
+        if (x<4 && grid[y][x] === grid[y][x+1]){
+            return true;
+        }
+        if (y<4 && grid[y][x] === grid[y+1][x]){
+            return true;
+        }
+    }}
+};
+
+var gameOver = function(){
+    fill(0, 180);
+    noStroke();
+    rect(0, 310, 400, 20);
+    fill(255);
+    text("PRESS SPACE BAR TO PLAY AGAIN", 200, 320);
+    textSize(80);
+    fill(0);
+    text("GAME\nOVER", 202, 172);
+    fill(255);
+    text("GAME\nOVER", 200, 170);
+    keyPressed = function(){
+        if (keyCode === 32){
+            Program.restart();
+        }
+    };
+};
+
+keyPressed = function(){
+// handle user input
+var valid = false;
+    switch (keyCode){
+        case LEFT:
+        case RIGHT:
+            valid = true;
+            // rows
+            for (var i=5; i--;){
+                crunchRow(keyCode===RIGHT, grid[i]);
+            }
+            break;
+        case UP:
+        case DOWN:
+            valid = true;
+            // columns
+            var tmp = [0,0,0,0,0];
+            for (var i=5; i--;){
+                // read
+                for (var j=5; j--;){
+                    tmp[j] = grid[j][i];
+                }
+                crunchRow(keyCode===DOWN, tmp);
+                // save
+                for (var j=5; j--;){
+                    grid[j][i] = tmp[j];
+                }
+            }
+            
+    }
+    if (valid){
+        if (pickRandom() || canMove()){
+            updateGrid();
+        }else{
+            gameOver();
+        }
+    }
+};
+
+// program startup
+resetGrid();
+updateGrid();
+
+    }};
+
+  // Get the canvas that ProcessingJS will use
+  var canvas = document.getElementById("2048"); 
   // Pass the function to ProcessingJS constructor
   var processingInstance = new Processing(canvas, programCode); 
   </script>

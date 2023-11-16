@@ -1731,6 +1731,3723 @@ keyReleased = function() {
   // Pass the function to ProcessingJS constructor
   var processingInstance = new Processing(canvas, programCode); 
   </script>
+
+		  <canvas id = "canvas" width = "600px" height = "600px"></canvas>
+		  <script type = "application/javascript">
+            /** Setup Canvas **/
+            // get canvas in a variable, then get context {
+                var canvas = document.getElementById("canvas");
+                var ctx = canvas.getContext("2d");
+            // }
+            // body {
+                var body = window.document.getElementById("body");
+            // }
+            // key events {
+                var input = [];
+                var keyIsPressed = false;
+                var keyCode;
+            // }
+            // mouse stuff {
+                var mouseX;
+                var mouseY;
+                var mouseIsPressed = false;
+                var pmouseX;
+                var pmouseY;
+                var mouseArr = [];
+            // }
+            // framerate {
+                var fps = 60;
+                var frameCount = 0;
+            // }
+            // positioning {
+                var rectmode = "corners";
+                var ellipsemode = "center";
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+            // }
+            // no need for strings {
+                var SQUARE = "SQUARE";
+                var ROUND = "ROUND";
+                var PROJECT = "PROJECT";
+                var MITER = "MITER";
+                var ROUND = "ROUND";
+                var RIGHT = "RIGHT";
+                var CENTER = "CENTER";
+                var LEFT = "LEFT";
+                var CORNERS = "CORNERS";
+                var TOP = "TOP";
+                var BOTTOM = "BOTTOM";
+                var BLUR = "BLUR";
+                var CONTRAST = "CONTRAST";
+                var BRIGHTNESS = "BRIGHTNESS";
+                var GRAYSCALE = "GRAYSCALE";
+                var HUE = "HUE";
+                var INVERT = "INVERT";
+                var OPACITY = "OPACITY";
+                var SATURATED = "SATURATED";
+                var SEPIA = "SEPIA";
+            // }
+            
+            /** Setup Functions **/
+            // to make life easier {
+                // radians
+                function radians(degrees) {
+                    return degrees * Math.PI / 180;
+                }
+            // }
+            // modify shape commands {
+                // color
+                function color(r, g, b, a) {
+                    if (a === undefined) {
+                        a = 255;
+                    }
+                    return String(r) + ", " + String(g) + ", " + String(b) + ", " + String(a / 255);
+                }
+                
+                // fill
+                function fill(r, g, b, a) {
+                    if (arguments.length === 1) {
+                        ctx.fillStyle = "rgba(" + r + ")";
+                    } else if (arguments.length > 1) {
+                        if (a === undefined) {
+                            a = 255;
+                        }
+                        ctx.fillStyle = "rgba(" + String(r) + ", " + String(g) + ", " + String(b) + ", " + String(a / 255) + ")";
+                    }
+                }
+                
+                // stroke
+                function stroke(r, g, b, a) {
+                    if (arguments.length === 1) {
+                        ctx.strokeStyle = "rgba(" + r + ")";
+                    } else if (arguments.length > 1) {
+                        if (a === undefined) {
+                            a = 255;
+                        }
+                        ctx.strokeStyle = "rgba(" + String(r) + ", " + String(g) + ", " + String(b) + ", " + String(a / 255) + ")";
+                    }
+                }
+                
+                // no fill
+                function noFill() {
+                    fill(0, 0, 0, 0);
+                }
+                
+                // no stroke
+                function noStroke() {
+                    stroke(0, 0, 0, 0);
+                }
+                
+                // stroke weight
+                function strokeWeight(amt) {
+                    ctx.lineWidth = amt.toString();
+                }
+                
+                // stroke cap
+                function strokeCap(mode) {
+                    switch (mode) {
+                        case "SQUARE":
+                            ctx.lineCap = "butt";
+                        break;
+                        case "ROUND":
+                            ctx.lineCap = "round";
+                        break;
+                        case "PROJECT":
+                            ctx.lineCap = "square";
+                        break;
+                    }
+                }
+                
+                // stroke join
+                function strokeJoin(mode) {
+                    switch (mode) {
+                        case "MITER":
+                            ctx.lineJoin = "miter";
+                        break;
+                        case "BEVEL":
+                            ctx.lineJoin = "bevel";
+                        break;
+                        case "ROUND":
+                            ctx.lineJoin = "round";
+                        break;
+                    }
+                }
+                
+                // text font
+                function textFont(font, size, mode) {
+                    if (font === undefined) {
+                        font = "arial";
+                    }
+                    if (arguments.length === 1) {
+                        ctx.font = String(size) + "px";
+                    } else if (arguments.length === 2) {
+                        ctx.font = String(size) + "px " + font;
+                    } else if (arguments.length === 3) {
+                        ctx.font = mode + " " + String(size) + "px " + font;
+                    }
+                }
+                
+                // text align
+                function textAlign(alignX, alignY) {
+                    switch (alignX) {
+                        case "RIGHT":
+                            ctx.textAlign = "right";
+                        break;
+                        case "CENTER":
+                            ctx.textAlign = "center";
+                        break;
+                        case "LEFT":
+                            ctx.textAlign = "left";
+                        break;
+                    }
+                    switch (alignY) {
+                        case "TOP":
+                            ctx.textBaseline = "top";
+                        break;
+                        case "BOTTOM":
+                            ctx.textBaseline = "bottom";
+                        break;
+                        case "CENTER":
+                            ctx.textBaseline = "middle";
+                        break;
+                        case undefined:
+                            ctx.textBaseline = "alphabetic";
+                        break;
+                    }
+                }
+                
+                // rectMode
+                function rectMode(mode) {
+                    switch (mode) {
+                        case "CENTER":
+                            rectmode = "center";
+                        break;
+                        case "CORNERS":
+                            rectmode = "corners";
+                        break;
+                    }
+                }
+                
+                // ellipseMode
+                function ellipseMode(mode) {
+                    switch (mode) {
+                        case "CENTER":
+                            ellipsemode = "center";
+                        break;
+                        case "CORNERS":
+                            ellipsemode = "corners";
+                        break;
+                    }
+                }
+                
+                // frameRate
+                function frameRate(frames) {
+                    fps = frames;
+                }
+                
+                // cursor
+                function cursor(type) {
+                    canvas.style.cursor = type;
+                }
+                
+                // lerp
+                function lerp(num1, num2, amt) {
+                    return (num2 - num1) * amt + num1;
+                }
+                
+                // lerp color
+                function lerpColor(col1, col2, amt) {
+                    return color(lerp(arguments[0], arguments[3], amt), lerp(arguments[1], arguments[4], amt), lerp(arguments[2], arguments[5], amt));
+                }
+                
+                // filter
+                function filter(mode, amt) {
+                    switch (mode) {
+                        case "BLUR":
+                            ctx.filter("blur(" + amt.toString() + "px)");
+                        break;
+                        case "BRIGHTNESS":
+                            ctx.filter("brightness(" + (20 * amt).toString() + ")");
+                        break;
+                        case "CONTRAST":
+                            ctx.filter("contrast(" + (20 * amt).toString() + ")");
+                        break;
+                        case "GRAYSCALE":
+                            ctx.filter("grayscale(" + (20 * amt).toString() + ")");
+                        break;
+                        case "HUE":
+                            ctx.filter("hue-rotate(" + (20 * amt).toString() + ")");
+                        break;
+                        case "INVERT":
+                            ctx.filter("invert(" + (20 * amt).toString() + ")");
+                        break;
+                        case "SATURATE":
+                            ctx.filter("saturate(" + (20 * amt).toString() + ")");
+                        break;
+                        case "SEPIA":
+                            ctx.filter("sepia(" + (20 * amt).toString() + ")");
+                        break;
+                        case "OPACITY":
+                            ctx.filter("opacity(" + (20 * amt).toString() + ")");
+                        break;
+                    }
+                }
+            // }
+            // shapes {
+                // rect
+                function rect(x, y, width, height) {
+                    switch (rectmode) {
+                        case "corners":
+                            ctx.fillRect(x, y, width, height);
+                            ctx.strokeRect(x, y, width, height);
+                        break;
+                        case "center":
+                            ctx.fillRect(x - width / 2, y - height / 2, width, height);
+                            ctx.strokeRect(x - width / 2, y - height / 2, width, height);
+                        break;
+                    }
+                    
+                }
+                
+                // begin shape
+                function beginShape() {
+                    ctx.beginPath();
+                }
+                
+                // end shape
+                function endShape() {
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.closePath();
+                }
+                
+                // first vertex in a shape
+                function vertexBegin(x, y) {
+                    ctx.moveTo(x, y);
+                }
+                
+                // vertex
+                function vertex(x, y) {
+                    ctx.lineTo(x, y);
+                }
+                
+                // bezier vertex
+                function bezierVertex(cx1, cy1, cx2, cy2, x, y) {
+                    ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x, y);
+                }
+                
+                // curve vertex
+                function curveVertex(cx, cy, x, y) {
+                    ctx.quadraticCurveTo(cx, cy, x, y);
+                }
+                
+                // line
+                function line(x1, y1, x2, y2) {
+                    beginShape();
+                        vertexBegin(x1, y1);
+                        vertex(x2, y2);
+                    endShape();
+                }
+                
+                // text
+                function text(message, x, y) {
+                    ctx.fillText(message, x, y);
+                    ctx.strokeText(message, x, y);
+                }
+                
+                // ellipse
+                function ellipse(x, y, width, height) {
+                    switch (ellipsemode) {
+                        case "corners":
+                            beginShape();
+                            ctx.ellipse(x + width / 4, y + height / 4, width / 2, height / 2, 0, radians(0), radians(360));
+                            endShape();
+                        break;
+                        case "center":
+                            beginShape();
+                            ctx.ellipse(x, y, width / 2, height / 2, 0, radians(0), radians(360));
+                            endShape();
+                        break;
+                    }
+                }
+                
+                // arc
+                function arc(x, y, width, height, start, stop) {
+                    beginShape();
+                        noFill();
+                        ctx.ellipse(x, y, width, height, 0, radians(start), radians(stop));
+                    endShape();
+                }
+                
+                // bezier
+                function bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
+                    beginShape();
+                        vertexBegin(x1, y1);
+                        ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2);
+                    endShape();
+                }
+                
+                // triangle
+                function triangle(x1, y1, x2, y2, x3, y3) {
+                    beginShape();
+                        vertexBegin(x1, y1);
+                        vertex(x2, y2);
+                        vertex(x3, y3);
+                        vertex(x1, y1);
+                    endShape();
+                }
+                
+                // quad
+                function quad(x1, y1, x2, y2, x3, y3, x4, y4) {
+                    beginShape();
+                        vertexBegin(x1, y1);
+                        vertex(x2, y2);
+                        vertex(x3, y3);
+                        vertex(x4, y4);
+                        vertex(x1, y1);
+                    endShape();
+                }
+            // }
+            // background {
+                // background
+                function background(r, g, b, a) {
+                    noStroke();
+                    if (arguments.length === 1) {
+                        fill(r);
+                    } else if (arguments.length > 1) {
+                        if (a === undefined) {
+                            a = 255;
+                        }
+                        fill(r, g, b, a);
+                    }
+                    switch (rectmode) {
+                        case "center":
+                            rect(width / 2, height / 2, 800, 800);
+                        break;
+                        case "corners":
+                            rect(-100, -100, width + 200, height + 200);
+                        break;
+                    }
+                }
+            // }
+            // angle {
+                // sin
+                function sin(angle) {
+                    return Math.sin(Math.PI / 180 * angle);
+                }
+                
+                // cos
+                function cos(angle) {
+                    return Math.cos(Math.PI / 180 * angle);
+                }
+                
+                // tan
+                function tan(angle) {
+                    return Math.tan(Math.PI / 180 * angle);
+                }
+                
+                // atan2
+                function atan2(y, x) {
+                    return Math.atan2(y, x) * 180 / Math.PI;
+                }
+            // }
+            // math {
+                // pow
+                function pow(num, exp) {
+                    return Math.pow(num, exp);
+                }
+                
+                // abs
+                function abs(num) {
+                    return Math.abs(num);
+                }
+                
+                // sqrt
+                function sqrt(num) {
+                    return Math.sqrt(num);
+                }
+                
+                // ceil
+                function ceil(num) {
+                    return Math.ceil(num);
+                }
+                
+                // floor
+                function floor(num) {
+                    return Math.floor(num);
+                }
+                
+                // round
+                function round(num) {
+                    return Math.round(num);
+                }
+                
+                // log
+                function log(num) {
+                    return Math.log(num);
+                }
+                
+                // sq
+                function sq(num) {
+                    return pow(num, 2);
+                }
+                
+                // dist
+                function dist(x1, y1, x2, y2) {
+                    return Math.hypot((x2 - x1), (y2 - y1));
+                }
+                
+                // max
+                function max(num1, num2) {
+                    return Math.max(num1, num2);
+                }
+                
+                // min
+                function min(num1, num2) {
+                    return Math.min(num1, num2);
+                }
+                
+                // random
+                function random(min, max) {
+                    if (arguments.length === 0) {
+                        min = 0;
+                        max = 1;
+                    } else if (arguments.length === 1) {
+                        min = 0;
+                        max = arguments[0];
+                    } else if (arguments.length === 2) {
+                        min = min;
+                        max = max;
+                    }
+                    var newMin = min - min;
+                    var newMax = max - min;
+                    return (Math.random() * newMax) + min;
+                }
+                
+                // semiperimeter of a triangle
+                function semiPerimeter(dist1, dist2, dist3) {
+                    return (dist1 + dist2 + dist3) / 2;
+                }
+                
+                // area of a triangle through Heron's Formula
+                function calculateAreaTriHeronForm(dist1, dist2, dist3) {
+                    var semiperimeter = semiPerimeter(dist1, dist2, dist3);
+                    return sqrt(
+                        semiperimeter *
+                        (semiperimeter - dist1) *
+                        (semiperimeter - dist2) *
+                        (semiperimeter - dist3)
+                    );
+                }
+            // }
+            // transformation {
+                // push matrix
+                function pushMatrix() {
+                    ctx.save();
+                }
+                
+                // pop matrix
+                function popMatrix() {
+                    ctx.restore();
+                }
+                
+                // reset matrix
+                function resetMatrix() {
+                    ctx.resetTransform();
+                }
+                
+                // transform
+                function translate(x, y) {
+                    ctx.translate(x, y);
+                }
+                
+                // rotate
+                function rotate(angle) {
+                    ctx.rotate(radians(angle));
+                }
+                
+                // scale
+                function scale (xAmt, yAmt) {
+                    if (yAmt === undefined) {
+                        ctx.scale(xAmt, xAmt);
+                    } else {
+                        ctx.scale(xAmt, yAmt);
+                    }
+                }
+            // }
+            // user interaction {
+                // mouse events
+                body.addEventListener("click", function() {
+                    mouseClicked();
+                });
+                body.addEventListener("mouseup", function() {
+                    mouseIsPressed = false;
+                    mouseReleased();
+                });
+                body.addEventListener("mouseleave", function() {
+                    mouseOut();
+                });
+                body.addEventListener("mousedown", function() {
+                    mouseIsPressed = true;
+                    mousePressed();
+                });
+                body.addEventListener("mousemove", function(e) {
+                    e.preventDefault();
+                    mouseX = e.pageX;
+                    mouseY = e.pageY;
+                    mouseArr.push([mouseX, mouseY]);
+                    if (mouseArr.length > 5) {
+                        mouseArr.shift();
+                    }
+                    pmouseX = mouseArr[mouseArr.length - 2][0];
+                    pmouseY = mouseArr[mouseArr.length - 2][1];
+                    mouseMoved();
+                });
+                body.addEventListener("mouseenter", function() {
+                    mouseOver();
+                });
+                
+                // key events
+                body.addEventListener("keydown", function(e) {
+                    keyCode = e.keyCode;
+                    input[keyCode] = true;
+                    keyIsPressed = true;
+                    keyPressed();
+                });
+                body.addEventListener("keyup", function(e) {
+                    keyCode = e.keyCode;
+                    input[keyCode] = false;
+                    keyIsPressed = false;
+                    keyReleased();
+                });
+            // }
+            // collisions {
+                // rect in rect
+                function rectToRect(x1, y1, w1, h1, x2, y2, w2, h2) {
+                    switch (rectmode) {
+                        case "center":
+                            return x1 + w1 / 2 > x2 - w2 / 2
+                            && x1 - w1 / 2 < x2 + w2 / 2
+                            && y1 + h1 / 2 > y2 - h2 / 2
+                            && y1 - h1 / 2 < y2 + h2 / 2;
+                        break;
+                        case "corners":
+                            return x1 + w1 > x2
+                            && x1 < x2 + w2
+                            && y1 + h1 > y2
+                            && y1 < y2 + h2;
+                        break;
+                    }
+                }
+                
+                // point in tri
+                function pointToTri(point, tri1, tri2, tri3) {
+                    var triDists = [
+                        dist(tri1[0], tri1[1], tri2[0], tri2[1]),
+                        dist(tri1[0], tri1[1], tri3[0], tri3[1]),
+                        dist(tri2[0], tri2[1], tri3[0], tri3[1]),
+                    ];
+                    
+                    var mouseToTriDists = [
+                        dist(point[0], point[1], tri1[0], tri1[1]),
+                        dist(point[0], point[1], tri2[0], tri2[1]),
+                        dist(point[0], point[1], tri3[0], tri3[1]),
+                    ];
+                    
+                    var areas = [
+                        calculateAreaTriHeronForm(triDists[0], triDists[1], triDists[2]),
+                        calculateAreaTriHeronForm(triDists[0], mouseToTriDists[0], mouseToTriDists[1]),
+                        calculateAreaTriHeronForm(triDists[1], mouseToTriDists[0], mouseToTriDists[2]),
+                        calculateAreaTriHeronForm(triDists[2], mouseToTriDists[1], mouseToTriDists[2]),
+                    ];
+                    
+                    return round(areas[1] + areas[2] + areas[3]) <= round(areas[0]);
+                }
+                
+                // point in quad
+                function pointToQuad(point, quad1, quad2, quad3, quad4) {
+                    return pointToTri(point, quad1, quad2, quad3) || pointToTri(point, quad1, quad3, quad4);
+                }
+                
+                // point to ellipse
+                function pointToEllipse(px, py, ex, ey, ew, eh) {
+                    switch (ellipsemode) {
+                        case "corners":
+                            return sq(px - (ex + ew / 2)) / sq(ew / 2) + sq(py - (ey + eh / 2)) / sq(eh / 2) <= 1;
+                        break;
+                        case "center":
+                            return sq(px - ex) / sq(ew / 2) + sq(py - ey) / sq(eh / 2) <= 1;
+                        break;
+                    }
+                }
+                
+                // point to rectangle
+                function pointToRect(px, py, rx, ry, rw, rh) {
+                    switch (rectmode) {
+                        case "corners":
+                            return px > rx
+                            && px < rx + rw
+                            && py > ry
+                            && py < ry + rh;
+                        break;
+                        case "center":
+                            return px > rx - rw / 2
+                            && px < rx + rw / 2
+                            && py > ry - rh / 2
+                            && py < ry + rh / 2;
+                        break;
+                    }
+                }
+                
+                // rect to tri - ONLY works if a point of either shape is in the other which is good enough for my games
+                function rectToTri(rx, ry, rw, rh, tri1, tri2, tri3) {
+                    switch (rectmode) {
+                        case "center":
+                            return pointToTri([rx - rw / 2, ry - rh / 2], tri1, tri2, tri3)
+                            || pointToTri([rx + rw / 2, ry - rh / 2], tri1, tri2, tri3)
+                            || pointToTri([rx - rw / 2, ry + rh / 2], tri1, tri2, tri3)
+                            || pointToTri([rx + rw / 2, ry + rh / 2], tri1, tri2, tri3)
+                            || pointToRect(tri1[0], tri1[1], rx, ry, rw, rh)
+                            || pointToRect(tri2[0], tri2[1], rx, ry, rw, rh)
+                            || pointToRect(tri3[0], tri3[1], rx, ry, rw, rh);
+                        break;
+                        case "corners":
+                            return pointToTri([rx, ry], tri1, tri2, tri3)
+                            || pointToTri([rx + rw, ry], tri1, tri2, tri3)
+                            || pointToTri([rx, ry + rh], tri1, tri2, tri3)
+                            || pointToTri([rx + rw, ry + rh], tri1, tri2, tri3)
+                            || pointToRect(tri1[0], tri1[1], rx, ry, rw, rh)
+                            || pointToRect(tri2[0], tri2[1], rx, ry, rw, rh)
+                            || pointToRect(tri3[0], tri3[1], rx, ry, rw, rh);
+                        break;
+                    }
+                }
+                
+                // circle to circle
+                function circleToCircle(x1, y1, d1, x2, y2, d2) {
+                    switch (ellipsemode) {
+                        case "center":
+                            return floor(dist(x1, y1, x2, y2)) <= floor(d1 + d2) / 2;
+                        break;
+                        case "corners":
+                            return floor(dist(x1 + d1 / 2, y1 + d1 / 2, x2 + d2 / 2, y2 + d2 / 2)) <= floor(d1 + d2) / 2;
+                        break;
+                    }
+                }
+            // }
+            
+            /** Draw Canvas Using The Window Object **/
+            // setInterval {
+                window.setInterval(function() {
+                    draw();
+                    frameCount++;
+                }, (1000 / fps));
+            // }
+        </script>
+        <script type = "application/javascript">
+            /** Code Outside of Draw Function **/
+            // setup {
+                rectMode(CENTER);
+                ellipseMode(CENTER);
+                textAlign(CENTER, CENTER);
+                noStroke();
+                frameRate(60);
+            // }
+            // vars {
+                // empty arrays
+                var bullets = [];
+                var splatters = [];
+                var bots = [];
+                var coinsArr = [];
+                var transitions = [];
+                var transitions2 = [];
+                var shakes = [];
+                
+                // cam
+                var cam = {
+                    x: 200,
+                    y: 200,
+                };
+                
+                // defined later
+                var player1;
+                var player2;
+                
+                // initial coin amount
+                var intCoinAmt = 0;
+                
+                // what kind of map
+                var m = 0;
+                
+                // the level
+                var l = 0;
+                
+                // coins
+                var coins = intCoinAmt;
+                
+                // scene
+                var scene = "logo";
+                
+                // to increase bullet stats
+                var incBulSpd = 0;
+                var incBulDmg = 0;
+                var incBulAmt = 0;
+                var plyRldTme = 0;
+                
+                // score for endless
+                var scoreEndless = 0;
+                
+                // to change map buttons text
+                var mapTruths = [
+                    true,
+                    false,
+                    false,
+                ];
+                
+                // bot timers
+                var botTimers = [
+                    500,
+                    500,
+                ];
+                
+                // kills to unlock maps
+                var botKills = {
+                    overall: 0,
+                    slow: 0,
+                };
+                
+                // which bots can be spawned
+                var botsSpawn = 1;
+                
+                // storing your scores
+                var scores = [];
+                
+                // your highscore
+                var highscore = 0;
+                
+                // the messages
+                var messages = [
+                    [
+                        "You have failed.",
+                        "I'm disappointed",
+                        "That's just bad",
+                        "You got destroyed by bots lol",
+                        "Get wrecked lol",
+                    ],
+                    [
+                        "Sure why not",
+                        "Fine.",
+                        "Kewl Beans",
+                        "Meh",
+                        "Ummmm... Okay",
+                    ],
+                    [
+                        "Ngl, that's actually okay",
+                        "More surprised \"meh\"",
+                        "Better then fine",
+                        "Not bad at all",
+                        "Good, good...",
+                    ],
+                ];
+                
+                // your kills
+                var kills = 0;
+                
+                // message num
+                var mesNum = 0;
+                
+                // mess rand value
+                var randMes = round(random(0, messages[mesNum].length - 1));
+                
+                // logotimer
+                var logoTimer = 0;
+                
+                // logotimer2
+                var logoTimer2 = 0;
+                
+                // logo2X
+                var logo2X = 0;
+                
+                // logo2X2
+                var logo2X2 = 0;
+                
+                // logo2Y
+                var logo2Y = 0;
+                
+                // logo2Y2
+                var logo2Y2 = 0;
+                
+                // logo2Rot
+                var logo2Rot = 0;
+                
+                // logo2Rot2
+                var logo2Rot2 = 0;
+                
+                // leaderboard
+                var leaderboard = [
+                    {
+                        name: "AspenBranch",
+                        score: 2134,
+                    },
+                    {
+                        name: "You could be here",
+                        score: 0,
+                    },
+                    {
+                        name: "You could be here",
+                        score: 0,
+                    },
+                    {
+                        name: "You could be here",
+                        score: 0,
+                    },
+                    {
+                        name: "You could be here",
+                        score: 0,
+                    },
+                    {
+                        name: "You could be here",
+                        score: 0,
+                    },
+                ];
+                
+                // gametimer
+                var gameTimer = 0;
+            // }
+            // object oriented programming {
+                // splatter
+                var Splatter = (function() {
+                    // constructor
+                    function Splatter(x, y, width, height, type, transVel) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 50;
+                        this.height = height || 50;
+                        
+                        // type
+                        this.type = type || "";
+                        
+                        // life
+                        this.life = 255;
+                        
+                        // spliced
+                        this.spliced = false;
+                        
+                        // trans vel
+                        this.transVel = transVel || 1;
+                    }
+                    
+                    // collide property
+                    Splatter.prototype.collide = function(obj) {
+                        // if collide
+                        if (circleToCircle(this.x, this.y, this.width, obj.x, obj.y, obj.width) && obj.type !== this.type) {
+                            // then decrease obj health
+                            obj.health -= 0.05 * this.life / 255;
+                        }
+                    };
+                    
+                    // display property
+                    Splatter.prototype.display = function() {
+                        // display settings
+                        noStroke();
+                        
+                        // fill based off of type
+                        if (this.type === "orange") {
+                            fill(255, 127.5, 0, this.life);
+                        } else if (this.type === "pink") {
+                            fill(255, 69, 131, this.life);
+                        }
+                        
+                        // ellipse
+                        ellipse(this.x, this.y, this.width, this.height);
+                    };
+                    
+                    // die property
+                    Splatter.prototype.die = function() {
+                        // decrease this.life
+                        this.life -= this.transVel;
+                        
+                        // if life is less than 0
+                        if (this.life < 0) {
+                            this.spliced = true;
+                        }
+                    };
+                    
+                    // update property
+                    Splatter.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.die();
+                    };
+                    
+                    // return oop
+                    return Splatter;
+                })();
+                
+                // bullet
+                var Bullet = (function() {
+                    // constructor
+                    function Bullet(x, y, width, height, speed, theta, type, splatterWidth, splatterHeight, damage) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 15;
+                        this.height = height || 15;
+                        
+                        // accuracy
+                        this.acc = random(-4, 4);
+                        
+                        // movement
+                        this.speed = speed || 0;
+                        this.theta = theta + this.acc || 0;
+                        
+                        // type
+                        this.type = type || "";
+                        
+                        // is this to be spliced
+                        this.spliced = false;
+                        
+                        // life
+                        this.life = random(50, 75);
+                        
+                        // splatter dimensions
+                        this.splatterWidth = splatterWidth || 0;
+                        this.splatterHeight = splatterHeight || 0;
+                        
+                        // randVal
+                        this.randVal = floor(random(0, 2));
+                        
+                        // damage
+                        this.damage = damage || 1;
+                    }
+                    
+                    // display property
+                    Bullet.prototype.display = function() {
+                        // display settings
+                        noStroke();
+                        
+                        // fill based off of type
+                        if (this.type === "orange") {
+                            fill(255, 127.5, 0);
+                        } else if (this.type === "pink") {
+                            fill(255, 69, 131);
+                        }
+                        
+                        // ellipse
+                        ellipse(this.x, this.y, this.width, this.height);
+                    };
+                    
+                    // collide property
+                    Bullet.prototype.collide = function(obj) {
+                        // if the type is different and they collide
+                        if (this.type !== obj.type && circleToCircle(this.x, this.y, this.width, obj.x, obj.y, obj.width)) {
+                            // decrease its health by lerping
+                            obj.health = lerp(obj.health, obj.health - this.damage, 0.1);
+                            
+                            // splice this
+                            this.spliced = true;
+                        }
+                    };
+                    
+                    // collide bullet property
+                    Bullet.prototype.collideBullet = function(bullet) {
+                        // if it collides with an oppsing bullet
+                        if (bullets.type !== this.type && circleToCircle(this.x, this.y, this.width, bullet.x, bullet.y, bullet.width)) {
+                            // splice this, splice that
+                            this.spliced = true;
+                            bullet.spliced = true;
+                        }
+                    };
+                    
+                    // move property
+                    Bullet.prototype.move = function() {
+                        // increase x
+                        this.x += cos(this.theta) * this.speed;
+                            
+                        // increase y
+                        this.y += sin(this.theta) * this.speed;
+                    };
+                    
+                    // die property
+                    Bullet.prototype.die = function() {
+                        // decrease life
+                        this.life--;
+                        
+                        // splice this and push a new splatter
+                        if (this.life < 0 || this.x < -1000 || this.x > 1000 || this.y < -1000 || this.y > 1000) {
+                            this.spliced = true;
+                        }
+                    };
+                    
+                    // update property
+                    Bullet.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.move();
+                        this.die();
+                    };
+                    
+                    // return oop
+                    return Bullet;
+                })();
+                
+                // player
+                var Player = (function() {
+                    // constructor
+                    function Player(x, y, width, height, xVel, yVel) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // movement
+                        this.xVel = xVel || 0;
+                        this.yVel = yVel || 0;
+                        
+                        // angle
+                        this.theta = 0;
+                        
+                        // reload time
+                        this.reloadTime = 15 + plyRldTme;
+                        
+                        // health
+                        this.health = 5;
+                        
+                        // back up health
+                        this.backUpHealth = this.health;
+                        
+                        // speed
+                        this.speed = 4;
+                        
+                        // for interactions with foreign objects
+                        this.type = "orange";
+                        
+                        // backup positions
+                        this.backUpX = x;
+                        this.backUpY = y;
+                    }
+                    
+                    // rotate property
+                    Player.prototype.rotate = function() {
+                        // set this.theta
+                        this.theta = atan2(this.y + cam.y - mouseY, this.x + cam.x - mouseX) - 90;
+                    };
+                    
+                    // shoot property
+                    Player.prototype.shoot = function() {
+                        // decrease this.reloadTime
+                        this.reloadTime--;
+                        
+                        // push new bullets
+                        if ((mouseIsPressed || input[32]) && this.reloadTime < 0) {
+                            for (var i = 1 + incBulAmt; i >= 0; i--) {
+                                bullets.push(new Bullet(this.x + random(-10, 10), this.y + random(-10, 10), 15, 15, random(5, 9) + incBulSpd, this.theta - 90, "orange", 100, 100, 1 + incBulDmg));
+                            }
+                            
+                            this.reloadTime = 15 + plyRldTme;
+                        }
+                    };
+                    
+                    // display property
+                    Player.prototype.display = function() {
+                        // transform
+                        pushMatrix();
+                            // tranformation settings
+                            translate(this.x, this.y);
+                            rotate(this.theta);
+                            
+                            // display settings
+                            noStroke();
+                            fill(194, 97, 0);
+                            
+                            // ellipse
+                            ellipse(0, 0, this.width, this.height);
+                            // hands
+                            ellipse(-this.width * 2 / 3, -this.height / 3.5, this.width / 3.25, this.height / 3.25);
+                            ellipse(this.width * 2 / 3, -this.height / 3.5, this.width / 3.25, this.height / 3.25);
+                        popMatrix();
+                        
+                        /*fill(0, 0, 0);
+                        text(botsSpawn, this.x, this.y);*/
+                        
+                        // display settings
+                        noStroke();
+                        fill(255, 0, 0);
+                        
+                        // rect
+                        rect(this.x, this.y + 7 - this.height * 3 / 4, this.width + 6, this.height / 6)
+                        
+                        // change rectMode
+                        rectMode(CORNERS);
+                        
+                        // display settings
+                        noStroke();
+                        fill(0, 255, 0);
+                        
+                        // rect
+                        rect(this.x - this.width / 2 - 3, this.y - this.height * 3 / 4, (this.width + 6) * this.health / this.backUpHealth, this.height / 6);
+                        
+                        // change it back
+                        rectMode(CENTER);
+                    };
+                    
+                    // moveX property
+                    Player.prototype.moveX = function() {
+                        // if the a key is pressed
+                        if (input[65]) {
+                            // make the x go left
+                            this.x -= this.xVel;
+                        }
+                        
+                        // if the d key is pressed
+                        if (input[68]) {
+                            // make the x go right
+                            this.x += this.xVel;
+                        }
+                    };
+                    
+                    // moveY property
+                    Player.prototype.moveY = function() {
+                        // if the w key is pressed
+                        if (input[87]) {
+                            // make the y go up
+                            this.y -= this.yVel;
+                        }
+                        
+                        // if the s key is pressed
+                        if (input[83]) {
+                            // make the y go down
+                            this.y += this.yVel;
+                        }
+                    };
+                    
+                    // update property
+                    Player.prototype.update = function() {
+                        // call other properties
+                        this.rotate();
+                        this.shoot();
+                        this.display();
+                    };
+                    
+                    // return oop
+                    return Player;
+                })();
+                
+                // bot
+                var Bot = (function() {
+                    // constructor
+                    function Bot(x, y, width, height, speed, type, health, damage, reload, bulletAmount, splatterWidth, splatterHeight, coinAmt, scoreAmt) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // movement
+                        this.speed = speed || 0;
+                        
+                        // angle
+                        this.theta = 0;
+                        
+                        // reload
+                        this.reload = reload || 15;
+                        
+                        // reload time
+                        this.reloadTime = reload || 15;
+                        
+                        // damage
+                        this.damage = damage || 1;
+                        
+                        // type
+                        this.type = "pink";
+                        
+                        // health
+                        this.health = health || 5;
+                        
+                        // backup health
+                        this.backUpHealth = health || 5;
+                        
+                        // spliced
+                        this.spliced = false;
+                        
+                        // splatter dimensions
+                        this.splatterWidth = splatterWidth || 75;
+                        this.splatterHeight = splatterHeight || 75;
+                        
+                        // amount of bullets
+                        this.bulletAmount = bulletAmount || 2;
+                        
+                        // amount of coins to drop
+                        this.coinAmt = coinAmt || 3;
+                        
+                        // score amount
+                        this.scoreAmt = scoreAmt;
+                    }
+                    
+                    // collide property
+                    Bot.prototype.collide = function(obj) {
+                        // if this collides with that
+                        if (circleToCircle(this.x, this.y, this.width, obj.x, obj.y, obj.width)) {
+                            // find the angle between this and obj
+                            var angleBetween = atan2(obj.y - this.y, obj.x - this.x);
+                            
+                            // set obj.x
+                            obj.x += cos(angleBetween) * obj.speed;
+                            
+                            // set obj.y
+                            obj.y += sin(angleBetween) * obj.speed;
+                        }
+                    };
+                    
+                    // approachX property
+                    Bot.prototype.approachX = function(obj) {
+                        // rotate this
+                        this.theta = atan2(obj.y - this.y, obj.x - this.x);
+                        // if its not too close
+                        if (!(dist(this.x, this.y, obj.x, obj.y) < 250)) {
+                            // increase x
+                            this.x += cos(this.theta) * this.speed;
+                        }
+                    };
+                    
+                    // approachY property
+                    Bot.prototype.approachY = function(obj) {
+                        // rotate this
+                        this.theta = atan2(obj.y - this.y, obj.x - this.x);
+                        // if its not too close
+                        if (!(dist(this.x, this.y, obj.x, obj.y) < 250)) {
+                            // increase y
+                            this.y += sin(this.theta) * this.speed;
+                        }
+                    };
+                    
+                    // shoot property
+                    Bot.prototype.shoot = function() {
+                        // decrease this.reloadTime
+                        this.reloadTime--;
+                        
+                        // if the reload time is less than 0
+                        if (this.reloadTime < 0) {
+                            // loop through this.bulletAmount
+                            for (var i = this.bulletAmount - 1; i >= 0; i--) {
+                                // create new bullets
+                                bullets.push(new Bullet(this.x + random(-10, 10), this.y + random(-10, 10), 15, 15, random(5, 9), this.theta, this.type, this.splatterWidth, this.splatterHeight, this.damage));
+                            }
+                            
+                            // reset reload
+                            this.reloadTime = this.reload;
+                        }
+                    };
+                    
+                    // display property
+                    Bot.prototype.display = function() {
+                        // transform
+                        pushMatrix();
+                            // tranformation settings
+                            translate(this.x, this.y);
+                            rotate(this.theta);
+                            
+                            // display settings
+                            noStroke();
+                            fill(227, 0, 76);
+                            
+                            // ellipse
+                            ellipse(0, 0, this.width, this.height);
+                            // transform
+                            pushMatrix();
+                                // tranformation settings
+                                rotate(90);
+                                
+                                // hands
+                                ellipse(-this.width * 2 / 3, -this.height / 3.5, this.width / 3.25, this.height / 3.25);
+                                ellipse(this.width * 2 / 3, -this.height / 3.5, this.width / 3.25, this.height / 3.25);
+                            popMatrix();
+                        popMatrix();
+                        
+                        // display settings
+                        noStroke();
+                        fill(255, 0, 0);
+                        
+                        // rect
+                        rect(this.x, this.y + 7 - this.height * 3 / 4, this.width + 6, this.height / 6);
+                        
+                        // change rectMode
+                        rectMode(CORNERS);
+                        
+                        // display settings
+                        noStroke();
+                        fill(0, 255, 0);
+                        
+                        // rect
+                        rect(this.x - this.width / 2 - 3, this.y - this.height * 3 / 4, (this.width + 6) * this.health / this.backUpHealth, this.height / 6);
+                        
+                        // change it back
+                        rectMode(CENTER);
+                    };
+                    
+                    // die property
+                    Bot.prototype.die = function() {
+                        // if health is less than 0
+                        if (this.health <= 0) {
+                            // make this spliced
+                            this.spliced = true;
+                        }
+                    };
+                    
+                    // drop coins property
+                    Bot.prototype.dropCoins = function() {
+                        // if this is spliced and the scene is not levels
+                        if (this.spliced === true && scene !== "levels") {
+                            // loop through this.coinAmt
+                            for (var i = this.coinAmt - 1; i >= 0; i--) {
+                                // make new coins
+                                coinsArr.push(new Coin(this.x + random(-40, 40), this.y + random(-40, 40), 20, 20));
+                            }
+                        }
+                    };
+                    
+                    // update property
+                    Bot.prototype.update = function() {
+                        // call other properties
+                        this.shoot();
+                        this.die();
+                        this.display();
+                        this.dropCoins();
+                    };
+                    
+                    // return oop
+                    return Bot;
+                })();
+                
+                // wall
+                var Wall = (function() {
+                    // constructor
+                    function Wall(x, y, width, height, col) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // color
+                        this.col = col || color(105, 105, 105);
+                    }
+                    
+                    // collideX property
+                    Wall.prototype.collideX = function(obj) {
+                        // if rectangular collision
+                        if (rectToRect(this.x, this.y, this.width, this.height, obj.x, obj.y, obj.width, obj.height)) {
+                            // if the object has a smaller x
+                            if (obj.x < this.x) {
+                                // then set it to x - width / 2
+                                obj.x = this.x - this.width / 2 - obj.width / 2;
+                                
+                                // or
+                            } else {
+                                // set it to x + width / 2
+                                obj.x = this.x + this.width / 2 + obj.width / 2;
+                            }
+                        }
+                    };
+                    
+                    // collideY property
+                    Wall.prototype.collideY = function(obj) {
+                        // if rectangular collision
+                        if (rectToRect(this.x, this.y, this.width, this.height, obj.x, obj.y, obj.width, obj.height)) {
+                            // if the object has a smaller y
+                            if (obj.y < this.y - this.height / 2 ) {
+                                // then set it to y - height / 2
+                                obj.y = this.y - this.height / 2 - obj.height / 2;
+                                
+                                // or
+                            } else {
+                                // set it to y + height / 2
+                                obj.y = this.y + this.height / 2 + obj.height / 2;
+                            }
+                        }
+                    };
+                    
+                    // collide bullet property
+                    Wall.prototype.collideBullet = function(obj) {
+                        // if rectangular collision
+                        if (rectToRect(this.x, this.y, this.width, this.height, obj.x, obj.y, obj.width, obj.height)) {
+                            // make obj spliced
+                            obj.spliced = true;
+                        }
+                    };
+                    
+                    // display property
+                    Wall.prototype.display = function() {
+                        // display settings
+                        noStroke();
+                        fill(this.col);
+                        
+                        // actual shape
+                        rect(this.x, this.y, this.width, this.height);
+                    };
+                    
+                    // update property
+                    Wall.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                    };
+                    
+                    // return oop
+                    return Wall;
+                })();
+                
+                // circular wall
+                var CircularWall = (function() {
+                    // constructor
+                    function CircularWall(x, y, width, height, col) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // color
+                        this.col = col || color(105, 105, 105);
+                    }
+                    
+                    // collide property
+                    CircularWall.prototype.collide = function(obj) {
+                        // if circular collision
+                        if (circleToCircle(this.x, this.y, this.width, obj.x, obj.y, obj.width)) {
+                            // find the angle between this and obj
+                            var angleBetween = atan2(obj.y - this.y, obj.x - this.x);
+                            
+                            // set obj.x
+                            obj.x += cos(angleBetween) * obj.speed;
+                            obj.x += cos(angleBetween) * obj.speed / 2;
+                            
+                            // set obj.y
+                            obj.y += sin(angleBetween) * obj.speed;
+                            obj.y += sin(angleBetween) * obj.speed / 2;
+                        }
+                    };
+                    
+                    // collide bullet property
+                    CircularWall.prototype.collideBullet = function(obj) {
+                        // if circular collision
+                        if (circleToCircle(this.x, this.y, this.width, obj.x, obj.y, obj.width)) {
+                            // make obj spliced
+                            obj.spliced = true;
+                        }
+                    };
+                    
+                    // display property
+                    CircularWall.prototype.display = function() {
+                        // display settings
+                        noStroke();
+                        fill(this.col);
+                        
+                        // actual shape
+                        ellipse(this.x, this.y, this.width, this.height);
+                    };
+                    
+                    // update property
+                    CircularWall.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                    };
+                    
+                    // return oop
+                    return CircularWall;
+                })();
+                
+                // coin
+                var Coin = (function() {
+                    // constructor
+                    function Coin(x, y, width, height, col) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // color
+                        this.col = col || color(255, 198, 25);
+                        
+                        // value
+                        this.value = round(random(5, 10));
+                        
+                        // spliced
+                        this.spliced = false;
+                        
+                        // lerp to coordinates
+                        this.lerpX = this.x + random(-40, 40);
+                        this.lerpY = this.y + random(-40, 40);
+                        
+                        // timer
+                        this.timer = 500;
+                    }
+                    
+                    // collide property
+                    Coin.prototype.collide = function(obj) {
+                        // if circular collision
+                        if (circleToCircle(this.x, this.y, this.width, obj.x, obj.y, obj.width)) {
+                            // splice this
+                            this.spliced = true;
+                            
+                            // increase coins
+                            coins += this.value;
+                        }
+                    };
+                    
+                    // display property
+                    Coin.prototype.display = function() {
+                        // display settings
+                        noStroke();
+                        fill(this.col);
+                        
+                        // actual shape
+                        ellipse(this.x, this.y, this.width, this.height);
+                    };
+                    
+                    // move property
+                    Coin.prototype.move = function() {
+                        // lerp x
+                        this.x = lerp(this.x, this.lerpX, 0.075);
+                        
+                        // lerp y
+                        this.y = lerp(this.y, this.lerpY, 0.075);
+                    };
+                    
+                    // die property
+                    Coin.prototype.die = function() {
+                        // decrease timer
+                        this.timer--;
+                        
+                        // if the timer is less than 0
+                        if (this.timer < 0) {
+                            // splice this
+                            this.spliced = true;
+                        }
+                    };
+                    
+                    // update property
+                    Coin.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.move();
+                    };
+                    
+                    // return oop
+                    return Coin;
+                })();
+                
+                // transition
+                var Transition = (function() {
+                    // constructor
+                    function Transition(func) {
+                        // function to be called during tansition
+                        this.func = func || function() {};
+                        
+                        // to create splatters
+                        this.splatters = [];
+                        
+                        // to stop creating splatters
+                        this.splatter = true;
+                        
+                        // to splice
+                        this.toSplice = 0;
+                    }
+                    
+                    // display property
+                    Transition.prototype.display = function() {
+                        // if there are less than 100 splatters
+                        if (this.splatters.length < 300 && this.splatter === true) {
+                            // loop through to 4
+                            for (var i = 5; i >= 0; i--) {
+                                // push new splatters
+                                this.splatters.push(new Splatter(random(0, 600), random(0, 600), 100, 100, (floor(random(0, 2)) === 0) ? "pink" : "orange", 0.000001));
+                            }
+                        }
+                        
+                        // loop through this.splatters
+                        for (var i = this.splatters.length - 1; i >= 0; i--) {
+                            // make all of them slightly transparent
+                            this.splatters[i].life = 200;
+                            
+                            // update them
+                            this.splatters[i].update();
+                        }
+                    };
+                    
+                    // change property
+                    Transition.prototype.change = function() {
+                        // if there are more or equal to 100 splatters
+                        if (this.splatters.length >= 300) {
+                            // call this.func
+                            this.func();
+                            
+                            // make this.splatter false
+                            this.splatter = false;
+                        }
+                        
+                        // if this.splatter is false
+                        if (this.splatter === false) {
+                            // loop through to 4
+                            for (var i = 5; i >= 0; i--) {
+                                // shift this.splatters
+                                this.splatters.shift();
+                            }
+                        }
+                    };
+                    
+                    // update property
+                    Transition.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.change();
+                    };
+                    
+                    // return OOP
+                    return Transition;
+                })();
+                
+                // button
+                var Button = (function() {
+                    // constructor
+                    function Button(x, y, width, height, sceneTo, text, textSize, textFont, textMode) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // scene
+                        this.sceneTo = sceneTo;
+                        
+                        // rotation
+                        this.rot = 0;
+                        
+                        // text stuff
+                        this.text = text || "";
+                        this.textSize = textSize || 0;
+                        this.textFont = textFont || "";
+                        this.textMode = textMode || "";
+                    }
+                    
+                    // collide property
+                    Button.prototype.clicked = function() {
+                        // if mouse is in this
+                        if (pointToEllipse(mouseX, mouseY, this.x, this.y, this.width, this.height)) {
+                            // create var to store this.sceneTo
+                            var changeSceneTo = this.sceneTo;
+                            
+                            // then push a new transition
+                            transitions.push(new Transition(function() {
+                                // change scene to changeSceneTo
+                                scene = changeSceneTo;
+                            }));
+                        }
+                    };
+                    
+                    // display property
+                    Button.prototype.display = function() {
+                        // transform
+                        pushMatrix();
+                            // tranformation settings
+                            translate(this.x, this.y);
+                            rotate(this.rot);
+                            
+                            // display settings - circle
+                            fill(0, 0, 0, 0);
+                            strokeWeight(this.width / 30);
+                            stroke(0, 0, 0);
+                            
+                            // actual shape
+                            ellipse(0, 0, this.width, this.height);
+                            
+                            // display settings - text
+                            fill(0, 0, 0);
+                            noStroke();
+                            
+                            // text modification settings
+                            textFont(this.textFont, this.textSize, this.textMode);
+                            
+                            // actual shape
+                            text(this.text, 0, 0);
+                        popMatrix();
+                    };
+                    
+                    // hover property
+                    Button.prototype.hover = function() {
+                        // if mouse is in this
+                        if (pointToEllipse(mouseX, mouseY, this.x, this.y, this.width, this.height)) {
+                            // then lerp the rotation
+                            this.rot = lerp(this.rot, 360, 0.09);
+                            
+                            // change the cursor
+                            cursor("pointer");
+                            
+                            // or
+                        } else {
+                            // then reset rot by lerping it
+                            this.rot = lerp(this.rot, 0, 0.09);
+                        }
+                    };
+                    
+                    // update property
+                    Button.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.hover();
+                    };
+                    
+                    // return oop
+                    return Button;
+                })();
+                
+                // shop button
+                var ShopButton = (function() {
+                    // constructor
+                    function ShopButton(x, y, width, height, func, cost, textSize, textFont, textMode) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // func
+                        this.func = func || function() {};
+                        
+                        // color
+                        this.col = color(0, 0, 0, 0);
+                        
+                        // cost
+                        this.cost = cost;
+                        
+                        // backup cost
+                        this.backUpCost = cost;
+                        
+                        // text stuff
+                        this.textSize = textSize || 0;
+                        this.textFont = textFont || "";
+                        this.textMode = textMode || "";
+                    }
+                    
+                    // collide property
+                    ShopButton.prototype.clicked = function() {
+                        // if mouse is in this
+                        if (pointToEllipse(mouseX, mouseY, this.x, this.y, this.width, this.height)) {
+                            // then call this.func
+                            this.func();
+                        }
+                    };
+                    
+                    // display property
+                    ShopButton.prototype.display = function() {
+                        // display settings - circle
+                        fill(this.col);
+                        strokeWeight(this.width / 40);
+                        stroke(0, 0, 0);
+                        
+                        // actual shape
+                        ellipse(this.x, this.y, this.width, this.height);
+                        
+                        // display settings - text
+                        fill(0, 0, 0);
+                        noStroke();
+                        
+                        // text modification settings
+                        textFont(this.textFont, this.textSize, this.textMode);
+                        
+                        // actual shape
+                        text("Cost: " + this.cost, this.x, this.y);
+                    };
+                    
+                    // hover property
+                    ShopButton.prototype.hover = function() {
+                        // if mouse is in this
+                        if (pointToEllipse(mouseX, mouseY, this.x, this.y, this.width, this.height)) {
+                            // then change the color
+                            this.col = color(0, 0, 0, 50);
+                            
+                            // change the cursor
+                            cursor("pointer");
+                            
+                            // or
+                        } else {
+                            // reset the color
+                            this.col = color(0, 0, 0, 0);
+                        }
+                    };
+                    
+                    // update property
+                    ShopButton.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.hover();
+                    };
+                    
+                    // return oop
+                    return ShopButton;
+                })();
+                
+                // map button
+                var MapButton = (function() {
+                    // constructor
+                    function MapButton(x, y, width, height, func, textSize, textFont, textMode, func2) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // funcs
+                        this.func = func || function() {};
+                        this.func2 = func2 || function() {};
+                        
+                        // color
+                        this.col = color(0, 0, 0, 0);
+                        
+                        // text stuff
+                        this.text = "Select";
+                        this.textSize = textSize || 0;
+                        this.textFont = textFont || "";
+                        this.textMode = textMode || "";
+                        
+                        // can this be hovered on
+                        this.toHover = false;
+                    }
+                    
+                    // clicked property
+                    MapButton.prototype.clicked = function() {
+                        // if mouse is in this and toHover is true
+                        if (pointToEllipse(mouseX, mouseY, this.x, this.y, this.width, this.height) && this.toHover) {
+                            // then call this.func
+                            this.func();
+                        }
+                    };
+                    
+                    // display property
+                    MapButton.prototype.display = function() {
+                        // display settings - circle
+                        fill(this.col);
+                        strokeWeight(this.width / 40);
+                        stroke(0, 0, 0);
+                        
+                        // actual shape
+                        ellipse(this.x, this.y, this.width, this.height);
+                        
+                        // display settings - text
+                        fill(0, 0, 0);
+                        noStroke();
+                        
+                        // text modification settings
+                        textFont(this.textFont, this.textSize, this.textMode);
+                        
+                        // actual shape
+                        text(this.text, this.x, this.y);
+                    };
+                    
+                    // hover property
+                    MapButton.prototype.hover = function() {
+                        // if mouse is in this
+                        if (pointToEllipse(mouseX, mouseY, this.x, this.y, this.width, this.height)) {
+                            // if this.toHover is true
+                            if (this.toHover) {
+                                // then change the color
+                                this.col = color(0, 0, 0, 50);
+                                
+                                // change the cursor
+                                cursor("pointer");
+                            }
+                            
+                            // call this.func2
+                            this.func2();
+                            
+                            // or
+                        } else {
+                            // reset the color
+                            this.col = color(0, 0, 0, 0);
+                        }
+                    };
+                    
+                    // update property
+                    MapButton.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.hover();
+                    };
+                    
+                    // return oop
+                    return MapButton;
+                })();
+                
+                // particle
+                var Particle = (function() {
+                    // constructor
+                    function Particle(x, y, width, height, xVel, yVel, yAccel, life) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // dimensions
+                        this.width = width || 0;
+                        this.height = height || 0;
+                        
+                        // movement
+                        this.xVel = xVel || 0;
+                        this.yVel = yVel || 0;
+                        this.yAccel = yAccel || 0;
+                        
+                        // life
+                        this.life = life || 255;
+                        
+                        // is this spliced
+                        this.spliced = false;
+                    }
+                    
+                    // move property
+                    Particle.prototype.move = function() {
+                        // increase values
+                        this.x += this.xVel;
+                        this.y += this.yVel;
+                        this.yVel += this.yAccel;
+                    };
+                    
+                    // display property
+                    Particle.prototype.display = function() {
+                        // display settings
+                        noStroke();
+                        fill(255, 255, 255, this.life);
+                        
+                        // ellipse
+                        ellipse(this.x, this.y, this.width, this.height);
+                    };
+                    
+                    // die property
+                    Particle.prototype.die = function() {
+                        // decrease this.life
+                        this.life -= 2;
+                    };
+                    
+                    // isSpliced property
+                    Particle.prototype.isSpliced = function() {
+                        // if y is greater than 600 and life is less than 0
+                        if (this.y > 650 || this.life <= 0) {
+                            // make this.spliced true
+                            this.spliced = true;
+                        }
+                    };
+                    
+                    // update property
+                    Particle.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.move();
+                        this.die();
+                        this.isSpliced();
+                    };
+                    
+                    // return oop
+                    return Particle;
+                })();
+                
+                // shake
+                var Shake = (function() {
+                    // constructor
+                    function Shake(time, amt) {
+                        // how much time to shake
+                        this.time = time || 0;
+                        
+                        // how much shaking
+                        this.amt = amt || 0;
+                        
+                        // timer
+                        this.timer = 0;
+                    }
+                    
+                    // run property
+                    Shake.prototype.run = function() {
+                        // increase this.timer
+                        this.timer++;
+                    };
+                    
+                    // shake property
+                    Shake.prototype.shake = function() {
+                        // if this.timer is less than this.time
+                        if (this.timer < this.time) {
+                            // then translate
+                            translate(random(-this.amt, this.amt), random(-this.amt, this.amt));
+                        }
+                    };
+                    
+                    // update property
+                    Shake.prototype.update = function() {
+                        // call other properties
+                        this.run();
+                        this.shake();
+                    };
+                    
+                    // return oop
+                    return Shake;
+                })();
+                
+                // logotexts
+                var LogoText = (function() {
+                    // constructor
+                    function LogoText(x, y, text, textFont, textSize, textMode, col) {
+                        // position
+                        this.x = x || 0;
+                        this.y = y || 0;
+                        
+                        // text stuff
+                        this.text = text || "";
+                        this.textSize = textSize || 0;
+                        this.textFont = textFont || "";
+                        this.textMode = textMode || "";
+                        
+                        // color
+                        this.col = col || color(255, 255, 255, 255);
+                        
+                        // empty arrays
+                        this.particles = [];
+                        
+                        // shake
+                        this.shake = new Shake(7, 7);
+                        
+                        // text width
+                        this.textWidth = this.text.length * this.textSize;
+                        
+                        // timer
+                        this.timer = 0;
+                    }
+                    
+                    // pushParticles property
+                    LogoText.prototype.pushParticles = function() {
+                        // increase timer
+                        this.timer++;
+                        
+                        // if this.timer is less than 2
+                        if (this.timer < 2) {
+                            // push particles
+                            for (var i = 20; i >= 0; i--) {
+                                this.particles.push(new Particle(random(this.x - this.textWidth / 5, this.x + this.textWidth / 5), random(this.y + this.textSize / 12, this.y + this.textSize / 6), 20, 20, random(-1.2, 1.2), random(-3, -1), 0.125, 255));
+                            }
+                        }
+                    };
+                    
+                    // display property
+                    LogoText.prototype.display = function() {
+                        // transform
+                        pushMatrix();
+                            // update this.shake
+                            this.shake.update();
+                            
+                            // loop through this.particles
+                            for (var i = this.particles.length - 1; i >= 0; i--) {
+                                // update this.shakes
+                                this.particles[i].update();
+                                
+                                // if its spliced
+                                if (this.particles[i].spliced === true) {
+                                    // then remove it from the array
+                                    this.particles.splice(i, 1);
+                                }
+                            }
+                            
+                            // display settings
+                            noStroke();
+                            fill(this.col);
+                            textFont(this.textFont, this.textSize, this.textMode);
+                            
+                            // text
+                            text(this.text, this.x, this.y);
+                        popMatrix();
+                    };
+                    
+                    // update property
+                    LogoText.prototype.update = function() {
+                        // call other properties
+                        this.pushParticles();
+                        this.display();
+                    };
+                    
+                    // return oop
+                    return LogoText;
+                })();
+                
+                // Transition2
+                var Transition2 = (function() {
+                    // constructor
+                    function Transition2(func) {
+                        // position
+                        this.x = width / 2;
+                        this.y = height / 2;
+                        
+                        // function to be called during tansition
+                        this.func = func || function() {};
+                        
+                        // dimesions
+                        this.width = 800;
+                        this.height = 800;
+                        
+                        // transparency
+                        this.trans = 0;
+                        this.transVel = 7;
+                    }
+                    
+                    // display property
+                    Transition2.prototype.display = function() {
+                        // display settings
+                        noStroke();
+                        fill(0, 0, 0, this.trans);
+                        
+                        // rect
+                        rect(this.x, this.y, this.width, this.height);
+                    };
+                    
+                    // change property
+                    Transition2.prototype.change = function() {
+                        // reverse transvel
+                        if (this.trans > 255) {
+                            this.transVel *= -1;
+                            this.func();
+                        }
+                        
+                        // increase trans by transvel
+                        this.trans += this.transVel;
+                    };
+                    
+                    // update property
+                    Transition2.prototype.update = function() {
+                        // call other properties
+                        this.display();
+                        this.change();
+                    };
+                    
+                    // return OOP
+                    return Transition2;
+                })();
+            // }
+            // new instances of logotexts {
+                var logoTexts = [
+                    new LogoText(200, 100, "Aspen", "Grandstander", 75, "Bold", color(255, 255, 255, 255)),
+                    new LogoText(400, 200, "Branch", "Grandstander", 75, "Bold", color(255, 255, 255, 255)),
+                    new LogoText(300, 400, "Presents...", "Grandstander", 50, "Bold Italic", color(255, 255, 255, 255)),
+                ];
+            // }
+            // bot types {
+                // bot types array
+                var botTypes = [
+                    // regular bot
+                    function(x, y) {
+                        return new Bot(x, y, 85, 85, 4, "pink", 5, 1, 15, 2, 75, 75, 2, 100);
+                    },
+                    // below average bot
+                    function(x, y) {
+                        return new Bot(x, y, 75, 75, 4, "pink", 4, 1, 20, 2, 65, 65, 2, 85);
+                    },
+                    // fast bot
+                    function(x, y) {
+                        return new Bot(x, y, 50, 50, 10, "pink", 3, 0.5, 15, 1, 50, 50, 2, 95);
+                    },
+                    // slow bot
+                    function(x, y) {
+                        return new Bot(x, y, 100, 100, 0.5, "pink", 10, 2, 13, 3, 105, 105, 4, 150);
+                    },
+                    // above average bot
+                    function(x, y) {
+                        return new Bot(x, y, 90, 90, 6, "pink", 6, 1.25, 12, 2, 80, 80, 4, 100, 110);
+                    },
+                    // strong bot
+                    function(x, y) {
+                        return new Bot(x, y, 95, 95, 6, "pink", 5, 1.5, 10, 3, 90, 90, 5, 100, 150);
+                    },
+                ];
+            // }
+            // endless - maps and arrays and player1 {
+                // player1
+                player1 = new Player(0, 0, 85, 85, 4, 4);
+                
+                // maps
+                var Maps = [
+                    // map one
+                    {
+                        // the walls
+                        walls: [
+                            new Wall(-422, -699, 500, 75),
+                            new Wall(-650, 419, 75, 500),
+                            new Wall(-650, 419, 75, 500),
+                            new Wall(62, 386, 50, 350),
+                            new Wall(300, -556, 60, 400),
+                            new Wall(489, -56, 400, 60),
+                        ],
+                        
+                        // circular walls
+                        circularWalls: [
+                            new CircularWall(-53, -220, 250, 250),
+                            new CircularWall(-513, -220, 150, 150),
+                            new CircularWall(-261, 384, 225, 225),
+                            new CircularWall(378, 684, 225, 225),
+                            new CircularWall(56, -564, 150, 150),
+                            new CircularWall(682, 323, 200, 200),
+                            new CircularWall(682, -552, 200, 200),
+                        ],
+                    },
+                    // map two
+                    {
+                        // the walls
+                        walls: [
+                            new Wall(-627, -485, 75, 500),
+                            new Wall(-241, -485, 75, 500),
+                            new Wall(-434, -485, 400, 75),
+                            new Wall(434, -485, 75, 500),
+                            new Wall(434, -697, 400, 75),
+                            new Wall(434, -268, 400, 75),
+                            new Wall(-627, 485, 75, 500),
+                            new Wall(-241, 485, 75, 500),
+                            new Wall(-434, 485, 400, 75),
+                            new Wall(434, 485, 75, 500),
+                            new Wall(434, 697, 400, 75),
+                            new Wall(434, 268, 400, 75),
+                        ],
+                        
+                        // circular walls
+                        circularWalls: [
+                            
+                        ],
+                    },
+                    // map three
+                    {
+                        // the walls
+                        walls: [
+                            new Wall(-688, -449, 60, 600),
+                            new Wall(-688, 349, 60, 600),
+                            new Wall(-405, 683, 500, 75),
+                            new Wall(405, 683, 500, 75),
+                            new Wall(688, -449, 60, 600),
+                            new Wall(688, 349, 60, 600),
+                            new Wall(-405, -788, 500, 75),
+                            new Wall(405, -788, 500, 75),
+                            new Wall(-270, -510, 325, 50),
+                            new Wall(270, -510, 325, 50),
+                            new Wall(0, 375, 500, 75),
+                        ],
+                        
+                        // circular walls
+                        circularWalls: [
+                            new CircularWall(-270, -275, 225, 225),
+                            new CircularWall(270, -275, 225, 225),
+                            new CircularWall(-301, 85, 150, 150),
+                            new CircularWall(301, 85, 150, 150),
+                        ],
+                    },
+                ];
+            // }
+            // buttons ig {
+                // buttons obj
+                var buttons = {
+                    "shopInGame": new Button(65, 550, 100, 75, "shopInGame", "Upgrade", 20, "Grandstander", "Bold"),
+                    "menuFromEndless": new Button(535, 550, 100, 75, "menu", "Menu", 20, "Grandstander", "Bold"),
+                    "endlessFromShopInGame": new Button(300, 550, 100, 75, "endless", "Back", 25, "Grandstander", "Bold"),
+                    "toEndless": new Button(300, 285, 210, 160, "selectMap", "Play", 40, "Grandstander", "Bold"),
+                    "toHow": new Button(460, 420, 200, 150, "how", "How", 30, "Grandstander", "Bold"),
+                    "toLead": new Button(140, 420, 200, 150, "leaderboard", "Leaderboard", 30, "Grandstander", "Bold"),
+                    "menuFromDead": new Button(300, 525, 100, 75, "menu", "Back", 20, "Grandstander", "Bold"),
+                    "menuFromHow": new Button(300, 525, 100, 75, "menu", "Back", 20, "Grandstander", "Bold"),
+                    "menuFromLeaderboard": new Button(300, 525, 100, 75, "menu", "Back", 20, "Grandstander", "Bold"),
+                    "menuFromMap": new Button(175, 500, 150, 100, "menu", "Back", 27, "Grandstander", "Bold"),
+                    "endlessFromMap": new Button(425, 500, 150, 100, "endless", "Play", 27, "Grandstander", "Bold"),
+                };
+                
+                // shop in game buttons obj
+                var shopInGameButtons = {
+                    "speed": new ShopButton(125, 225, 100, 75, function() {
+                        // if there are enough coins
+                        if (coins >= this.cost) {
+                            // take the coins obvi
+                            coins -= this.cost;
+                            
+                            // then increase xVel and yVel
+                            player1.xVel += 1;
+                            player1.yVel += 1;
+                            
+                            // increase this.cost
+                            this.cost += 3;
+                        }
+                    }, 30, 20, "Grandstander", "Bold"),
+                    "bulletSpeed": new ShopButton(300, 225, 100, 75, function() {
+                        // if there are enough coins
+                        if (coins >= this.cost) {
+                            // take the coins obvi
+                            coins -= this.cost;
+                            
+                            // then increase incBulSpd
+                            incBulSpd += 3;
+                            
+                            // increase this.cost
+                            this.cost += 3;
+                        }
+                    }, 15, 20, "Grandstander", "Bold"),
+                    "damage": new ShopButton(475, 225, 100, 75, function() {
+                        // if there are enough coins
+                        if (coins >= this.cost) {
+                            // take the coins obvi
+                            coins -= this.cost;
+                            
+                            // increase incBulDmg
+                            incBulDmg += 0.5;
+                            
+                            // increase this.cost
+                            this.cost += 4;
+                        }
+                    }, 50, 20, "Grandstander", "Bold"),
+                    "amount": new ShopButton(125, 425, 100, 75, function() {
+                        // if there are enough coins
+                        if (coins >= this.cost) {
+                            // take the coins obvi
+                            coins -= this.cost;
+                            
+                            // then increase incBulAmt
+                            incBulAmt += 1;
+                            
+                            // increase this.cost
+                            this.cost += 6;
+                        }
+                    }, 70, 20, "Grandstander", "Bold"),
+                    "reload": new ShopButton(300, 425, 100, 75, function() {
+                        // if there are enough coins
+                        if (coins >= this.cost) {
+                            // take the coins obvi
+                            coins -= this.cost;
+                            
+                            // then decrease plyRldTme
+                            plyRldTme -= 2;
+                            
+                            // increase this.cost
+                            this.cost += 4;
+                        }
+                    }, 50, 20, "Grandstander", "Bold"),
+                    "health": new ShopButton(475, 425, 100, 75, function() {
+                        // if there are enough coins
+                        if (coins >= this.cost) {
+                            // take the coins obvi
+                            coins -= this.cost;
+                            
+                            // then increase player1 health
+                            player1.health = 5;
+                            
+                            // increase this.cost
+                            this.cost += 3;
+                        }
+                    }, 40, 20, "Grandstander", "Bold"),
+                };
+                
+                // map buttons obj
+                var mapButtons = {
+                    0: new MapButton(140, 350, 100, 75, function() {
+                        // change speicifc map truths
+                        mapTruths[0] = true;
+                        mapTruths[1] = false;
+                        mapTruths[2] = false;
+                    }, 20, "Grandstander", "Bold", function() {
+                        // this.toHover true
+                        this.toHover = true;
+                    }),
+                    1: new MapButton(300, 350, 100, 75, function() {
+                        // change speicifc map truths
+                        mapTruths[0] = false;
+                        mapTruths[1] = true;
+                        mapTruths[2] = false;
+                    }, 20, "Grandstander", "Bold", function() {
+                        // if this.toHover is false
+                        if (!this.toHover) {
+                            // change the cursor
+                            cursor("not-allowed");
+                            
+                            // display settings
+                            noStroke();
+                            fill(0, 0, 0, 75);
+                            
+                            // rect
+                            rect(mouseX + 50, mouseY - 75 / 2, 100, 75);
+                            
+                            // text display settings
+                            noStroke();
+                            fill(255, 255, 255, 255);
+                            textFont("Grandstander", 20);
+                            
+                            // text
+                            text("Kill " + (25 - botKills.overall), mouseX + 50, mouseY - 95 / 2);
+                            text("Bots", mouseX + 50, mouseY - 55 / 2);
+                        }
+                    }),
+                    2: new MapButton(460, 350, 100, 75, function() {
+                        // change speicifc map truths
+                        mapTruths[0] = false;
+                        mapTruths[1] = false;
+                        mapTruths[2] = true;
+                    }, 20, "Grandstander", "Bold", function() {
+                        // if this.toHover is false
+                        if (!this.toHover) {
+                            // change the cursor
+                            cursor("not-allowed");
+                            
+                            // display settings
+                            noStroke();
+                            fill(0, 0, 0, 75);
+                            
+                            // rect
+                            rect(mouseX + 50, mouseY - 75 / 2, 100, 75);
+                            
+                            // text display settings
+                            noStroke();
+                            fill(255, 255, 255, 255);
+                            textFont("Grandstander", 20);
+                            
+                            // text
+                            text("Kill " + (25 - botKills.slow), mouseX + 50, mouseY - 95 / 2);
+                            text("Slow Bots", mouseX + 50, mouseY - 55 / 2);
+                        }
+                    }),
+                };
+            // }
+            // assorted functions {
+                // Cam
+                function Cam(obj) {
+                    // lerp cam coordinates
+                    cam.x = lerp(cam.x, width / 2 - obj.x, 0.075);
+                    cam.y = lerp(cam.y, height / 2 - obj.y, 0.075);
+                    
+                    // translate
+                    translate(round(cam.x), round(cam.y));
+                };
+                
+                // background
+                function bkg() {
+                    // lines horizontal
+                    for (var i = -1000; i <= 1000; i += 50) {
+                        // display settings
+                        strokeWeight(0.6);
+                        stroke(255, 127.5, 0, 255);
+                        
+                        // actual line
+                        line(i, -1000, i, 1000);
+                    }
+                    
+                    // lines vertical
+                    for (var i = -1000; i <= 1000; i += 50) {
+                        // display settings
+                        strokeWeight(0.6);
+                        stroke(255, 69, 131, 255);
+                        
+                        // actual line
+                        line(-1000, i, 1000, i);
+                    }
+                }
+                
+                // position
+                function position(map) {
+                    // display settings
+                    noStroke();
+                    fill(176, 176, 176, 150);
+                    
+                    // shape
+                    rect(527, 73, 125, 125);
+                    
+                    // getting splatter pos
+                    var splatterPos = [];
+                    
+                    // loop through splatters
+                    for (var i = splatters.length - 1; i >= 0; i--) {
+                        // push into coinPos arr
+                        splatterPos.push([
+                            // x
+                            (splatters[i].x * 125 / 2000) + 527,
+                            // y
+                            (splatters[i].y * 125 / 2000) + 73,
+                            // width
+                            splatters[i].width * 125 / 2000,
+                            // height
+                            splatters[i].height * 125 / 2000,
+                            // life
+                            splatters[i].life,
+                            // type
+                            splatters[i].type,
+                        ]);
+                    }
+                    
+                    // display settings
+                    noStroke();
+                    fill(212, 159, 0);
+                    
+                    // loop through splatterPos
+                    for (var i = splatterPos.length - 1; i >= 0; i--) {
+                        // display settings
+                        noStroke();
+                        
+                        // if the type is orange
+                        if (splatterPos[i][5] === "orange") {
+                            // fill it orangey
+                            fill(212, 159, 0, splatterPos[i][4]);
+                            
+                            // or
+                        } else if (splatterPos[i][5] === "pink") {
+                            // fill it pinky
+                            fill(255, 69, 131, splatterPos[i][4]);
+                        }
+                        
+                        // ellipse
+                        ellipse(splatterPos[i][0], splatterPos[i][1], splatterPos[i][2], splatterPos[i][3]);
+                    }
+                    
+                    // getting coin pos
+                    var coinPos = [];
+                    
+                    // loop through coinsArr
+                    for (var i = coinsArr.length - 1; i >= 0; i--) {
+                        // push into coinPos arr
+                        coinPos.push([
+                            // x
+                            (coinsArr[i].x * 125 / 2000) + 527,
+                            // y
+                            (coinsArr[i].y * 125 / 2000) + 73,
+                            // width
+                            coinsArr[i].width * 125 / 2000,
+                            // height
+                            coinsArr[i].height * 125 / 2000,
+                        ]);
+                    }
+                    
+                    // display settings
+                    noStroke();
+                    fill(212, 159, 0);
+                    
+                    // loop through coinPos
+                    for (var i = coinPos.length - 1; i >= 0; i--) {
+                        // ellipse
+                        ellipse(coinPos[i][0], coinPos[i][1], coinPos[i][2], coinPos[i][3]);
+                    }
+                    
+                    // getting wall pos
+                    var wallPos = [];
+                    
+                    // loop through Maps[map].walls
+                    for (var i = Maps[map].walls.length - 1; i >= 0; i--) {
+                        // push into wallPos arr
+                        wallPos.push([
+                            // x
+                            (Maps[map].walls[i].x * 125 / 2000) + 527,
+                            // y
+                            (Maps[map].walls[i].y * 125 / 2000) + 73,
+                            // width
+                            Maps[map].walls[i].width * 125 / 2000,
+                            // height
+                            Maps[map].walls[i].height * 125 / 2000,
+                        ]);
+                    }
+                    
+                    // display settings
+                    noStroke();
+                    fill(105, 105, 105);
+                    
+                    // loop through wallPos
+                    for (var i = wallPos.length - 1; i >= 0; i--) {
+                        // rect
+                        rect(wallPos[i][0], wallPos[i][1], wallPos[i][2], wallPos[i][3]);
+                    }
+                    
+                    // getting circular wall pos
+                    var circularWallPos = [];
+                    
+                    // loop through Maps[map].circularWalls
+                    for (var i = Maps[map].circularWalls.length - 1; i >= 0; i--) {
+                        // push into circularWallPos arr
+                        circularWallPos.push([
+                            // x
+                            (Maps[map].circularWalls[i].x * 125 / 2000) + 527,
+                            // y
+                            (Maps[map].circularWalls[i].y * 125 / 2000) + 73,
+                            // width
+                            Maps[map].circularWalls[i].width * 125 / 2000,
+                            // height
+                            Maps[map].circularWalls[i].height * 125 / 2000,
+                        ]);
+                    }
+                    
+                    // display settings
+                    noStroke();
+                    fill(105, 105, 105);
+                    
+                    // loop through circularWallPos
+                    for (var i = circularWallPos.length - 1; i >= 0; i--) {
+                        // ellipse
+                        ellipse(circularWallPos[i][0], circularWallPos[i][1], circularWallPos[i][2], circularWallPos[i][3]);
+                    }
+                    
+                    // getting bullet pos
+                    var bulletPos = [];
+                    
+                    // loop through Maps[map].circularWalls
+                    for (var i = bullets.length - 1; i >= 0; i--) {
+                        // push into circularWallPos arr
+                        bulletPos.push([
+                            // x
+                            (bullets[i].x * 125 / 2000) + 527,
+                            // y
+                            (bullets[i].y * 125 / 2000) + 73,
+                            // width
+                            bullets[i].width * 125 / 2000,
+                            // height
+                            bullets[i].height * 125 / 2000,
+                            // type
+                            bullets[i].type,
+                        ]);
+                    }
+                    
+                    // noStroke
+                    noStroke();
+                    
+                    // loop through bulletPos
+                    for (var i = bulletPos.length - 1; i >= 0; i--) {
+                        // if its orange
+                        if (bulletPos[i][4] === "orange") {
+                            // display settings
+                            fill(212, 159, 0);
+                            
+                            // or
+                        } else {
+                            // display settings
+                            fill(255, 69, 131);
+                        }
+                        
+                        // ellipse
+                        ellipse(bulletPos[i][0], bulletPos[i][1], bulletPos[i][2], bulletPos[i][3]);
+                    }
+                    
+                    // getting bots pos
+                    var botsPos = [];
+                    
+                    // loop through bots
+                    for (var i = bots.length - 1; i >= 0; i--) {
+                        // push into botsPos arr
+                        botsPos.push([
+                            // x
+                            (bots[i].x * 125 / 2000) + 527,
+                            // y
+                            (bots[i].y * 125 / 2000) + 73,
+                            // width
+                            bots[i].width * 125 / 2000,
+                            // height
+                            bots[i].height * 125 / 2000,
+                        ]);
+                    }
+                    
+                    // display settings
+                    noStroke();
+                    fill(227, 0, 76);
+                    
+                    // loop through botsPos
+                    for (var i = botsPos.length - 1; i >= 0; i--) {
+                        // ellipse
+                        ellipse(botsPos[i][0], botsPos[i][1], botsPos[i][2], botsPos[i][3]);
+                    }
+                    
+                    // gettings player pos
+                    var playerPos = [
+                        // x
+                        (player1.x * 125 / 2000) + 527,
+                        // y
+                        (player1.y * 125 / 2000) + 73,
+                        // width
+                        player1.width * 125 / 2000,
+                        // height
+                        player1.height * 125 / 2000,
+                    ];
+                    
+                    // display settings
+                    noStroke();
+                    fill(194, 97, 0);
+                    
+                    // ellipse
+                    ellipse(playerPos[0], playerPos[1], playerPos[2], playerPos[3]);
+                }
+                
+                // wipe arrays and reset player pos
+                function wipeEndless() {
+                    // clean arrays
+                    bullets = [];
+                    splatters = [];
+                    bots = [];
+                    coinsArr = [];
+                    
+                    // reset player positions
+                    player1.x = 0;
+                    player1.y = 0;
+                    player1.health = 5;
+                    player1.xVel = 4;
+                    player1.yVel = 4;
+                    
+                    // reset increase amounts
+                    incBulSpd = 0;
+                    incBulDmg = 0;
+                    incBulAmt = 0;
+                    plyRldTme = 0;
+                    
+                    // rset cam x and y
+                    cam.x = 200;
+                    cam.y = 200;
+                    
+                    // reset shop buttons
+                    shopInGameButtons["speed"].cost = shopInGameButtons["speed"].backUpCost;
+                    shopInGameButtons["bulletSpeed"].cost = shopInGameButtons["bulletSpeed"].backUpCost;
+                    shopInGameButtons["damage"].cost = shopInGameButtons["damage"].backUpCost;
+                    shopInGameButtons["amount"].cost = shopInGameButtons["amount"].backUpCost;
+                    shopInGameButtons["reload"].cost = shopInGameButtons["reload"].backUpCost;
+                    shopInGameButtons["health"].cost = shopInGameButtons["health"].backUpCost;
+                    
+                    // reset coins
+                    coins = intCoinAmt;
+                    
+                    // reset the values
+                    botTimers[0] = botTimers[1];
+                    
+                    // reset botsSpawn
+                    botsSpawn = 1;
+                    
+                    // reset gametimer
+                    gameTimer = 0;
+                    
+                    // reset kills
+                    kills = 0;
+                }
+                
+                // update transitions
+                function updateTrans() {
+                    // loop through transitions
+                    for (var i = transitions.length - 1; i >= 0; i--) {
+                        // update them
+                        transitions[i].update();
+                        
+                        // if their tranparency is less than 
+                        if (transitions[i].splatters.length <= 0) {
+                            // splice it
+                            transitions.splice(i, 1);
+                        }
+                    }
+                    
+                    // limit the transitions array
+                    if (transitions.length > 1) {
+                        transitions.length = 1;
+                    }
+                }
+                
+                // update transitions2
+                function updateTrans2() {
+                    // loop through transitions
+                    for (var i = transitions2.length - 1; i >= 0; i--) {
+                        // update them
+                        transitions2[i].update();
+                        
+                        // if their tranparency is less than 
+                        if (transitions2[i].trans < 0) {
+                            // splice it
+                            transitions2.splice(i, 1);
+                        }
+                    }
+                    
+                    // limit the transitions array
+                    if (transitions2.length > 1) {
+                        transitions2.length = 1;
+                    }
+                }
+                
+                // map changes
+                function mapChangeStuffs() {
+                    // if mapTruths[0] is true
+                    if (mapTruths[0] === true) {
+                        // change m
+                        m = 0;
+                        
+                        // change texts
+                        mapButtons[0].text = "Selected";
+                        mapButtons[1].text = "Select";
+                        mapButtons[2].text = "Select";
+                        
+                        // or if mapTruths[1] is true
+                    } else if (mapTruths[1] === true) {
+                        // change m
+                        m = 1;
+                        
+                        // change texts
+                        mapButtons[0].text = "Select";
+                        mapButtons[1].text = "Selected";
+                        mapButtons[2].text = "Select";
+                        
+                        // or if mapTruths[2] is true
+                    } else if (mapTruths[2] === true) {
+                        // change m
+                        m = 2;
+                        
+                        // change texts
+                        mapButtons[0].text = "Select";
+                        mapButtons[1].text = "Select";
+                        mapButtons[2].text = "Selected";
+                    }
+                }
+                
+                // click mouse
+                function buttonsClick() {
+                    // switch scene
+                    switch (scene) {
+                        // case menu
+                        case "menu":
+                            // call buttons click property
+                            buttons["toEndless"].clicked();
+                            buttons["toHow"].clicked();
+                            buttons["toLead"].clicked();
+                            
+                            // if doneLevels is false
+                            if (!doneLevels) {
+                                // call buttons click property
+                                buttons["toLevels"].clicked();
+                            }
+                        break;
+                        // case endless
+                        case "endless":
+                            // call buttons click property
+                            buttons["shopInGame"].clicked();
+                            buttons["menuFromEndless"].clicked();
+                        break;
+                        // case shopInGame
+                        case "shopInGame":
+                            // call buttons click property
+                            shopInGameButtons["speed"].clicked();
+                            buttons["endlessFromShopInGame"].clicked();
+                            shopInGameButtons["bulletSpeed"].clicked();
+                            shopInGameButtons["damage"].clicked();
+                            shopInGameButtons["amount"].clicked();
+                            shopInGameButtons["reload"].clicked();
+                            shopInGameButtons["health"].clicked();
+                        break;
+                        // case how
+                        case "how":
+                            // click buttons
+                            buttons["menuFromHow"].clicked();
+                        break;
+                        // case leaderboard
+                        case "leaderboard":
+                            // click buttons
+                            buttons["menuFromLeaderboard"].clicked();
+                        break;
+                        // case dead
+                        case "dead":
+                            // click buttons property stuffs
+                            buttons["menuFromDead"].clicked();
+                        break;
+                        // case selectMap
+                        case "selectMap":
+                            // click buttons property stuffs
+                            mapButtons[0].clicked();
+                            mapButtons[1].clicked();
+                            mapButtons[2].clicked();
+                            buttons["menuFromMap"].clicked();
+                            buttons["endlessFromMap"].clicked();
+                        break;
+                    }
+                }
+                
+                // endless stats
+                function endLessStats() {
+                    // display settings
+                    noStroke();
+                    fill(0, 0, 0, 50);
+                    
+                    // rect
+                    rect(56, 41, 114, 82);
+                    
+                    // text display settings
+                    noStroke();
+                    fill(255, 255, 255);
+                    
+                    // text text stuff settings lol
+                    textAlign(LEFT, CENTER);
+                    textFont("Grandstander", 17, "");
+                    
+                    // text
+                    text("Score: " + scoreEndless, 10, 17);
+                    text("Bots: " + bots.length, 10, 41);
+                    text("Kills: " + kills, 10, 65);
+                    
+                    // reset text align
+                    textAlign(CENTER, CENTER);
+                }
+                
+                // unlock buttons
+                function unlock() {
+                    // if botKills.overall is equal to 25
+                    if (botKills.overall >= 25) {
+                        mapButtons[1].toHover = true;
+                    }
+                    
+                    // if botKills.slow is equal to 25
+                    if (botKills.slow >= 25) {
+                        mapButtons[2].toHover = true;
+                    }
+                }
+                
+                // update score
+                function updateScore() {
+                    // loop through leaderboard
+                    for (var i = leaderboard.length - 1; i >= 0; i--) {
+                        // if leaderboard[i].name is "You"
+                        if (leaderboard[i].name === "You") {
+                            // set its score
+                            leaderboard[i].score = highscore;
+                        }
+                    }
+                }
+            // }
+            // scenes {
+                // scene obj
+                var Scenes = {
+                    // logo scene
+                    "logo": function() {
+                        // background
+                        background(0, 0, 0);
+                        
+                        // increase logoTimer
+                        logoTimer++;
+                        
+                        // update logoTexts[0]
+                        logoTexts[0].update();
+                        
+                        // if the logoTimer is greater than 20
+                        if (logoTimer > 20) {
+                            // update logoTexts[1]
+                            logoTexts[1].update();
+                        }
+                        
+                        // if the logotimer is greater than 40
+                        if (logoTimer > 40) {
+                            // update logoTexts[2]
+                            logoTexts[2].update();
+                        }
+                        
+                        // if the logotimer is greater than 150 and less than 152
+                        if (logoTimer > 150 && logoTimer < 152) {
+                            // push a new transition
+                            transitions2.push(new Transition2(function() {
+                                scene = "logo2";
+                            }));
+                        }
+                    },
+                    
+                    // logo2
+                    "logo2": function() {
+                        // background
+                        background(0, 0, 0);
+                        
+                        // increase logoTimer2
+                        logoTimer2++;
+                        
+                        // transform
+                        pushMatrix();
+                            // translate
+                            translate(-300 + logo2X, 270 + logo2Y);
+                            // rotate
+                            rotate(logo2Rot);
+                            
+                            // display settings
+                            noStroke();
+                            fill(255, 255, 255, 255);
+                            textFont("Grandstander", 55, "Bold");
+                            
+                            // text
+                            text("Made from Aug 20", 0, 0);
+                        popMatrix();
+                        
+                        // transform
+                        pushMatrix();
+                            // translate
+                            translate(900 + logo2X2, 330 + logo2Y2);
+                            // rotate
+                            rotate(logo2Rot2);
+                            
+                            // display settings
+                            noStroke();
+                            fill(255, 255, 255, 255);
+                            textFont("Grandstander", 55, "Bold");
+                            
+                            // text
+                            text("To November 16th", 0, 0);
+                        popMatrix();
+                        
+                        // if logoTimer2 is greater than 50
+                        if (logoTimer2 > 50) {
+                            // set logo2X
+                            logo2X = lerp(logo2X, 550, 0.075);
+                        }
+                        
+                        // if logoTimer2 is greater than 70
+                        if (logoTimer2 > 70) {
+                            // set logo2X2
+                            logo2X2 = lerp(logo2X2, -550, 0.075);
+                        }
+                        
+                        
+                        // if logoTimer2 is greater than 120
+                        if (logoTimer2 > 120) {
+                            // set logo2Rot
+                            logo2Rot = lerp(logo2Rot, -90, 0.075);
+                        }
+                        
+                        // if logoTimer2 is greater than 120
+                        if (logoTimer2 > 120) {
+                            // set logo2Rot2
+                            logo2Rot2 = lerp(logo2Rot2, 90, 0.075);
+                        }
+                        
+                        // if logoTimer2 is greater than 180
+                        if (logoTimer2 > 180) {
+                            // set logo2Y
+                            logo2Y = lerp(logo2Y, -550, 0.075);
+                        }
+                        
+                        // if logoTimer2 is greater than 180
+                        if (logoTimer2 > 180) {
+                            // set logo2Y2
+                            logo2Y2 = lerp(logo2Y2, 550, 0.075);
+                        }
+                        
+                        // if logoTimer2 is greater than 210 and less than 212
+                        if (logoTimer2 > 210 && logoTimer2 < 212) {
+                            // make a new transition
+                            transitions2.push(new Transition2(function() {
+                                scene = "menu";
+                            }));
+                        }
+                    },
+                    
+                    // menu 
+                    "menu": function() {
+                        // show the lined background
+                        bkg();
+                        
+                        // title display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 100, "Bold Italic");
+                        
+                        // title               
+                        text("Splatter!", 300, 95);
+                        
+                        // update buttons
+                        buttons["toEndless"].update();
+                        buttons["toHow"].update();
+                        buttons["toLead"].update();
+                        
+                        // reset endless mode
+                        wipeEndless();
+                        
+                        // reset scores
+                        scoreEndless = 0;
+                    },
+                    
+                    // endless 
+                    "endless": function() {
+                        // increase gameTimer
+                        gameTimer++;
+                        
+                        // transform
+                        pushMatrix();
+                            // translate
+                            Cam(player1);
+                            
+                            // loop through the the shakes
+                            for (var i = shakes.length - 1; i >= 0; i--) {
+                                // update them
+                                shakes[i].update();
+                                
+                                // splice them
+                                if (shakes[i].timer >= shakes[i].time) {
+                                    shakes.splice(i, 1);
+                                }
+                            }
+                            
+                            // background of lines
+                            bkg();
+                            
+                            // constrain player x
+                            if (player1.x < -1000) {
+                                player1.x = -1000;
+                            } else if (player1.x > 1000) {
+                                player1.x = 1000;
+                            }
+                            
+                            // constrain player y
+                            if (player1.y < -1000) {
+                                player1.y = -1000;
+                            } else if (player1.y > 1000) {
+                                player1.y = 1000;
+                            }
+                            
+                            // loop through splatters
+                            for (var i = splatters.length - 1; i >= 0; i--) {
+                                // update the splatters
+                                splatters[i].update();
+                                
+                                // make the splatters collide with the player
+                                splatters[i].collide(player1);
+                                
+                                // loop through bots
+                                for (var j = bots.length - 1; j >= 0; j--) {
+                                    splatters[i].collide(bots[j]);
+                                }
+                                
+                                // splice splatters
+                                if (splatters[i].spliced === true) {
+                                    splatters.splice(i, 1);
+                                }
+                            }
+                            
+                            // loop through coins arr
+                            for (var i = coinsArr.length - 1; i >= 0; i--) {
+                                // update the coins
+                                coinsArr[i].update();
+                                
+                                // collide the coins with the player
+                                coinsArr[i].collide(player1);
+                                
+                                // if the spliced property is true
+                                if (coinsArr[i].spliced === true) {
+                                    // splice the coin
+                                    coinsArr.splice(i, 1);
+                                }
+                            }
+                            
+                            // loop through bullets
+                            for (var i = bullets.length - 1; i >= 0; i--) {
+                                // update bullets
+                                bullets[i].update();
+                                
+                                // have the bullets collide with the player
+                                bullets[i].collide(player1);
+                                
+                                // loop through bullets again
+                                for (var j = bullets.length - 1; j >= 0; j--) {
+                                    // if the randVal is 0
+                                    if (bullets[i].randVal === 0) {
+                                        // then collide the bullets
+                                        bullets[i].collide(bullets[j]);
+                                    }
+                                }
+                                
+                                // loop through bots
+                                for (var j = bots.length - 1; j >= 0; j--) {
+                                    // the bullets collide with the bots
+                                    bullets[i].collide(bots[j]);
+                                }
+                                
+                                // splice bullets
+                                if (bullets[i].spliced === true) {
+                                    // make a splatter
+                                    splatters.push(new Splatter(bullets[i].x, bullets[i].y, bullets[i].splatterWidth, bullets[i].splatterHeight, bullets[i].type));
+                                    
+                                    // splice ig
+                                    bullets.splice(i, 1);
+                                }
+                            }
+                            
+                            // loop through bots
+                            for (var i = bots.length - 1; i >= 0; i--) {
+                                // update them
+                                bots[i].update();
+                                
+                                // loop through bots again
+                                for (var j = bots.length - 1; j >= 0; j--) {
+                                    // if its not the same bot
+                                    if (i !== j) {
+                                        // then have them collide
+                                        bots[i].collide(bots[j]);
+                                    }
+                                }
+                                
+                                // if its dead
+                                if (bots[i].spliced === true) {
+                                    // increase botKills.overall
+                                    botKills.overall += 1;
+                                    
+                                    // increase kills
+                                    kills += 1;
+                                    
+                                    // if bots[i].speed is 0.5
+                                    if (bots[i].speed === 0.5) {
+                                        // increase botKills.slow
+                                        botKills.slow += 1;
+                                    }
+                                    
+                                    // push a new shake
+                                    shakes.push(new Shake(5, 5));
+                                    
+                                    // get rid of the bot
+                                    bots.splice(i, 1);
+                                    
+                                    // increase the score
+                                    scoreEndless += 100;
+                                }
+                            }
+                            
+                            // loop through walls
+                            for (var i = Maps[m].walls.length - 1; i >= 0; i--) {
+                                // update walls
+                                Maps[m].walls[i].update();
+                                
+                                // loop through bullets
+                                for (var j = bullets.length - 1; j >= 0; j--) {
+                                    // collide walls with bullets
+                                    Maps[m].walls[i].collideBullet(bullets[j]);
+                                }
+                            }
+                            
+                            // loop through circular walls
+                            for (var i = Maps[m].circularWalls.length - 1; i >= 0; i--) {
+                                // update circular walls
+                                Maps[m].circularWalls[i].update();
+                                
+                                // loop through bullets
+                                for (var j = bullets.length - 1; j >= 0; j--) {
+                                    // collide circular walls with bullets
+                                    Maps[m].circularWalls[i].collideBullet(bullets[j]);
+                                }
+                                
+                                // collide circular walls with bullets
+                                Maps[m].circularWalls[i].collide(player1);
+                                
+                                // loop through bots
+                                for (var j = bots.length - 1; j >= 0; j--) {
+                                    // collide circular walls with bots
+                                    Maps[m].circularWalls[i].collide(bots[j]);
+                                }
+                            }
+                            
+                            // update the player
+                            player1.update();
+                            
+                            // moveX property
+                            player1.moveX();
+                            
+                            // loop through bots
+                            for (var i = bots.length - 1; i >= 0; i--) {
+                                // approachX
+                                bots[i].approachX(player1);
+                            }
+                            
+                            // loop through walls
+                            for (var i = Maps[m].walls.length - 1; i >= 0; i--) {
+                                // loop through bots
+                                for (var j = bots.length - 1; j >= 0; j--) {
+                                    // collide walls with bots
+                                    Maps[m].walls[i].collideX(bots[j]);
+                                }
+                                
+                                // collide walls with player
+                                Maps[m].walls[i].collideX(player1);
+                            }
+                            
+                            // loop through bots
+                            for (var i = bots.length - 1; i >= 0; i--) {
+                                // approachY
+                                bots[i].approachY(player1);
+                            }
+                            
+                            // moveY property
+                            player1.moveY();
+                            
+                            // loop through walls
+                            for (var i = Maps[m].walls.length - 1; i >= 0; i--) {
+                                // loop through bots
+                                for (var j = bots.length - 1; j >= 0; j--) {
+                                    // collide walls with bots
+                                    Maps[m].walls[i].collideY(bots[j]);
+                                }
+                                
+                                // collide walls with player
+                                Maps[m].walls[i].collideY(player1);
+                            }
+                        popMatrix();
+                        
+                        // call endLessStats
+                        endLessStats();
+                        
+                        // show buttons
+                        buttons["shopInGame"].update();
+                        buttons["menuFromEndless"].update();
+                        
+                        // displaying positions
+                        position(m);
+                        
+                        // decrease botTimers[0]
+                        botTimers[0] -= 0.005;
+                        
+                        // if the frameCount modulus ceil(botTimers[0][0]) + 2 is greater than ceil(botTimers[0])
+                        if (gameTimer % ceil(botTimers[0]) + 2 > ceil(botTimers[0])) {
+                            // make a new bot
+                            bots.push(botTypes[floor(random(0, botsSpawn))](floor(random(0, 2)) === 0 ? random(-1000, -500) : random(500, 1000), floor(random(0, 2)) === 0 ? random(-1000, -500) : random(500, 1000)));
+                        }
+                        
+                        // if the frameCount is greater than 800
+                        if (gameTimer > 800) {
+                            botsSpawn = 2;
+                        }
+                        
+                        // if the frameCount is greater than 2500
+                        if (gameTimer > 2500) {
+                            botsSpawn = 3;
+                        }
+                        
+                        // if the frameCount is greater than 3500
+                        if (gameTimer > 3500) {
+                            botsSpawn = 4;
+                        }
+                        
+                        // if the frameCount is greater than 5000
+                        if (gameTimer > 4500) {
+                            botsSpawn = 5;
+                        }
+                        
+                        // if the frameCount is greater than 5500
+                        if (gameTimer > 5500) {
+                            botsSpawn = 6;
+                        }
+                        
+                        // if the frameCount is divisible by 10
+                        if (gameTimer % 10 === 0) {
+                            // increase score
+                            scoreEndless++;
+                        }
+                        
+                        // if the player has no remaining health
+                        if (player1.health <= 0) {
+                            // change the scene
+                            scene = "dead";
+                        }
+                    },
+                    
+                    // shopInGame 
+                    "shopInGame": function() {
+                        // show the lined background
+                        bkg();
+                        
+                        // title display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 40, "Bold");
+                        
+                        // title
+                        text("Upgrade Shop - Coins: " + coins, 300, 50);
+                        
+                        // update shop buttons
+                        shopInGameButtons["speed"].update();
+                        shopInGameButtons["bulletSpeed"].update();
+                        shopInGameButtons["damage"].update();
+                        shopInGameButtons["amount"].update();
+                        shopInGameButtons["reload"].update();
+                        shopInGameButtons["health"].update();
+                        
+                        // update back button
+                        buttons["endlessFromShopInGame"].update();
+                        
+                        // text display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 22, "Bold");
+                        
+                        // texts
+                        text("Player Speed", 125, 150);
+                        text("Bullet Speed", 300, 150);
+                        text("Bullet Damage", 475, 150);
+                        text("Bullet Amount", 125, 350);
+                        text("Reload Time", 300, 350);
+                        text("Player Health", 475, 350);
+                        
+                        // stop stuffs
+                        // stopStuffsEndless();
+                    },
+                    
+                    // how 
+                    "how": function() {
+                        // show the lined background
+                        bkg();
+                        
+                        // title display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 45, "Bold");
+                        
+                        // title
+                        text("How To Play", 300, 70);
+                        
+                        // text display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 25, "Bold");
+                        
+                        // text
+                        text("1) WASD keys to move.", 300, 227.5);
+                        text("2) Click to shoot.", 300, 267.5);
+                        text("3) Tell me what else to put here", 300, 307.5);
+                        
+                        
+                        // update buttons
+                        buttons["menuFromHow"].update();
+                    },
+                    
+                    // leaderboard 
+                    "leaderboard": function() {
+                        // show the lined background
+                        bkg();
+                        
+                        // title display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 45, "Bold");
+                        
+                        // title
+                        text("Leaderboard", 300, 70);
+                        
+                        // sort the leaderboard
+                        leaderboard.sort(function(a, b) {
+                            // return from largest to smallest
+                            return b.score - a.score;
+                        });
+                        
+                        // text display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 25, "Bold");
+                        
+                        // loop through leaderboard
+                        for (var i = leaderboard.length - 1; i >= 0; i--) {
+                            // text
+                            text(leaderboard[i].name + "....            " + leaderboard[i].score, 300, 190 + i * 40);
+                        }
+                        
+                        // update buttons
+                        buttons["menuFromLeaderboard"].update();
+                    },
+                    
+                    // dead 
+                    "dead": function() {
+                        // draw the background
+                        bkg();
+                        
+                        // if the score is less than 1000
+                        if (scoreEndless < 1000) {
+                            // change mesNum
+                            mesNum = 0;
+                            
+                            // or if the score is less than 3000 and greater than 1000
+                        } else if (scoreEndless >= 1000 && scoreEndless < 3000) {
+                            // change mesNum
+                            mesNum = 1;
+                            
+                            // or if the score is greater than 3000
+                        } else if (scoreEndless >= 3000) {
+                            // change mesNum
+                            mesNum = 2;
+                        }
+                        
+                        // title display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 45, "Bold");
+                        
+                        // title
+                        text("You Died", 300, 70);
+                        
+                        // text display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 25, "Bold");
+                        
+                        // text
+                        text("Score: " + scoreEndless, 300, 230);
+                        text(messages[mesNum][randMes], 300, 350);
+                        
+                        // update buttons
+                        buttons["menuFromDead"].update();
+                        
+                        // push in the scores array
+                        scores.push(scoreEndless);
+                        
+                        // sort the scores array
+                        scores.sort(function(a, b) {
+                            // return b - a
+                            return b - a;
+                        });
+                        
+                        // if the highscore is lower than scores[0]
+                        if (highscore < scores[0]) {
+                            // set highscore
+                            highscore = scores[0];
+                        }
+                        
+                        // wipe scores array
+                        scores.length = 0;
+                        
+                        // reset endless mode
+                        wipeEndless();
+                    },
+                    
+                    // map scene
+                    "selectMap": function() {
+                        // draw the background
+                        bkg();
+                        
+                        // title display settings
+                        noStroke();
+                        fill(0, 0, 0);
+                        textFont("Grandstander", 45, "Bold");
+                        
+                        // title
+                        text("Select Your Map", 300, 70);
+                        
+                        // transformation
+                        pushMatrix();
+                            // transformation settings
+                            translate(-387, 145);
+                            
+                            // show the first map
+                            position(0);
+                        popMatrix();
+                        
+                        // transformation
+                        pushMatrix();
+                            // transformation settings
+                            translate(-227, 145);
+                            
+                            // show the first map
+                            position(1);
+                        popMatrix();
+                        
+                        // transformation
+                        pushMatrix();
+                            // transformation settings
+                            translate(-68, 145);
+                            
+                            // show the first map
+                            position(2);
+                        popMatrix();
+                        
+                        // update buttons
+                        mapButtons[0].update();
+                        mapButtons[1].update();
+                        mapButtons[2].update();
+                        
+                        // update regular buttons
+                        buttons["menuFromMap"].update();
+                        buttons["endlessFromMap"].update();
+                        
+                        // call mapChangeStuffs
+                        mapChangeStuffs();
+                    },
+                };
+            // }
+            
+            /** Functions Doing Stuff **/
+            // draw function {
+                function draw() {
+                    // background
+                    background(255, 255, 255);
+                    
+                    // make the cursor default
+                    cursor("default");
+                    
+                    // call unlock
+                    unlock();
+                    
+                    // call updateScore
+                    updateScore();
+                    
+                    // display current scene
+                    Scenes[scene]();
+                    
+                    // if the scene is not dead
+                    if (scene !== "dead") {
+                        // reset randMes
+                        randMes = round(random(0, messages[mesNum].length - 1));
+                    }
+                    
+                    // display and stop transitions
+                    updateTrans();
+                    
+                    // call updateTrans2
+                    updateTrans2();
+                }
+            // }
+            // mouse interaction {
+                // when mouse is clicked
+                function mouseClicked() {
+                    // call buttonsClick
+                    buttonsClick();
+                }
+                
+                // when mouse is released
+                function mouseReleased() {
+                    
+                }
+                
+                // when mouse is out of canvas
+                function mouseOut() {
+                    
+                }
+                
+                // when mouse is pressed
+                function mousePressed() {
+                    
+                }
+                
+                // when mouse is moved
+                function mouseMoved() {
+                    
+                }
+                
+                // when mouse is over the canvas
+                function mouseOver() {
+                    
+                }
+            // }
+            // key interaction {
+                // when key is pressed
+                function keyPressed() {
+                    
+                }
+                
+                // when key is released
+                function keyReleased() {
+                    
+                }
+            // }
+        </script>
             <canvas id="Ping"></canvas> 
             
             <script>

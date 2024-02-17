@@ -799,7 +799,7 @@
 
 <p id="ButtonParagraph">Here are some of my best projects:</p>
 <div class="frame">
-  <button class="btn btn-1"><a href="aspenbranch.github.io/pekepeke/">Pekepeke</a></button>
+  <button class="btn btn-1"><a href="https://aspenbranch.github.io/pekepeke/">Pekepeke</a></button>
   <button class="btn btn-2"><a href="https://aspenbranch.github.io/Invisable/">Invisable</a></button>
   <button class="btn btn-3"><a href="https://aspenbranch.github.io/Glow-Jump/">Glow Jump</a></button>
   <button class="btn btn-4"><a href="https://aspenbranch.github.io/Wave/">Wave</a></button>
@@ -864,75 +864,7 @@
       function addClassListener(className, eventType, callback) {
         Array.from(document.getElementsByClassName(className)).forEach(e => e.addEventListener(eventType, callback));
       }
-      
-      
-      /* | Projects API | */
-      const container = document.getElementById("projects-container"),
-        KAE = "https://www.khanacademy.org";
-      /* returns the date in MM/DD/YYYY */
-      Date.prototype.today = function() {
-        const d = this.getDate(),
-          a = this.getMonth() + 1,
-          b = this.getFullYear();
-        return `${10>a?"0":""}${a}/${10>d?"0":""}${d}/${b}`
-      };
-      /* make the JSONP request */
-      const script = document.createElement("script");
-      script.src = `${KAE}/api/internal/user/scratchpads?username=AmericanGuard&callback=filterProjects`;
-      document.head.appendChild(script);
-      window.filterProjects = data => {
-        container.innerHTML = "";
-        data.scratchpads.forEach(result => {
-          const project = projects.find(item => result.url.includes(item.id));
-          if(project) {
-            container.innerHTML += 
-           `<a class="project" href="${result.url}" target="_blank">
-              <div class="project-inner">
-                <div class="project-face">
-                  <img class="project-image" src="${KAE + result.thumb}" alt="Project Image">
-                </div>
-                <div class="project-info">
-                  <h3 class="project-title">${project.title ?? result.title}</h3>
-                  <p class="project-created">${new Date(result.created).today()}</p>
-                  <p class="project-description">${project.description ?? "No description"}</p>
-                  <p class="project-stats">${result.sumVotesIncremented} Votes | ${result.spinoffCount} Spinoffs</p>
-                </div>
-              </div>
-            </a>`;
-          }
-        });
-        document.querySelectorAll(".project-inner").forEach((e, i) => {e.style.animationDelay = `${i*75}ms`})
-        script.remove();
-      };
-      
-      
-      /* | Subscribe Comments API | */
-      const _script = document.createElement("script");
-      _script.src = "https://www.khanacademy.org/api/internal/discussions/ag5zfmtoYW4tYWNhZGVteXJACxIIVXNlckRhdGEiHWthaWRfNzE0Mjc2MjQyMjA0OTQ5MDIxNDUwNDE5DAsSCEZlZWRiYWNrGICAo5G4tpEKDA/replies?callback=readComments";
-      document.head.appendChild(_script);
-      /* process comment data */
-      const comments = document.getElementById("comments");
-      window.readComments = data => {
-        comments.innerHTML = "";
-        if(typeof data === "object" && Array.isArray(data)) {
-          data.forEach(comment => {
-            if(comment.authorKaid === "kaid_714276242204949021450419") {
-              comments.innerHTML += `<div class="comment" style='order:${-(new Date(comment.date).getTime() / 1000)}'><div class="author-avatar-group"><div class="author-avatar-container"><img class="author-avatar" src="${comment.authorAvatarSrc}"></div><h4 class="comment-author">${comment.authorNickname}</h4><time class='date-posted'>${new Date(comment.date).today()}</time></div><pre class="comment-content">${parseContent(comment.content)}</pre></div>`;
-            }
-          });
-        } else {
-          comments.innerHTML = "No comments... yet."
-        }
-      };
-      /* comment parsing */
-      const underscores = /_([^_]*)_/g,
-        asterisks =  /\*(.*?)\*/g,
-        URLs = /(\b(https):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-      function parseContent(content) {
-        return content.replace(URLs, "<a class='link' href='$1' target='_blank'>$1</a>").replace(underscores, "<i>$1</i>").replace(asterisks, "<b>$1</b>");
-      }
-      
-      
+
       /* | Popup Code | */
       const popup = document.getElementById("popup");
       if(window.isFullscreen) {

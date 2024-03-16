@@ -1,695 +1,165 @@
-<!doctype html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
-    <title>Aspen Branch</title>
-    <style>
-      /* Import fonts */
-      @font-face {
-        font-family: "Montserrat";
-        font-weight: 400;
-        src: url(https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXo.woff2) format("woff2");
-      }
-      @font-face {
-        font-family: "Zilla Slab";
-        font-weight: 600;
-        src: url(https://fonts.gstatic.com/s/zillaslab/v11/dFa5ZfeM_74wlPZtksIFYuUe6HOpWw.woff2) format('woff2');
-      }
-      @font-face {
-        font-family: "Material Icons";
-        src: url(https://fonts.gstatic.com/s/materialicons/v135/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
-      }
-      .material-icons {
-        font-family: "Material Icons";
-        font-size: 24px;
-        line-height: 1;
-        display: inline-block;
-        white-space: nowrap;
-        -webkit-user-select: none;
-        user-select: none;
-      }
-      ::-webkit-scrollbar {
-        width: 0;
-      }
-      /* Set up custom CSS properties */
-      :root {
-        --fallback-font: -apple-system, "SegoeUI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
-        --default-font: "Montserrat", var(--fallback-font);
-        --heading-font: "Zilla Slab", var(--fallback-font);
-        --body-font: 400 17px / 1.75 var(--default-font);
-        --theme-primary: #00ffff;
-        --theme-secondary: #0066ff;
-        --theme-tertiary: #241fb8;
-        --gutter-size: 15px;
-      }
-      @media (min-width:750px) {
-        :root {
-          --gutter-size: 40px;
-        }
-      }
-      /* establish body - sider relationship */
-      body {
-        margin: 0;
-        font: var(--body-font);
-        color: #202020;
-        width: 100%;
-        height: min(100vh, -webkit-fill-available);
-      }
-      /* so hero doesn't show up prematurely */
-      #homepage {
-        display: none;
-      }
-      .safari-container {
-        position: absolute;
-        display: flex;
-        width: 100%;
-        height: 100%;
-        -webkit-overflow-scrolling: touch;
-        overflow: hidden;
-      }
-      .page {
-        display: none;
-        flex: 1;
-        height: 100%;
-        overflow: auto;
-      }
-      .page:nth-of-type(4) {
-        overflow: hidden;
-        height: 100%;
-      }
-      .sider {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        justify-content: space-between;
-        height: 100%;
-        padding: 15px 0;
-        box-sizing: border-box;
-        background: #121212;
-        color: #fff;
-        z-index: 1;
-        margin: 0;
-        flex: 0 0 55px;
-      }
-      .flex-column-center {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-      }
-      .logo-image {
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #303030;
-      }
-      .nav-icon {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        display: grid;
-        place-items: center;
-        border-radius: 50%;
-        margin-bottom: 5px;
-        cursor: pointer;
-        transition: background .3s;
-      }
-      .nav-icon:hover {
-        background: #303030;
-      }
-      .nav-icon::before {
-        content: attr(data-tip);
-        font: 400 15px / 1 "Montserrat", var(--fallback-font);
-        position: absolute;
-        top: 50%;
-        left: 100%;
-        margin-left: 10px;
-        padding: 10px 10px 10px 18px;
-        border-radius: 5px;
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
-        width: max-content;
-        background: #121212;
-        color: #fff;
-        z-index: 1;
-        transform-origin: left;
-        transform: translate(-10px, -50%);
-        opacity: 0;
-        clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 8px 100%, 8px 70%, 0px 50%, 8px 30%);
-        transition-property: transform, opacity;
-        transition: .3s ease-in-out;
-        pointer-events: none;
-      }
-      .nav-icon:hover::before {
-        opacity: 1;
-        transform: translate(0, -50%);
-      }
-      /* hero selectors: don't use ID unless you need JS lookup or "chrome" elements */
-      #hero {
-        position: relative;
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        width: 100%;
-        min-height: 100vh;
-        padding: 50px var(--gutter-size);
-        box-sizing: border-box;
-        overflow-x: hidden;
-      }
-      #hero__name,
-      #hero__headline {
-        font: 600 45px / 1.5 var(--heading-font);
-        color: #202020;
-        margin: 0;
-      }
-      #hero__tagline {
-        margin: 10px 0 0;
-      }
-      #actions {
-        display: flex;
-        align-items: center;
-        column-gap: 15px;
-        margin-top: 30px;
-      }
-      #hero-background {
-        position: absolute;
-        width: 100vh;
-        right: 0;
-        z-index: -1;
-        opacity: 0;
-        animation: slide-in-left .7s forwards;
-      }
-      .subscribe {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        padding: 15px;
-        gap: 15px;
-        border-top: 1px solid #c0c0c0;
-        width: min(calc(100% - 30px), 750px);
-        margin: 0 auto;
-        box-sizing: border-box;
-        min-height: 300px;
-      }
-      .section-text {
-        width: min(calc(100% - 30px), 750px);
-        box-sizing: border-box;
-        margin: 0 auto;
-        border-bottom: 1px solid #d8d8d8;
-      }
-      #homepage .section-text {
-        width: min(100%, 800px);
-      }
-      .section-text h2 {
-        font: 600 24px / 1 var(--default-font);
-      }
-      .hero-background-image {
-        z-index: -1;
-        height: 100vh;
-        display: block;
-        -webkit-mask-image: linear-gradient(270deg, #000 0%, #0000 max(500px, 80%));
-        mask-image: linear-gradient(270deg, #000 0%, #0000 min(500px, 80%));
-      }
-      /* button types */
-      .primary-action {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-start;
-        text-decoration: none;
-        background: #121212;
-        color: #fff;
-        font: inherit;
-        padding: 16px 40px;
-        line-height: 1;
-        border: 0;
-        box-sizing: border-box;
-        cursor: pointer;
-        transition: transform .3s ease-in-out;
-      }
-      .primary-action::after {
-        position: absolute;
-        right: 36px;
-        content: "arrow_right_alt";
-        font-family: "Material Icons";
-        font-size: 18px;
-        opacity: 0;
-        transition: all .3s ease-in-out;
-      }
-      .primary-action:hover {
-        transform: scale(1.1);
-      }
-      .primary-action .text {
-        position: relative;
-        display: block;
-        right: 0;
-        transition: right .3s ease-in-out;
-      }
-      .primary-action:hover .text {
-        right: 8px;
-      }
-      .primary-action:hover::after {
-        opacity: 1;
-        right: 24px;
-      }
-      .alternate-action {
-        font: inherit;
-        border: 0;
-        background: #0000;
-        color: #202020;
-        text-decoration: none;
-        cursor: pointer;
-        transition: transform .25s ease-in-out;
-      }
-      .alternate-action:hover {
-        text-decoration: underline;
-        transform: scale(1.1);
-      }
-      .subscribe-breakdown {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-      }
-      .step {
-        display: flex;
-        flex-flow: column;
-        width: 100%;
-      }
-      #popup {
-        position: fixed;
-        bottom: 10px;
-        right: 10px;
-        width: min(calc(100% - 80px), 500px);
-        background: #0f0f0f;
-        color: #fff;
-        padding: 15px;
-        box-sizing: border-box;
-        opacity: 0;
-        animation: slide-in 1.1s 2s ease-in-out forwards;
-        font-size: 14px;
-        z-index: 2;
-      }
-      #popup h4 {
-        font: 600 22px / 1.5 var(--default-font);
-        margin: 0;
-      }
-      @media (max-width:500px) {
-        #actions {
-          flex-flow: column;
-          align-items: flex-start;
-          row-gap: 15px;
-        }
-      }
-      .actions {
-        display: flex;
-        align-items: center;
-        column-gap: 15px;
-      }
-      .actions * {
-        font-size: 15px;
-      }
-      .actions .primary-action {
-        background: #0055cc;
-        padding: 12px 30px;
-      }
-      .actions .primary-action:hover::after {
-        right: 16px;
-      }
-      .actions .secondary-action {
-        background: #222;
-        border: 0;
-        border-radius: 0;
-        color: #fff;
-        font: inherit;
-        padding: 12px 30px;
-        line-height: 1;
-        cursor: pointer;
-      }
-      .actions .secondary-action:hover {
-        -webkit-filter: brightness(0.9);
-      }
-      #projects-container {
-        display: grid;
-        grid-template-columns: 1fr;
-        width: 100%;
-        overflow: hidden;
-      }
-      @media (min-width:350px) {
-        #projects-container {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-      @media (min-width:700px) {
-        #projects-container {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-      @media (min-width:1050px) {
-        #projects-container {
-          grid-template-columns: repeat(4, 1fr);
-        }
-      }
-      .project {
-        width: 100%;
-        aspect-ratio: 1;
-        perspective: 1000px;
-      }
-      .project-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transition: transform .6s ease-out;
-        transform-style: preserve-3d;
-        will-change: transform;
-        animation: flip 1s;
-      }
-      .project:hover .project-inner {
-        transform: rotateY(180deg);
-      }
-      .project-face,
-      .project-info {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-      }
-      .project-face {
-        background-color: #121212;
-        color: #fff;
-      }
-      .project-info {
-        padding: 15px;
-        box-sizing: border-box;
-        background-color: #121212;
-        color: #f0f0f0;
-        transform: rotateY(180deg);
-        font-size: min(16px, 3vw);
-        display: flex;
-        flex-flow: column;
-      }
-      .project-image {
-        width: 100%;
-        display: block;
-      }
-      .project-title {
-        color: var(--theme-primary);
-        margin: 0;
-        font: 600 1.25em / 1.75 var(--default-font);
-      }
-      .project-created {
-        color: #ff00aa;
-        margin: 0 0 20px;
-        font-size: 0.8em;
-        font-style: italic;
-      }
-      .project-description {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        overflow: hidden;
-        margin: 0;
-      }
-      .project-stats {
-        border-top: 1px solid #303030;
-        padding-top: 10px;
-        margin: auto 0 0;
-      }
-      .about-logo {
-        position: absolute;
-        opacity: 0.1;
-        z-index: -1;
-      }
-      #comments {
-        display: flex;
-        flex-flow: column;
-        width: 100%;
-        height: 100%;
-        padding: 15px;
-        box-sizing: border-box;
-        gap: 10px;
-        overflow: auto;
-        max-height: calc(100% - 85px);
-      }
-      .comment {
-        display: flex;
-        flex-flow: column;
-        padding: 15px;
-        box-sizing: border-box;
-        background: #fff;
-        color: #000;
-        border: solid 1px #eee;
-      }
-      .author-avatar-group {
-        display: flex;
-        align-items: center;
-        column-gap: 10px;
-      }
-      .author-avatar-container {
-        width: 50px;
-        height: 50px;
-        border: solid 1px #ddd;
-        display: grid;
-        place-items: center;
-        border-radius: 50%;
-      }
-      .comment-author {
-        font-size: 17px;
-        font-weight: 700;
-      }
-      .author-avatar {
-        width: 35px;
-      }
-      .comment-content {
-        white-space: pre-wrap;
-        font: inherit;
-        margin: 0;
-      }
-      .date-posted {
-        color: #aaa;
-        font-size: 15px;
-      }
-      .link {
-        color: #0055cc;
-      }
-      .page-header {
-        margin: 15px;
-        font-size: 30px;
-        border-bottom: solid 1px #ddd;
-      }
-      .js-scroll {
-        position: relative;
-        opacity: 0;
-      }
-      .js-scroll.scrolled {
-        animation: slide-up .6s ease-in-out forwards;
-      }
-      @keyframes slide-up {
-        0% {
-          transform: translateY(30px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-      @keyframes fade-in {0%{opacity:0;}to{opacity:1;}}
-      @keyframes fade-out {0%{opacity:1;}to{opacity:0;}}
-      @keyframes flip {
-        0% {
-          transform: rotateY(0deg);
-          opacity: 0;
-        }
-        100% {
-          transform: rotateY(360deg);
-          opacity: 1;
-        }
-      }
-      @keyframes slide-in-left {
-        0% {
-          transform: translateX(60px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-      @keyframes slide-out {
-        0% {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        100% {
-          transform: translateX(90px);
-          opacity: 0;
-        }
-      }
-      @keyframes slide-in {
-        0% {
-          transform: translateX(30px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-		a{
-	  color: rgb(255,255,255);
-	  text-decoration: none;
-	}
-	h4 {
-	  position: relative;
-	  text-align: center;
-	  color: #353535;
-	  font-size: 50px;
-	  font-family: "Cormorant Garamond", serif;
-	}
-	
-	.ButtonParagraph {
-	  font-family: 'Lato', sans-serif;
-	  font-weight: 300;
-	  text-align: center;
-	  font-size: 18px;
-	  color: #676767;
-	}
-	.frame {
-	  width: 90%;
-	  margin: 40px auto;
-	  text-align: center;
-	}
-	button {
-	  margin: 20px;
-	}
-	.btn {
-	  width: 200px;
-	  height: 90px;
-	  color: #fff;
-	  border-radius: 5px;
-	  padding: 10px 25px;
-	  font-family: 'Lato', sans-serif;
-	  font-weight: 500;
-	  background: transparent;
-	  cursor: pointer;
-	  transition: all 0.3s ease;
-	  position: relative;
-	  display: inline-block;
-	   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-	   7px 7px 20px 0px rgba(0,0,0,.1),
-	   4px 4px 5px 0px rgba(0,0,0,.1);
-	  outline: none;
-	}
-	
-	.btn-1 {
-	  background-color: #89d8d3;
-	background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
-	  border: none;
-	  z-index: 1;
-	}
-	.btn-1:after {
-	  position: absolute;
-	  content: "";
-	  width: 100%;
-	  height: 0;
-	  bottom: 0;
-	  left: 0;
-	  z-index: -1;
-	  border-radius: 5px;
-	   background-color: #4dccc6;
-	background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
-	  box-shadow:
-	   -7px -7px 20px 0px #fff9,
-	   -4px -4px 5px 0px #fff9,
-	   7px 7px 20px 0px #0002,
-	   4px 4px 5px 0px #0001;
-	  transition: all 0.3s ease;
-	}
-	.btn-1:hover {
-	  color: #fff;
-	}
-	.btn-1:hover:after {
-	  top: 0;
-	  height: 100%;
-	}
-	.btn-1:active {
-	  top: 2px;
-	}
-	
-	
-	
-	.btn-2 {
-	  background-color: #89d8d3;
-	background-image: linear-gradient(315deg, #e07f4f 0%, #e0b25c 74%);
-	  border: none;
-	  z-index: 1;
-	}
-	.btn-2:after {
-	  position: absolute;
-	  content: "";
-	  width: 100%;
-	  height: 0;
-	  bottom: 0;
-	  left: 0;
-	  z-index: -1;
-	  border-radius: 5px;
-	   background-color: #4dccc6;
-	background-image: linear-gradient(315deg, #ffb861 0%, #ffcb69 74%);
-	  box-shadow:
-	   -7px -7px 20px 0px #fff9,
-	   -4px -4px 5px 0px #fff9,
-	   7px 7px 20px 0px #0002,
-	   4px 4px 5px 0px #0001;
-	  transition: all 0.3s ease;
-	}
-	.btn-2:hover {
-	  color: #fff;
-	}
-	.btn-2:hover:after {
-	  top: 0;
-	  height: 100%;
-	}
-	.btn-2:active {
-	  top: 2px;
-	}
-	
-	.btn-3 {
-	  background-color: #89d8d3;
-	background-image: linear-gradient(315deg, #2fa6eb 0%, #1f77eb 74%);
-	  border: none;
-	  z-index: 1;
-	}
-	.btn-3:after {
-	  position: absolute;
-	  content: "";
-	  width: 100%;
-	  height: 0;
-	  bottom: 0;
-	  left: 0;
-	  z-index: -1;
-	  border-radius: 5px;
-	   background-color: #4dccc6;
-	background-image: linear-gradient(315deg, #0072fc 0%, #05aafc 74%);
-	  box-shadow:
-	   -7px -7px 20px 0px #fff9,
-	   -4px -4px 5px 0px #fff9,
-	   7px 7px 20px 0px #0002,
-	   4px 4px 5px 0px #0001;
-	  transition: all 0.3s ease;
-	}
-	.btn-3:hover {
-	  color: #fff;
-	}
-	.btn-3:hover:after {
-	  top: 0;
-	  height: 100%;
-	}
-	.btn-3:active {
-	  top: 2px;
-	}
-	
-	.btn-4 {
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>New webpage</title>
+        <style>
+            body {
+  background: #e0e5ec;
+}
+a{
+  color: rgb(255,255,255);
+  text-decoration: none;
+}
+h1 {
+  position: relative;
+  text-align: center;
+  color: #353535;
+  font-size: 50px;
+  font-family: "Cormorant Garamond", serif;
+}
+
+p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  font-size: 18px;
+  color: #676767;
+}
+.frame {
+  width: 90%;
+  margin: 40px auto;
+  text-align: center;
+}
+button {
+  margin: 20px;
+}
+.btn {
+  width: 200px;
+  height: 90px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+
+.btn-1 {
+  background-color: #89d8d3;
+background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+  border: none;
+  z-index: 1;
+}
+.btn-1:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 5px;
+   background-color: #4dccc6;
+background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+  box-shadow:
+   -7px -7px 20px 0px #fff9,
+   -4px -4px 5px 0px #fff9,
+   7px 7px 20px 0px #0002,
+   4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn-1:hover {
+  color: #fff;
+}
+.btn-1:hover:after {
+  top: 0;
+  height: 100%;
+}
+.btn-1:active {
+  top: 2px;
+}
+
+
+
+.btn-2 {
+  background-color: #89d8d3;
+background-image: linear-gradient(315deg, #e07f4f 0%, #e0b25c 74%);
+  border: none;
+  z-index: 1;
+}
+.btn-2:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 5px;
+   background-color: #4dccc6;
+background-image: linear-gradient(315deg, #ffb861 0%, #ffcb69 74%);
+  box-shadow:
+   -7px -7px 20px 0px #fff9,
+   -4px -4px 5px 0px #fff9,
+   7px 7px 20px 0px #0002,
+   4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn-2:hover {
+  color: #fff;
+}
+.btn-2:hover:after {
+  top: 0;
+  height: 100%;
+}
+.btn-2:active {
+  top: 2px;
+}
+
+.btn-3 {
+  background-color: #89d8d3;
+background-image: linear-gradient(315deg, #2fa6eb 0%, #1f77eb 74%);
+  border: none;
+  z-index: 1;
+}
+.btn-3:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 5px;
+   background-color: #4dccc6;
+background-image: linear-gradient(315deg, #0072fc 0%, #05aafc 74%);
+  box-shadow:
+   -7px -7px 20px 0px #fff9,
+   -4px -4px 5px 0px #fff9,
+   7px 7px 20px 0px #0002,
+   4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn-3:hover {
+  color: #fff;
+}
+.btn-3:hover:after {
+  top: 0;
+  height: 100%;
+}
+.btn-3:active {
+  top: 2px;
+}
+.btn-4 {
 	  background-color: #89d8d3;
 	background-image: linear-gradient(315deg, #8fc3ff 0%, #688eba 74%);
 	  border: none;
@@ -757,74 +227,16 @@
 	.btn-5:active {
 	  top: 2px;
 	}
-    </style>
-  </head>
-		  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BDQ8Y5MYGG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-BDQ8Y5MYGG');
-</script>
-  <body>
-    <div class="safari-container">
-      
-      <!-- sidebar header -->
-      <header class="sider">
-        <div class="flex-column-center">
-          <nav class="flex-column-center">
-            <span class="material-icons nav-icon js-home" data-tip="Home">home</span>
-            <span class="material-icons nav-icon js-projects" data-tip="Projects">palette</span>
-            <span class="material-icons nav-icon js-about" data-tip="About">help</span>
-            <span class="material-icons nav-icon js-feed" data-tip="Feed">feed</span>
-          </nav>
-        </div>
-          
-        </a>
-      </header>
-      <!-- Home -->
-      <div class="page" id="homepage">
-        <div id="hero">
-          <h1 id="hero__name">Aspen Branch</h1>
-          <h1 id="hero__headline">Mars's Greatest Front-end Developer</h1>
-          <p id="hero__tagline">Professional websites every week.</p>
-          <div id="actions">
-            <button class="primary-action js-projects"><span class="text">View Projects</span></button>
-            <button class="alternate-action js-about">Learn More</button>
-          </div>
-          <div id="hero-background">
-            <img class="hero-background-image" src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Palm_trees_at_Mitsamiouli_beach.jpg">
-          </div>
-        </div>
-        <section class="subscribe">
-          <div class="section-text js-scroll">
-            <h2>Welcome!</h2>
-            <p>This is my homepage-- Here's some of my upcoming projects.</p>
-          </div>
-          <div class="subscribe-breakdown">
-            <div class="step js-scroll">
-              <h3>Sister Cities</h3>
-              <p>A game where there's a city (ie boston) and you need to guess ANOTHER city in close population.</p>
-            </div>
-            <div class="step js-scroll">
-              <h3>WebDev</h3>
-              <p>A website for a fictional company named WebDev, that sells a coding resorces like AI.</p>
-	    </div>
-          </div>
-        </section>
-      </div>
-      <!-- Projects -->
-      <div class="page">
-        <div id="projects-container">
-          <div class="section-text">
-            <h2>Projects</h2>
-		  <header>
+        </style>
+    </head>
+    <body>
+<header>
    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 </header>
 
-<p id="ButtonParagraph">Here are some of my best projects:</p>
+<h1>AspenBranch</h1>
+<p>Here are some of my best projects:</p>
 <div class="frame">
   <button class="btn btn-1"><a href="https://aspenbranch.github.io/pekepeke/">Pekepeke</a></button>
   <button class="btn btn-2"><a href="https://aspenbranch.github.io/Invisable/">Invisable</a></button>
@@ -832,146 +244,5 @@
   <button class="btn btn-4"><a href="https://aspenbranch.github.io/Wave/">Wave</a></button>
 	<button class="btn btn-5"><a href="https://aspenbranch.github.io/Archer/">Archer</a></button>
 </div>
-
-            <!--<a class="link" href="https://codepen.io/Aspen-Branch/pen/WNLzVrr">Glow Jump<br></a><br><p>Here's a hard game where you jump on platforms that keep on getting faster. It's a game PJS built with 200+ lines.</p>
-            <a class="link" href="https://codepen.io/Aspen-Branch/pen/rNooYRv">Astro<br></a><p>A fun game where you drive a spaceship around and avoid big black circles going at you. A JS game.</p>
-            <a class="link" href="https://github.com/AspenBranch/Aspen.js"><br></a><p>Aspen.js is a no-html website builder. It's very simple, but used to make it easier to explain muiltipe pages. WIP.</p>
-            <a class="link" href="https://codepen.io/Aspen-Branch/pen/oNJZNgZ">Tunnelz<br></a><p>A simple game where you move your mouse though tunnels. </p>
-            <br>-->
-               
-		
-            
-          </div>
-        </div>
-      </div>
-      <!-- About -->
-      <div class="page">
-        
-        <div class="section-text">
-          <h2>Who am I?</h2>
-          <p>My name is AspenBranch, and I'm a great at front-end and I'm planning on making games in the future.</p>
-          <h2>My Favorite Hobbies</h2>
-          <p>I like to code, read and climb</p>
-          <h2>Favorite Project</h2>
-          <p>I have three.</p>
-          <a class="link" href="https://codepen.io/Aspen-Branch/pen/WNLzVrr">Glow Jump<br></a>
-          <a class="link" href="https://codepen.io/Aspen-Branch/pen/rNooYRv">Astro</a>
-          <p>And this webpage</p>
-        </div>
-      </div>
-      <!-- Feed -->
-      <div class="page">
-        <h1 class="page-header">Feed</h1>
-           <div class="section-text">
-          <h3>8-29-2023</h3>
-          <p>I finished this website...</p>
-             </div
-      </div>
-    </div>
-    <script type="module">
-      /* page switching */
-      const pages = document.getElementsByClassName("page");
-      let oldPage = 0;
-      function switchPage(index) {
-        const lastPage = pages[oldPage];
-        lastPage.addEventListener("animationend", callback);
-        lastPage.style.animation = "fade-out .2s ease-out";
-        // locally scoped callback
-        function callback() {
-          lastPage.removeEventListener("animationend", callback);
-          lastPage.style.display = "none";
-          oldPage = index;
-          pages[index].style = "display:block;animation:fade-in .2s ease-in forwards;";
-        }
-      }
-      /* apply event listeners to "links" */
-      addClassListener("js-home", "click", () => switchPage(0))
-      addClassListener("js-projects", "click", () => switchPage(1))
-      addClassListener("js-about", "click", () => switchPage(2))
-      addClassListener("js-feed", "click", () => switchPage(3))
-      function addClassListener(className, eventType, callback) {
-        Array.from(document.getElementsByClassName(className)).forEach(e => e.addEventListener(eventType, callback));
-      }
-
-      /* | Popup Code | */
-      const popup = document.getElementById("popup");
-      if(window.isFullscreen) {
-        popup.remove();
-      } else {
-        
-        document.getElementById("close").addEventListener("click",e=>{popup.style.animation="slide-out .3s ease-out",popup.addEventListener("animationend",e=>popup.remove())})
-      }
-      function openFullscreen() {
-        if(!window.isFullscreen) {
-          const w = window.open();
-          return w.document.open(),w.document.write(`<!doctype html>${html}`),w.document.close(),w.isFullscreen=1
-        }
-      }
-      
-      /* | Scroll Animations | */
-      const scroll = document.getElementsByClassName("js-scroll");
-      pages[0].addEventListener("scroll", () => {
-        for(var i = scroll.length; i--;) {
-          const foo = scroll[i];
-          if(foo.getBoundingClientRect().top < window.innerHeight) {
-            foo.classList.add("scrolled");
-          } else {
-            foo.classList.remove("scrolled");
-          }
-        }
-      });
-      // alert(o)
-      
-      /* | Hero Animations | */
-      window.addEventListener("load", () => {
-        /* Retrieve lines from hero divs */
-        const heroName = document.getElementById("hero__name"),
-          heroHeadline = document.getElementById("hero__headline"),
-          heroTagline = document.getElementById("hero__tagline"),
-          lines1 = getLines(heroName),
-          lines2 = getLines(heroHeadline),
-          lines3 = getLines(heroTagline),
-          len1 = lines1.length,
-          len2 = len1 + lines2.length,
-          len3 = len2 + lines3.length;
-        heroHeadline.innerHTML = heroTagline.innerHTML = heroName.innerHTML = "";
-        /* Iterate through all lines and add them with increasing delay */
-        let i = 0;
-        while(i<len1)heroName.innerHTML += `<div style="opacity:0;animation:slide-up 750ms ${i*150}ms forwards;width:max-content;background-image:linear-gradient(83.84deg, var(--theme-primary) -6.87%, var(--theme-secondary) 26.54%, var(--theme-tertiary) 58.58%);-webkit-background-clip: text;-webkit-text-fill-color:#0000;">${lines1[i++]}</div>`;
-        while(i < len2) heroHeadline.innerHTML += `<div style="opacity:0;animation:slide-up 750ms ${i*150}ms forwards;">${lines2[(i++) - len1]}</div>`;
-        while(i < len3) heroTagline.innerHTML += `<div style="opacity:0;animation:slide-up 750ms ${i*150}ms forwards">${lines3[(i++) - len2]}</div>`;
-        /* Continue to add unique elements */
-        document.getElementById("actions").style = `opacity:0;animation:slide-up 750ms ${(i++)*150}ms forwards`
-        document.getElementById("hero-background").style.animationDelay=`${i*150}ms`;
-        /* Finally, show the homepage */
-        document.getElementById("homepage").style.display = "block"
-        
-        /* This function gets the lines of an element */
-        function getLines(element) {
-          const node = element.firstChild,
-            len = element.textContent.length + 1,
-            range = document.createRange(),
-            lines = [];
-          let hTracker, y, oldY;
-          range.selectNode(node);
-          range.collapse();
-          hTracker = range.cloneRange();
-          hTracker.setEnd(node, 1);
-          oldY = hTracker.getBoundingClientRect().height;
-          for(var n = 0; n < len; n++) {
-            hTracker.setEnd(node, n);
-            range.setEnd(node, n);
-            y = hTracker.getBoundingClientRect().height;
-            if (y > oldY || n === len - 1) {
-              range.setEnd(node, n - (n !== len - 1));
-              lines.push(range.toString());
-              range.setStart(node, n - 1);
-              oldY = y;
-            }
-          }
-          return lines;
-        }
-      });
-    </script>
-  </body>
+    </body>
 </html>

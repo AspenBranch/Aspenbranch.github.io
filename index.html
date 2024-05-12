@@ -313,6 +313,41 @@ background-image: linear-gradient(315deg, #0072fc 0%, #05aafc 74%);
 	.btn-5:active {
 	  top: 2px;
 	}
+          
+ 	.btn-6 {
+	  background-color: #89d8d3;
+	background-image: linear-gradient(315deg, #236efa 0%, #1d5bcf 74%);
+	  border: none;
+	  z-index: 1;
+	}
+	.btn-6:after {
+	  position: absolute;
+	  content: "";
+	  width: 100%;
+	  height: 0;
+	  bottom: 0;
+	  left: 0;
+	  z-index: -1;
+	  border-radius: 5px;
+	   background-color: #4dccc6;
+	background-image: linear-gradient(315deg, #29b3cf 0%, #31d8fa 74%);
+	  box-shadow:
+	   -7px -7px 20px 0px #fff9,
+	   -4px -4px 5px 0px #fff9,
+	   7px 7px 20px 0px #0002,
+	   4px 4px 5px 0px #0001;
+	  transition: all 0.3s ease;
+	}
+	.btn-6:hover {
+	  color: #fff;
+	}
+	.btn-6:hover:after {
+	  top: 0;
+	  height: 100%;
+	}
+	.btn-6:active {
+	  top: 2px;
+	}
 
         </style>
     </head>
@@ -338,6 +373,7 @@ background-image: linear-gradient(315deg, #0072fc 0%, #05aafc 74%);
   <button class="btn btn-3"><a href="https://aspenbranch.xyz/Glow-Jump/">Glow Jump</a></button>
   <button class="btn btn-4"><a href="https://aspenbranch.github.io/Wave/">Wave</a></button>
 	<button class="btn btn-5"><a href="https://aspenbranch.github.io/Archer/">Archer</a></button>
+  <button class="btn btn-6"><a href="https://aspenbranch.github.io/C/">C</a></button>
 </div>
 	    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
         <script>

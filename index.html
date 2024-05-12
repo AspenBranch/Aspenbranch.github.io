@@ -1,399 +1,511 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>AspenBranch Games</title>
-	    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-	    <style>
+
+<head>
+  <meta charset="utf-8">
+  <title>AspenBranch Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <style>
     .roboto-thin {
-  font-family: "Roboto", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
+      font-family: "Roboto", sans-serif;
+      font-weight: 100;
+      font-style: normal;
+    }
 
-.roboto-light {
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
+    .roboto-light {
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      font-style: normal;
+    }
 
-.roboto-regular {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
+    .roboto-regular {
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
 
-.roboto-medium {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
+    .roboto-medium {
+      font-family: "Roboto", sans-serif;
+      font-weight: 500;
+      font-style: normal;
+    }
 
-.roboto-bold {
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
+    .roboto-bold {
+      font-family: "Roboto", sans-serif;
+      font-weight: 700;
+      font-style: normal;
+    }
 
-.roboto-black {
-  font-family: "Roboto", sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
+    .roboto-black {
+      font-family: "Roboto", sans-serif;
+      font-weight: 900;
+      font-style: normal;
+    }
 
-.roboto-thin-italic {
-  font-family: "Roboto", sans-serif;
-  font-weight: 100;
-  font-style: italic;
-}
+    .roboto-thin-italic {
+      font-family: "Roboto", sans-serif;
+      font-weight: 100;
+      font-style: italic;
+    }
 
-.roboto-light-italic {
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
+    .roboto-light-italic {
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      font-style: italic;
+    }
 
-.roboto-regular-italic {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
+    .roboto-regular-italic {
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      font-style: italic;
+    }
 
-.roboto-medium-italic {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-style: italic;
-}
+    .roboto-medium-italic {
+      font-family: "Roboto", sans-serif;
+      font-weight: 500;
+      font-style: italic;
+    }
 
-.roboto-bold-italic {
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
+    .roboto-bold-italic {
+      font-family: "Roboto", sans-serif;
+      font-weight: 700;
+      font-style: italic;
+    }
 
-.roboto-black-italic {
-  font-family: "Roboto", sans-serif;
-  font-weight: 900;
-  font-style: italic;
-}
-.type {
-                font-family: 'roboto';
-                text-align: center;
-                color: Black;
-                top: 10px;
-                width: 100%;
-                left: 0;
-                transition: 0s;
-                user-select: none;
-            }
-</style>
-        <style>
-            body {
-  background: #e0e5ec;
-}
-a{ 
-  color: rgb(255,255,255);
-  text-decoration: none;
-}
-h1 {
-  position: relative;
-  text-align: center;
-  color: #353535;
-  font-size: 50px;
-  font-family: "Cormorant Garamond", serif;
-}
+    .roboto-black-italic {
+      font-family: "Roboto", sans-serif;
+      font-weight: 900;
+      font-style: italic;
+    }
 
-p {
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
-  text-align: center;
-  font-size: 18px;
-  color: #676767;
-}
-.frame {
-  width: 90%;
-  margin: 40px auto;
-  text-align: center;
-}
-button {
-  margin: 20px;
-}
-.btn {
-  width: 200px;
-  height: 90px;
-  color: #fff;
-  border-radius: 5px;
-  padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 500;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-   7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  outline: none;
-}
+    .type {
+      font-family: 'roboto';
+      text-align: center;
+      color: Black;
+      top: 10px;
+      width: 100%;
+      left: 0;
+      transition: 0s;
+      user-select: none;
+    }
+  </style>
+  <style>
+    body {
+      background: #e0e5ec;
+    }
 
-.btn-1 {
-  background-color: #89d8d3;
-background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
-  border: none;
-  z-index: 1;
-}
-.btn-1:after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  border-radius: 5px;
-   background-color: #4dccc6;
-background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
-  box-shadow:
-   -7px -7px 20px 0px #fff9,
-   -4px -4px 5px 0px #fff9,
-   7px 7px 20px 0px #0002,
-   4px 4px 5px 0px #0001;
-  transition: all 0.3s ease;
-}
-.btn-1:hover {
-  color: #fff;
-}
-.btn-1:hover:after {
-  top: 0;
-  height: 100%;
-}
-.btn-1:active {
-  top: 2px;
-}
+    a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+    }
 
+    h1 {
+      position: relative;
+      text-align: center;
+      color: #353535;
+      font-size: 50px;
+      font-family: "Cormorant Garamond", serif;
+    }
 
+    p {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      text-align: center;
+      font-size: 18px;
+      color: #676767;
+    }
 
-.btn-2 {
-  background-color: #89d8d3;
-background-image: linear-gradient(315deg, #e07f4f 0%, #e0b25c 74%);
-  border: none;
-  z-index: 1;
-}
-.btn-2:after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  border-radius: 5px;
-   background-color: #4dccc6;
-background-image: linear-gradient(315deg, #ffb861 0%, #ffcb69 74%);
-  box-shadow:
-   -7px -7px 20px 0px #fff9,
-   -4px -4px 5px 0px #fff9,
-   7px 7px 20px 0px #0002,
-   4px 4px 5px 0px #0001;
-  transition: all 0.3s ease;
-}
-.btn-2:hover {
-  color: #fff;
-}
-.btn-2:hover:after {
-  top: 0;
-  height: 100%;
-}
-.btn-2:active {
-  top: 2px;
-}
+    .frame {
+      width: 90%;
+      margin: 40px auto;
+      text-align: center;
+    }
 
-.btn-3 {
-  background-color: #89d8d3;
-background-image: linear-gradient(315deg, #2fa6eb 0%, #1f77eb 74%);
-  border: none;
-  z-index: 1;
-}
-.btn-3:after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  border-radius: 5px;
-   background-color: #4dccc6;
-background-image: linear-gradient(315deg, #0072fc 0%, #05aafc 74%);
-  box-shadow:
-   -7px -7px 20px 0px #fff9,
-   -4px -4px 5px 0px #fff9,
-   7px 7px 20px 0px #0002,
-   4px 4px 5px 0px #0001;
-  transition: all 0.3s ease;
-}
-.btn-3:hover {
-  color: #fff;
-}
-.btn-3:hover:after {
-  top: 0;
-  height: 100%;
-}
-.btn-3:active {
-  top: 2px;
-}
-.btn-4 {
-	  background-color: #89d8d3;
-	background-image: linear-gradient(315deg, #8fc3ff 0%, #688eba 74%);
-	  border: none;
-	  z-index: 1;
-	}
-	.btn-4:after {
-	  position: absolute;
-	  content: "";
-	  width: 100%;
-	  height: 0;
-	  bottom: 0;
-	  left: 0;
-	  z-index: -1;
-	  border-radius: 5px;
-	   background-color: #4dccc6;
-	background-image: linear-gradient(315deg, #97bccf 0%, #bae8ff 74%);
-	  box-shadow:
-	   -7px -7px 20px 0px #fff9,
-	   -4px -4px 5px 0px #fff9,
-	   7px 7px 20px 0px #0002,
-	   4px 4px 5px 0px #0001;
-	  transition: all 0.3s ease;
-	}
-	.btn-4:hover {
-	  color: #fff;
-	}
-	.btn-4:hover:after {
-	  top: 0;
-	  height: 100%;
-	}
-	.btn-4:active {
-	  top: 2px;
-	}
-	.btn-5 {
-	  background-color: #89d8d3;
-	background-image: linear-gradient(315deg, #168c3b 0%, #478c34 74%);
-	  border: none;
-	  z-index: 1;
-	}
-	.btn-5:after {
-	  position: absolute;
-	  content: "";
-	  width: 100%;
-	  height: 0;
-	  bottom: 0;
-	  left: 0;
-	  z-index: -1;
-	  border-radius: 5px;
-	   background-color: #4dccc6;
-	background-image: linear-gradient(315deg, #44bd6e 0%, #60bd46 74%);
-	  box-shadow:
-	   -7px -7px 20px 0px #fff9,
-	   -4px -4px 5px 0px #fff9,
-	   7px 7px 20px 0px #0002,
-	   4px 4px 5px 0px #0001;
-	  transition: all 0.3s ease;
-	}
-	.btn-5:hover {
-	  color: #fff;
-	}
-	.btn-5:hover:after {
-	  top: 0;
-	  height: 100%;
-	}
-	.btn-5:active {
-	  top: 2px;
-	}
-          
- 	.btn-6 {
-	  background-color: #89d8d3;
-	background-image: linear-gradient(315deg, #236efa 0%, #1d5bcf 74%);
-	  border: none;
-	  z-index: 1;
-	}
-	.btn-6:after {
-	  position: absolute;
-	  content: "";
-	  width: 100%;
-	  height: 0;
-	  bottom: 0;
-	  left: 0;
-	  z-index: -1;
-	  border-radius: 5px;
-	   background-color: #4dccc6;
-	background-image: linear-gradient(315deg, #29b3cf 0%, #31d8fa 74%);
-	  box-shadow:
-	   -7px -7px 20px 0px #fff9,
-	   -4px -4px 5px 0px #fff9,
-	   7px 7px 20px 0px #0002,
-	   4px 4px 5px 0px #0001;
-	  transition: all 0.3s ease;
-	}
-	.btn-6:hover {
-	  color: #fff;
-	}
-	.btn-6:hover:after {
-	  top: 0;
-	  height: 100%;
-	}
-	.btn-6:active {
-	  top: 2px;
-	}
+    button {
+      margin: 20px;
+    }
 
-        </style>
-    </head>
-    <body>
-	    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BDQ8Y5MYGG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    .btn {
+      width: 200px;
+      height: 90px;
+      color: #fff;
+      border-radius: 5px;
+      padding: 10px 25px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 500;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      display: inline-block;
+      box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+      outline: none;
+    }
 
-  gtag('config', 'G-BDQ8Y5MYGG');
-</script>
-	    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="Aspenbranch" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-<header>
-   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-</header>
+    .btn-1 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+      border: none;
+      z-index: 1;
+    }
 
-<h1>AspenBranch</h1>
-<div class="type"><span class="cursor1"></span></div>
-<div class="frame">
-  <button class="btn btn-1"><a href="https://aspenbranch.xyz/pekepeke/">Pekepeke</a></button>
-  <button class="btn btn-2"><a href="https://aspenbranch.xyz/Invisable/">Invisable</a></button>
-  <button class="btn btn-3"><a href="https://aspenbranch.xyz/Glow-Jump/">Glow Jump</a></button>
-  <button class="btn btn-4"><a href="https://aspenbranch.github.io/Wave/">Wave</a></button>
-	<button class="btn btn-5"><a href="https://aspenbranch.github.io/Archer/">Archer</a></button>
-  <button class="btn btn-6"><a href="https://aspenbranch.github.io/C/">C</a></button>
-</div>
-	    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-        <script>
-            var typeCustomizeHome = {
-                strings: [
-                    "Welcome to",
-                    "aspenbranch.xyz,",
-                    "here I showcase my best projects",
-                    "for anyone to see and play,",
-                    "So click around!",
-                    "Thanks"
-                ],
-                typeSpeed: 40,
-                backSpeed: 20,
-                loop: !0
-            }
-            
-            new Typed(".cursor1", typeCustomizeHome)
-            
-        </script>
-	    
-    </body>
+    .btn-1:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-1:hover {
+      color: #fff;
+    }
+
+    .btn-1:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-1:active {
+      top: 2px;
+    }
+
+    .btn-2 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #e07f4f 0%, #e0b25c 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-2:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #ffb861 0%, #ffcb69 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-2:hover {
+      color: #fff;
+    }
+
+    .btn-2:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-2:active {
+      top: 2px;
+    }
+
+    .btn-3 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #2fa6eb 0%, #1f77eb 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-3:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #0072fc 0%, #05aafc 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-3:hover {
+      color: #fff;
+    }
+
+    .btn-3:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-3:active {
+      top: 2px;
+    }
+
+    .btn-4 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #8fc3ff 0%, #688eba 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-4:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #97bccf 0%, #bae8ff 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-4:hover {
+      color: #fff;
+    }
+
+    .btn-4:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-4:active {
+      top: 2px;
+    }
+
+    .btn-5 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #168c3b 0%, #478c34 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-5:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #44bd6e 0%, #60bd46 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-5:hover {
+      color: #fff;
+    }
+
+    .btn-5:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-5:active {
+      top: 2px;
+    }
+
+    .btn-6 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #236efa 0%, #1d5bcf 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-6:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #29b3cf 0%, #31d8fa 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-6:hover {
+      color: #fff;
+    }
+
+    .btn-6:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-6:active {
+      top: 2px;
+    }
+
+    .btn-7 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #fa5252 0%, #cf4444 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-7:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #cf904d 0%, #f0a759 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-7:hover {
+      color: #fff;
+    }
+
+    .btn-7:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-7:active {
+      top: 2px;
+    }
+
+    .btn-8 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #a5fa43 0%, #88cf37 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-8:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #5bcf89 0%, #70ffa9 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-8:hover {
+      color: #fff;
+    }
+
+    .btn-8:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-8:active {
+      top: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BDQ8Y5MYGG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-BDQ8Y5MYGG');
+  </script>
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="Aspenbranch" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+  <header>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  </header>
+
+  <h1>AspenBranch</h1>
+  <div class="type"><span class="cursor1"></span></div>
+  <div class="frame">
+    <button class="btn btn-1"><a href="https://aspenbranch.xyz/pekepeke/">Pekepeke</a></button>
+    <button class="btn btn-2"><a href="https://aspenbranch.xyz/Invisable/">Invisable</a></button>
+    <button class="btn btn-3"><a href="https://aspenbranch.xyz/Glow-Jump/">Glow Jump</a></button>
+    <button class="btn btn-4"><a href="https://aspenbranch.xyz/Wave/">Wave</a></button>
+    <button class="btn btn-5"><a href="https://aspenbranch.xyz/Archer/">Archer</a></button>
+    <button class="btn btn-6"><a href="https://aspenbranch.xyz/C/">C</a></button>
+    <button class="btn btn-7"><a href="https://aspenbranch.xyz/Ping/">Ping</a></button>
+    <button class="btn btn-8"><a href="https://aspenbranch.xyz/Enemies-towards-Player/">Enemies towards Player Tutorial</a></button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+  <script>
+    var typeCustomizeHome = {
+      strings: [
+        "Welcome to",
+        "aspenbranch.xyz,",
+        "here I showcase my best projects",
+        "for anyone to see and play,",
+        "So click around!",
+        "Thanks"
+      ],
+      typeSpeed: 40,
+      backSpeed: 20,
+      loop: !0
+    }
+    new Typed(".cursor1", typeCustomizeHome)
+  </script>
+
+</body>
+
 </html>

@@ -496,6 +496,44 @@
     .btn-9:active {
       top: 2px;
     }
+    .btn-10 {
+      background-color: #89d8d3;
+      background-image: linear-gradient(315deg, #eaff2b 0%, #ff5959 74%);
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-10:after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      border-radius: 5px;
+      background-color: #4dccc6;
+      background-image: linear-gradient(315deg, #a8b71f 0%, #cc4747 74%);
+      box-shadow:
+        -7px -7px 20px 0px #fff9,
+        -4px -4px 5px 0px #fff9,
+        7px 7px 20px 0px #0002,
+        4px 4px 5px 0px #0001;
+      transition: all 0.3s ease;
+    }
+
+    .btn-10:hover {
+      color: #fff;
+    }
+
+    .btn-10:hover:after {
+      top: 0;
+      height: 100%;
+    }
+
+    .btn-10:active {
+      top: 2px;
+    }
   </style>
 </head>
 
@@ -526,7 +564,9 @@
     <button class="btn btn-6"><a href="https://aspenbranch.xyz/C/">C</a></button>
     <button class="btn btn-7"><a href="https://aspenbranch.xyz/Ping/">Ping</a></button>
     <button class="btn btn-8"><a href="https://aspenbranch.xyz/Snake/">Snake</a></button>
-    <button class="btn btn-9"><a href="https://aspenbranch.xyz/Anti-Aircraft/">Anti-Aircraft</a></button>
+    <button class="btn btn-9"><a href="https://aspenbranch.xyz/Anti-Aircraft/">Anti-Aircraft</a>
+     <button class="btn btn-10"><a href="https://aspenbranch.xyz/Slide/">Slide</a>
+    </button>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
   <script>
